@@ -5,7 +5,7 @@
 ## Cloning
 To clone this project use the command:
 
-	git clone git@github.com:thespacedoctor/coding_project_boilerplate.git
+	git clone git@github.com:thespacedoctor/coding_project_boilerplate.git <folder_name>
 
 Then add the `dev` branch:
 
