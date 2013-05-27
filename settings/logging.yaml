@@ -1,0 +1,43 @@
+version: 1
+author : Dave Young
+formatters:
+    file_style:
+        format: '* %(asctime)s - %(name)s - %(levelname)s (%(filename)s > %(funcName)s > %(lineno)d) - %(message)s  '
+        datefmt: '%Y/%m/%d %H:%M:%S'
+    console_style:
+        format: '* %(asctime)s - %(levelname)s: %(filename)s:%(funcName)s:%(lineno)d > %(message)s'
+        datefmt: '%H:%M:%S'
+    html_style:
+        format: '<div id="row" class="%(levelname)s"><span class="date">%(asctime)s</span>   <span class="label">file:</span><span class="filename">%(filename)s</span>   <span class="label">method:</span><span class="funcName">%(funcName)s</span>   <span class="label">line#:</span><span class="lineno">%(lineno)d</span> <span class="pathname">%(pathname)s</span>  <div class="right"><span class="message">%(message)s</span><span class="levelname">%(levelname)s</span></div></div>'
+        datefmt: '%Y-%m-%d <span class= "time">%H:%M <span class= "seconds">%Ss</span></span>'
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: console_style
+        stream: ext://sys.stdout
+    release_logs:
+        class: logging.handlers.GroupWriteRotatingFileHandler
+        level: INFO
+        formatter: file_style
+        filename: ../../logs/ascii/project.log
+        mode: w+
+        maxBytes: 1024000
+        backupCount: 3
+    development_logs:
+        class: logging.FileHandler
+        level: DEBUG
+        formatter: file_style
+        filename: ../../logs/ascii/project_debugger.log
+        mode: w
+    html_log_file:
+        class: logging.handlers.GroupWriteRotatingFileHandler
+        level: WARNING
+        formatter: html_style
+        filename: ../../logs/html/project_log.html
+        mode: w+
+        maxBytes: 1024000
+        backupCount: 3
+root:
+    level: DEBUG
+    handlers: [console,release_logs,development_logs,html_log_file]

@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "pessto members area"
-AuthUserFile /files/www/pessto_pswds/.htpasswd
-Require valid-user
