@@ -1,4 +1,4 @@
-**This is the my coding project boilerplate - probably not much use to anyone else, but feel free to tinker!**
+**This is thespacedoctor coding project boilerplate - probably not much use to anyone else, but feel free to tinker!**
 
 # Project Title #
 
