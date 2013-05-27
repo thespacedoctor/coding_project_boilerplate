@@ -1,0 +1,9 @@
+*.pyc
+.metadata
+*~
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+README_local.md
+.svn
+_git*

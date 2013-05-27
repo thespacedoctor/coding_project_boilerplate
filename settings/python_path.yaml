@@ -1,0 +1,6 @@
+version: 1
+project_root: /path/to/project
+python_path:
+  1: /dependencies/python
+  2:
+  3:
