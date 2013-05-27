@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pesstoMarshallMySQL &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pesstoMarshallMySQL</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">pesstoMarshallMySQL</span>
+
+<span class="sd">This module is a collection of MySQL related functions and class geared specifically towards the PESSTO Marshall</span>
+
+<span class="sd">Created by David Young on December 10, 2012</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">xxx = come back here and do some more work</span>
+<span class="sd">_someObject = a &#39;private&#39; object that should only be changed for debugging</span>
+
+<span class="sd">notes:</span>
+<span class="sd">  - Dave started work on this file on December 10, 2012</span>
+<span class="sd">  - Dave &#39;completed&#39; this code on ... not complete yet!</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c">################# GLOBAL IMPORTS ####################</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c">######################################################</span>
+<span class="c"># MAIN LOOP - USED FOR DEBUGGING OR WHEN SCRIPTING   #</span>
+<span class="c">######################################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Debugger</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+  <span class="c">################ &gt; SETUP ##################</span>
+  <span class="c">## SETUP DB CONNECTION AND A LOGGER</span>
+  <span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
+  <span class="c">## START LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- STARTING TO RUN THE pesstoMarshallMySQL -----&#39;</span><span class="p">)</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="c">################ &gt;ACTION(S) ###############</span>
+
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">commit</span> <span class="p">()</span>
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+  <span class="c">## FINISH LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- FINISHED ATTEMPT TO RUN THE pesstoMarshallMySQL -----&#39;</span><span class="p">)</span>
+  <span class="k">return</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># CLASSES                                                                                   #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## LAST MODIFIED : October 10, 2012</span>
+<span class="c">## CREATED : October 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_pessto_objects_with_flagset"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_pessto_objects_with_flagset">[docs]</a><span class="k">class</span> <span class="nc">get_pessto_objects_with_flagset</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A MySQL query builder geared towards finding objects at a specific workflow location in the PESSTO Marshall</span>
+
+<span class="sd">    Variable Attributes:</span>
+<span class="sd">        - mwfFlag -- marshall workflow location (e.g. &quot;inbox&quot;, &quot;queued for classification&quot; ...)</span>
+<span class="sd">        - awfFlag -- alert workflow location (e.g. &quot;Pending Classification&quot;, &quot;alert released&quot; ...)</span>
+<span class="sd">        - cFlag -- classified flag, boolean</span>
+<span class="sd">        - magic -- definition</span>
+<span class="sd">        - pageMax -- maximum number of tickets on the html page</span>
+<span class="sd">        - pageIndex -- which ticket in the array to display first</span>
+<span class="sd">        - sortBy -- parameter to sort the tickets by (e.g. abs mag)</span>
+<span class="sd">        - sortDir -- sort direction, desc or asc</span>
+<span class="sd">        - search -- term to search for (e.g. object name)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">###################### GLOBAL IMPORTS ######################</span>
+    <span class="c">################ PUBLIC VARIABLE ATTRIBUTES ################</span>
+    <span class="n">mwfFlag</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">awfFlag</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">cFlag</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">magic</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">pageMax</span> <span class="o">=</span> <span class="s">&quot;40&quot;</span>
+    <span class="n">pageIndex</span> <span class="o">=</span> <span class="s">&quot;0&quot;</span>
+    <span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;p.pesstoObjectsId DESC&quot;</span>
+    <span class="n">sortDir</span> <span class="o">=</span> <span class="s">&quot;DESC&quot;</span>
+    <span class="n">search</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">pesstoObjectsColumns</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;pesstoObjectsId&#39;</span><span class="p">]</span>
+    <span class="n">transientBucketColumns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">qWhere</span> <span class="o">=</span> <span class="s">&quot;p.transientBucketId=t.transientBucketId AND t.masterIDFlag=1&quot;</span>
+
+    <span class="c">############### PRIVATE VARIABLE ATTRIBUTES ###############</span>
+    <span class="c">################ INSTANSIATION METHOD ######################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span> <span class="o">=</span> <span class="n">dbConn</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">log</span>
+
+      <span class="k">return</span>
+
+    <span class="c">############### METHODS ####################################</span>
+    <span class="c">## LAST MODIFIED : August 10, 2012</span>
+    <span class="c">## CREATED : August 10, 2012</span>
+    <span class="c">## AUTHOR : DRYX</span>
+<div class="viewcode-block" id="get_pessto_objects_with_flagset.get_rows"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_pessto_objects_with_flagset.get_rows">[docs]</a>    <span class="k">def</span> <span class="nf">get_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+      <span class="sd">&quot;&quot;&quot;Method called to return the db rows found by executing the mysql query built by this class</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - dbConn -- mysql database connection</span>
+<span class="sd">        - log -- logger</span>
+<span class="sd">        -</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - None</span>
+<span class="sd">      &quot;&quot;&quot;</span>
+      <span class="c">################ &gt; IMPORTS ################</span>
+      <span class="kn">import</span> <span class="nn">operator</span>
+      <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+      <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+      <span class="c">################ &gt;ACTION(S) ################</span>
+      <span class="c"># AMEND _SELECT_ CLAUSE TO INCLUDE THE LIST OF COLUMNS #</span>
+      <span class="n">columnList</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pesstoObjectsColumns</span><span class="p">:</span>
+        <span class="n">newItem</span> <span class="o">=</span> <span class="s">&quot;p.&quot;</span><span class="o">+</span><span class="n">item</span>
+        <span class="n">columnList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newItem</span><span class="p">)</span>
+
+      <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transientBucketColumns</span><span class="p">:</span>
+        <span class="n">newItem</span> <span class="o">=</span> <span class="s">&quot;t.&quot;</span><span class="o">+</span><span class="n">item</span>
+        <span class="n">columnList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newItem</span><span class="p">)</span>
+
+      <span class="c"># CONVERT LIST TO STRING</span>
+      <span class="n">columnListAsString</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columnList</span><span class="p">)</span>
+      <span class="n">qSelect</span> <span class="o">=</span> <span class="n">columnListAsString</span>
+
+      <span class="c"># AMEND _WHERE_ CLAUSE TO INCLUDE WORKFLOW LOCATION FLAGS #</span>
+      <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mwfFlag</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">extraWhere</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot; AND (p.marshallWorkflowLocation=</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mwfFlag</span><span class="p">,)</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">awfFlag</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND (p.alertWorkflowLocation=</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">awfFlag</span><span class="p">,)</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cFlag</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span>
+      <span class="k">elif</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cFlag</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND (p.classifiedFlag=1)&quot;</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND (p.classifiedFlag=0)&quot;</span>
+
+      <span class="c">#### AMEND _WHERE_ CLAUSE AND _ORDER BY_ CLAUSES TO INCLUDE SORT &amp; SEARCH TOKENS ####</span>
+      <span class="c">#-----------------------------------------------------------------------------------#</span>
+      <span class="n">qFrom</span>  <span class="o">=</span> <span class="s">&quot;pesstoObjects p, transientBucket t&quot;</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot; AND p.pesstoObjectsId in</span>
+<span class="s">                          (</span>
+<span class="s">                            SELECT transientBucketId</span>
+<span class="s">                            from transientBucket</span>
+<span class="s">                            where name like &#39;\</span><span class="si">%%</span><span class="s">s\%&#39;</span>
+<span class="s">                          )&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">,)</span>
+
+      <span class="n">idAkas</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">,</span><span class="s">&#39;name&#39;</span><span class="p">,</span><span class="s">&#39;object id&#39;</span><span class="p">,</span><span class="s">&#39;identity&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">idAkas</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND t.name is not NULL&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;t.name&quot;</span>
+
+      <span class="n">raAkas</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ra&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">raAkas</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND t.raDeg is not NULL&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;t.raDeg&quot;</span>
+
+      <span class="n">decAkas</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;dec&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">decAkas</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND t.decDeg is not NULL&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;t.decDeg&quot;</span>
+
+      <span class="n">predictionAkas</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;prediction&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">predictionAkas</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND t.transientTypePrediction is not NULL&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;t.transientTypePrediction&quot;</span>
+
+      <span class="n">transientBucketId</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">transientBucketId</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;t.transientBucketId DESC&quot;</span>
+
+      <span class="n">classificationAkas</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;classification&#39;</span><span class="p">,</span><span class="s">&#39;class&#39;</span><span class="p">,</span><span class="s">&#39;spectral type&#39;</span><span class="p">,</span><span class="s">&#39;type&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">classificationAkas</span><span class="p">):</span>
+        <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND t.spectralType is not NULL&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qWhere</span> <span class="o">=</span> <span class="s">&quot;p.transientBucketId=t.transientBucketId&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;t.spectralType&quot;</span>
+
+      <span class="c">## MORE INVOLED SORT FUNCTIONS REQUIRE THAT THE qFrom &amp; qWhere VARIABLE IS EDITED ##</span>
+      <span class="n">magnitudeAkas</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;magnitude&#39;</span><span class="p">,</span><span class="s">&#39;mag&#39;</span><span class="p">,</span><span class="s">&#39;apparent magnitude&#39;</span><span class="p">,</span><span class="s">&#39;app mag&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">magnitudeAkas</span><span class="p">):</span>
+        <span class="n">qFrom</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;pesstoObjects p,</span>
+<span class="s">                  (</span>
+<span class="s">                      SELECT * from</span>
+<span class="s">                      (</span>
+<span class="s">                        SELECT *</span>
+<span class="s">                        from transientBucket</span>
+<span class="s">                        WHERE magnitude is not NULL</span>
+<span class="s">                        ORDER BY transientBucketId, observationMjd DESC</span>
+<span class="s">                      ) AS t</span>
+<span class="s">                      GROUP BY t.transientBucketId</span>
+<span class="s">                  ) AS t&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qWhere</span> <span class="o">=</span> <span class="s">&quot;p.transientBucketId=t.transientBucketId&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;magnitude&quot;</span>
+
+      <span class="n">distanceAkas</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">,</span><span class="s">&#39;distance&#39;</span><span class="p">,</span><span class="s">&#39;mpc&#39;</span><span class="p">,</span><span class="s">&#39;redshift&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">distanceAkas</span><span class="p">):</span>
+        <span class="n">qFrom</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;pesstoObjects p,</span>
+<span class="s">                  (</span>
+<span class="s">                    SELECT * from transientBucket</span>
+<span class="s">                    WHERE (transientRedshift is not NULL AND</span>
+<span class="s">                        transientRedshift != 0)</span>
+<span class="s">                      OR (hostRedshift is not NULL AND</span>
+<span class="s">                        hostRedshift != 0)</span>
+<span class="s">                    ORDER BY transientBucketId, transientRedshift DESC, observationMjd</span>
+<span class="s">                  ) AS t&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qWhere</span> <span class="o">=</span> <span class="s">&quot;p.transientBucketId=t.transientBucketId&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;GREATEST(COALESCE(t.transientRedshift, 0),COALESCE(t.hostRedshift, 0))&quot;</span>
+
+      <span class="n">mjdAkas</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;mjd&#39;</span><span class="p">,</span><span class="s">&#39;obsmjd&#39;</span><span class="p">,</span><span class="s">&#39;obs mjd&#39;</span><span class="p">,</span><span class="s">&#39;obs date&#39;</span><span class="p">,</span><span class="s">&#39;obsdate&#39;</span><span class="p">,</span><span class="s">&#39;last observed&#39;</span><span class="p">,</span><span class="s">&#39;recent obs&#39;</span><span class="p">,</span><span class="s">&#39;recent observation&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">mjdAkas</span><span class="p">):</span>
+        <span class="n">qFrom</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;pesstoObjects p,</span>
+<span class="s">                  (</span>
+<span class="s">                    SELECT * from</span>
+<span class="s">                    (</span>
+<span class="s">                      SELECT * from transientBucket</span>
+<span class="s">                      WHERE observationMJD is not NULL</span>
+<span class="s">                      ORDER BY transientBucketId, observationMJD DESC</span>
+<span class="s">                    ) AS t</span>
+<span class="s">                    GROUP BY t.transientBucketId</span>
+<span class="s">                  ) AS t&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qWhere</span> <span class="o">=</span> <span class="s">&quot;p.transientBucketId=t.transientBucketId&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot;observationMJD DESC&quot;</span>
+
+      <span class="c"># SUPER-COMPLICATED ABS MAG QUERY</span>
+      <span class="n">absMagAka</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;peak abs mag&#39;</span><span class="p">,</span><span class="s">&#39;peak absolute magnitude&#39;</span><span class="p">,</span><span class="s">&#39;abs mag&#39;</span><span class="p">,</span><span class="s">&#39;absolute magnitude&#39;</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">==</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">absMagAka</span><span class="p">):</span>
+        <span class="n">objectDict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c"># GRAB ALL transientObjectIds</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">list_all_transientBucketIds</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+          <span class="n">absMagValue</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+          <span class="c">#### GRAB THE PEAK MAG FOR THE OBJECT ####</span>
+          <span class="n">peakMag</span> <span class="o">=</span> <span class="n">get_object_peak_mag</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">])</span>
+
+          <span class="c">#### GRAB THE LATEST CLASSIFICATION DATA FOR OBJECT ####</span>
+          <span class="n">classificationList</span> <span class="o">=</span> <span class="n">get_object_classification_data</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">])</span>
+
+          <span class="c">## CALCUATE DISTANCE MODULUS USING THE TRANSIENT REDSHIFT</span>
+          <span class="n">transientDistanceModulus</span> <span class="o">=</span> <span class="bp">False</span>
+          <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">classificationList</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">classificationList</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;transientRedshift&#39;</span><span class="p">]):</span>
+            <span class="k">try</span><span class="p">:</span>
+              <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to calcuate distance using the transient redshift&quot;</span><span class="p">)</span>
+              <span class="n">dd</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">redshiftToDistance</span><span class="p">(</span><span class="n">classificationList</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;transientRedshift&#39;</span><span class="p">])</span>
+              <span class="n">transientDistanceModulus</span> <span class="o">=</span> <span class="n">dd</span><span class="p">[</span><span class="s">&#39;dmod&#39;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+              <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not calcuate distance using the transient redshift - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+              <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+          <span class="c">## GRAB THE DISCOVERY DATA FOR transientBucketId</span>
+          <span class="n">tbData</span> <span class="o">=</span> <span class="n">get_object_transientBucket_discovery_data</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">])</span>
+
+          <span class="c">## CALCUATE THE DISTANCE</span>
+          <span class="n">dm</span> <span class="o">=</span> <span class="bp">False</span>
+          <span class="k">if</span><span class="p">(</span><span class="n">transientDistanceModulus</span><span class="p">):</span>
+            <span class="n">dm</span> <span class="o">=</span> <span class="n">transientDistanceModulus</span>
+          <span class="k">elif</span><span class="p">(</span><span class="n">tbData</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;hostRedshift&#39;</span><span class="p">]):</span>
+            <span class="c"># IF NO TRANSIENT REDSHIFT THEN DEFAULT TO HOST REDSHIFT</span>
+            <span class="n">dd</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">redshiftToDistance</span><span class="p">(</span><span class="n">tbData</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;hostRedshift&#39;</span><span class="p">])</span>
+            <span class="n">dm</span> <span class="o">=</span> <span class="n">dd</span><span class="p">[</span><span class="s">&#39;dmod&#39;</span><span class="p">]</span>
+
+          <span class="c"># CALCULATE THE ABS MAG</span>
+          <span class="k">if</span><span class="p">(</span><span class="n">dm</span> <span class="ow">and</span> <span class="n">peakMag</span><span class="p">):</span>
+            <span class="n">absMagValue</span> <span class="o">=</span> <span class="n">peakMag</span> <span class="o">-</span> <span class="n">dm</span>
+            <span class="n">objectDict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">])]</span> <span class="o">=</span> <span class="n">absMagValue</span>
+
+        <span class="c"># FORM A PEAK ABS MAG SORTED LIST OF TUPLES FROM objectDict</span>
+        <span class="n">sorted_mags</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">objectDict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">objectList</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sorted_mags</span><span class="p">:</span>
+          <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+            <span class="n">objectList</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+          <span class="k">else</span><span class="p">:</span>
+            <span class="n">objectList</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">extraWhere</span> <span class="o">=</span> <span class="s">&quot; AND t.transientBucketId in (&quot;</span><span class="o">+</span><span class="n">objectList</span><span class="o">+</span><span class="s">&quot;)&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span> <span class="o">=</span> <span class="s">&quot; FIELD(t.transientBucketId, &quot;</span><span class="o">+</span><span class="n">objectList</span><span class="o">+</span><span class="s">&quot;)&quot;</span>
+
+      <span class="c"># BUILD QUERY</span>
+      <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT </span><span class="si">%s</span><span class="s"></span>
+<span class="s">                    FROM </span><span class="si">%s</span><span class="s"></span>
+<span class="s">                    WHERE </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"></span>
+<span class="s">                    GROUP BY p.transientBucketId</span>
+<span class="s">                    ORDER BY </span><span class="si">%s</span><span class="s"></span>
+<span class="s">                    LIMIT </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">qSelect</span><span class="p">,</span><span class="n">qFrom</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">qWhere</span><span class="p">,</span><span class="n">extraWhere</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">sortBy</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">pageIndex</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">pageMax</span><span class="p">,)</span>
+
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;the sql query to build the workflow table is </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sqlQuery</span><span class="p">,))</span>
+
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to execute the sql query built to generate the marshall workflow table&quot;</span><span class="p">)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not execute the sql query built to generate the marshall workflow table - failed with this error: </span><span class="si">%s</span><span class="se">\n</span><span class="s"> Here&#39;s the SQL query:</span><span class="se">\n</span><span class="s"> </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="n">sqlQuery</span><span class="p">,))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+      <span class="k">return</span> <span class="n">rows</span>
+
+
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PUBLIC FUNCTIONS                                                                          #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div></div>
+<div class="viewcode-block" id="get_object_peak_mag"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_object_peak_mag">[docs]</a><span class="k">def</span> <span class="nf">get_object_peak_mag</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">transientBucketId</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query Marshall DB for the peak apparent magnitude for a specific object</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId -- object ID</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - peakMag</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">#### GRAB THE PEAK MAG FOR THE OBJECT ####</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT magnitude</span>
+<span class="s">                FROM transientBucket</span>
+<span class="s">                WHERE transientBucketId = </span><span class="si">%s</span><span class="s"> AND</span>
+<span class="s">                  magnitude is not NULL</span>
+<span class="s">                ORDER BY magnitude LIMIT 1&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,)</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to grab the brightest magnitude for transientBucketId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,))</span>
+    <span class="n">magList</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not grab the brightest magnitude for transientBucketId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">magList</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">peakMag</span> <span class="o">=</span> <span class="n">magList</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;magnitude&#39;</span><span class="p">]</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">peakMag</span> <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="k">return</span> <span class="n">peakMag</span>
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="list_all_transientBucketIds"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.list_all_transientBucketIds">[docs]</a><span class="k">def</span> <span class="nf">list_all_transientBucketIds</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query the Marshall DB for a complete list of *transientBucketIds* for all the PESSTO objects</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - rows -- rows returned by the query</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT DISTINCT transientBucketId</span>
+<span class="s">              from pesstoObjects&quot;&quot;&quot;</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to run a mysql query&quot;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not run a mysql query - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">rows</span>
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_object_classification_data"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_object_classification_data">[docs]</a><span class="k">def</span> <span class="nf">get_object_classification_data</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">transientBucketId</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query the Marshall DB for a list of classification data for a specific object</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId -- object ID</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - classificationList -- list of classification data for the specific object</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT spectralType, survey, observationDate, transientRedshift</span>
+<span class="s">                FROM transientBucket</span>
+<span class="s">                WHERE (transientBucketId = </span><span class="si">%s</span><span class="s"> AND</span>
+<span class="s">                  spectralType is not NULL)</span>
+<span class="s">                GROUP BY survey&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to grab the latest transient redshift for transientBucketId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,))</span>
+    <span class="n">classificationList</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not grab the latest transient redshift for transientBucketId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">classificationList</span>
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_object_transientBucket_discovery_data"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_object_transientBucket_discovery_data">[docs]</a><span class="k">def</span> <span class="nf">get_object_transientBucket_discovery_data</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">transientBucketId</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query the Marshall DB for a list of the discovery data for a specific object</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId -- object ID</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - discoveryData -- a list of dictionaries</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT *</span>
+<span class="s">                FROM transientBucket</span>
+<span class="s">                WHERE transientBucket.masterIDFlag = 1 AND</span>
+<span class="s">                  transientBucket.transientBucketId = </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,)</span>
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to grab the discovery data for transientBucketId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,))</span>
+    <span class="n">discoveryData</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not grab the discovery data for transientBucketId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">discoveryData</span>
+
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_object_last_non_detection"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_object_last_non_detection">[docs]</a><span class="k">def</span> <span class="nf">get_object_last_non_detection</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">transientBucketId</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query the Marshall DB for the latest observation of a specific object</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId -- object ID</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - rows -- returned from mySQL query</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT lastNonDetectionDate</span>
+<span class="s">                FROM transientBucket</span>
+<span class="s">                WHERE lastNonDetectionDate is not NULL AND</span>
+<span class="s">                  transientBucket.transientBucketId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">                LIMIT 0,1&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find the last non-detection for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,))</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find the last non-detection for </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">rows</span>
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_object_pesstoObjects_discovery_data"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_object_pesstoObjects_discovery_data">[docs]</a><span class="k">def</span> <span class="nf">get_object_pesstoObjects_discovery_data</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">transientBucketId</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query the Marshall DB for data in the pesstoObjects DB table for a specific object</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - rows -- returned from mySQL query</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT *</span>
+<span class="s">                FROM pesstoObjects</span>
+<span class="s">                WHERE pesstoObjects.transientBucketId = </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find the discovery data for transientBucketId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,))</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find the discovery data for transientBucketId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">rows</span>
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_object_akas"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_object_akas">[docs]</a><span class="k">def</span> <span class="nf">get_object_akas</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">transientBucketId</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query the Marshall DB for a list of AKAs for a specific object</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId -- object Id</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - rows -- returned from mySQL query</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT DISTINCT name, surveyObjectUrl</span>
+<span class="s">                FROM transientBucket</span>
+<span class="s">                WHERE masterIDFlag = 0 AND</span>
+<span class="s">                  transientBucketId = </span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find the akas for transientBucketId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,))</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find the akas for transientBucketId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">rows</span>
+
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_object_mag_history"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_object_mag_history">[docs]</a><span class="k">def</span> <span class="nf">get_object_mag_history</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">transientBucketId</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query the Marshall DB for a date-order magnitude history for a specific object</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId -- object Id</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - rows -- returned from mySQL query</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT magnitude, filter, observationDate, survey</span>
+<span class="s">                FROM transientBucket</span>
+<span class="s">                WHERE (transientBucketId = </span><span class="si">%s</span><span class="s"> AND magnitude is not NULL)</span>
+<span class="s">                ORDER BY observationDate DESC&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find date-order magnitude history for transientBucketId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,))</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find date-order magnitude history for transientBucketId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">rows</span>
+
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_object_comments"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.get_object_comments">[docs]</a><span class="k">def</span> <span class="nf">get_object_comments</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">pesstoObjectsId</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Query the Marshall DB for all comments for a specific object</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId -- object Id</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - rows -- returned from mySQL query</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT comment, commentAuthor, dateCreated</span>
+<span class="s">                FROM pesstoObjectsComments</span>
+<span class="s">                WHERE pesstoObjectsId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">                ORDER BY dateCreated DESC&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pesstoObjectsId</span><span class="p">,)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find all comments for pesstoObjectsId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pesstoObjectsId</span><span class="p">,))</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find all comments for pesstoObjectsId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pesstoObjectsId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">rows</span>
+
+<span class="c">## LAST MODIFIED : December 8, 2012</span>
+<span class="c">## CREATED : December 8, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="insert_changelog_entry"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.insert_changelog_entry">[docs]</a><span class="k">def</span> <span class="nf">insert_changelog_entry</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">transientBucketId</span><span class="p">,</span> <span class="n">comment</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Insert an entry into the pessto marshall changelog db table.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId</span>
+<span class="sd">    - comment -- comment about what changed</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;INSERT INTO pesstoObjectsChangeLog (</span>
+<span class="s">                pesstoObjectsId,</span>
+<span class="s">                whatWasChanged,</span>
+<span class="s">                whenChangeOccured,</span>
+<span class="s">                changeAuthor)</span>
+<span class="s">                VALUES (</span><span class="si">%s</span><span class="s">, &#39;</span><span class="si">%s</span><span class="s">&#39;, NOW(), &#39;marshall&#39;)</span>
+<span class="s">            &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,</span> <span class="n">comment</span><span class="p">,)</span>
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to add an entry into the marshall changelog db table&quot;</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not add an entry into the marshall changelog db table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">## LAST MODIFIED : December 10, 2012</span>
+<span class="c">## CREATED : December 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="change_pesstoObjects_flag"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.change_pesstoObjects_flag">[docs]</a><span class="k">def</span> <span class="nf">change_pesstoObjects_flag</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">pesstoObjectsId</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Change a flag in the ``pesstoObjects`` db table to shift the object through the various marshall workflows.</span>
+<span class="sd">  A comment is also added to the marshall changelog table.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - pesstoObjectsId -- ID of the object in the pesstoObjects table</span>
+<span class="sd">    - flag -- the flag that needs changed</span>
+<span class="sd">    - value -- value the flag is to be changed to</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">currentFlagQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT alertWorkflowLocation</span>
+<span class="s">                        FROM pesstoObjects</span>
+<span class="s">                        WHERE pesstoObjectsId = </span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pesstoObjectsId</span><span class="p">,)</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find </span><span class="si">%s</span><span class="s"> flag for pesstoObjectsId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">flag</span><span class="p">,</span><span class="n">pesstoObjectsId</span><span class="p">,))</span>
+    <span class="n">currentFlag</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">currentFlagQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find </span><span class="si">%s</span><span class="s"> flag for pesstoObjectsId </span><span class="si">%s</span><span class="s">  % ()- failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">flag</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="c"># CHANGE OF FLAG</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;UPDATE pesstoObjects</span>
+<span class="s">              SET </span><span class="si">%s</span><span class="s"> = &#39;</span><span class="si">%s</span><span class="s">&#39;</span>
+<span class="s">              WHERE pesstoObjectsId = </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">flag</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">pesstoObjectsId</span><span class="p">,)</span>
+  <span class="c"># CHANGE dateLastModified</span>
+  <span class="n">sqlQuery2</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;UPDATE pesstoObjects</span>
+<span class="s">              SET dateLastModified = NOW()</span>
+<span class="s">              WHERE pesstoObjectsId = </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="p">(</span><span class="n">pesstoObjectsId</span><span class="p">,)</span>
+  <span class="c"># UPDATE CHANGELOG TABLE</span>
+  <span class="n">sqlQuery3</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;INSERT INTO pesstoObjectsChangeLog</span>
+<span class="s">            (pesstoObjectsId,whatWasChanged,whenChangeOccured,changeAuthor)</span>
+<span class="s">            VALUES (</span><span class="si">%s</span><span class="s">,&#39;</span><span class="si">%s</span><span class="s"> changed from </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s"> to </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s">&#39;,NOW(),&#39;web user&#39;)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pesstoObjectsId</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="n">currentFlag</span><span class="p">,</span><span class="n">value</span><span class="p">,)</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to update the alert workflow flag for pesstoObjectsId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pesstoObjectsId</span><span class="p">,))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery2</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery3</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not update the alert workflow flag for pesstoObjectsId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pesstoObjectsId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="count_objects_with_flagset"><a class="viewcode-back" href="../pesstoMarshallMySQL.html#pesstoMarshallMySQL.count_objects_with_flagset">[docs]</a><span class="k">def</span> <span class="nf">count_objects_with_flagset</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">mwfFlag</span><span class="p">,</span><span class="n">awfFlag</span><span class="p">,</span><span class="n">cFlag</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Count the number of objects in the Marshall with a specific flagset</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - mwfFlag -- marshall workflow location</span>
+<span class="sd">    - awfFlag -- alert workflow location</span>
+<span class="sd">    - cFlag -- classification flag</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - count -- the number of objects with the specified flagset</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT COUNT(*)</span>
+<span class="s">                FROM pesstoObjects</span>
+<span class="s">                WHERE pesstoObjectsId&gt;0&quot;&quot;&quot;</span>
+
+  <span class="c"># AMEND WHERE CLAUSE TO INCLUDE WORKFLOW LOCATION FLAGS #</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">mwfFlag</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="n">extraWhere</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot; AND (marshallWorkflowLocation=</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mwfFlag</span><span class="p">,)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">extraWhere</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">awfFlag</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot; AND (alertWorkflowLocation=</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">awfFlag</span><span class="p">,)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">cFlag</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">cFlag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+      <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND (classifiedFlag=0)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot; AND (classifiedFlag=1)&quot;</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">extraWhere</span> <span class="o">+=</span> <span class="s">&quot;&quot;</span>
+
+  <span class="n">sqlQuery</span> <span class="o">+=</span> <span class="n">extraWhere</span><span class="o">+</span><span class="s">&quot;;&quot;</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find the number of rows in the db with a specified flagset&quot;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;COUNT(*)&#39;</span><span class="p">]</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find the number of rows in the db with a specified flagset - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">count</span>
+
+
+<span class="c"># ## LAST MODIFIED : December 11, 2012</span>
+<span class="c"># ## CREATED : December 11, 2012</span>
+<span class="c"># ## AUTHOR : DRYX</span>
+<span class="c"># def name(dbConn,log,transientBucketId):</span>
+<span class="c">#   &quot;&quot;&quot;Query the Marshall DB for ______ for a specific object</span>
+
+<span class="c">#   Key Arguments:</span>
+<span class="c">#     - dbConn -- mysql database connection</span>
+<span class="c">#     - log -- logger</span>
+<span class="c">#     - transientBucketId -- object Id</span>
+
+<span class="c">#   Returns</span>
+<span class="c">#     - rows -- returned from mySQL query</span>
+<span class="c">#   &quot;&quot;&quot;</span>
+<span class="c">#   ################ &gt; IMPORTS ################</span>
+
+<span class="c">#   ################ &gt; VARIABLE SETTINGS ######</span>
+<span class="c">#   sqlQuery = &quot;&quot;&quot;</span>
+<span class="c">#                   transientBucketId = %s &quot;&quot;&quot; % (transientBucketId,))</span>
+
+<span class="c">#   ################ &gt;ACTION(S) ################</span>
+<span class="c">#   try:</span>
+<span class="c">#     log.debug(&quot;attempting to find ____ for transientBucketId %s&quot; % (transientBucketId,))</span>
+<span class="c">#     rows = m.execute_mysql_read_query(sqlQuery,dbConn)</span>
+<span class="c">#   except Exception, e:</span>
+<span class="c">#     log.error(&quot;could not find ____ for transientBucketId %s - failed with this error %s: &quot; % (transientBucketId,str(e),))</span>
+<span class="c">#     return -1</span>
+
+<span class="c">#   return rows</span>
+
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PRIVATE (HELPER) FUNCTIONS                                                                #</span>
+<span class="c">#############################################################################################</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

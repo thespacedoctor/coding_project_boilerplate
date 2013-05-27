@@ -1,0 +1,865 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dryxXMLTools &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dryxXMLTools</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">dryxXMLTools.py</span>
+
+<span class="sd">Created by David Young on 2012-10-03</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">xxx = come back here and do some more work</span>
+
+<span class="sd">notes:</span>
+<span class="sd">    - Dave &#39;completed&#39; this code on November 8, 2012</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">############################################</span>
+<span class="c"># MAIN LOOP - USED FOR DEBUGGING           #</span>
+<span class="c">############################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+    <span class="kn">import</span> <span class="nn">dryxLogging</span> <span class="kn">as</span> <span class="nn">log</span>
+
+    <span class="n">dbConn</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">set_db_connection</span><span class="p">(</span><span class="s">&#39;/pessto_marshall/settings/database_credentials.yaml&#39;</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">setup_dryx_logging</span><span class="p">(</span><span class="s">&#39;/pessto_marshall/settings/logging.yaml&#39;</span><span class="p">)</span>
+
+    <span class="c">## INSTANSIATE THE PESSTO FEEDERS RSS READER (pfr) ##</span>
+    <span class="n">pfr</span> <span class="o">=</span> <span class="n">rss_reader</span><span class="p">()</span>
+    <span class="n">pfr</span><span class="o">.</span><span class="n">dbConn</span> <span class="o">=</span> <span class="n">dbConn</span>
+    <span class="n">pfr</span><span class="o">.</span><span class="n">subscriptionTable</span> <span class="o">=</span> <span class="s">&quot;xml_subscriptions&quot;</span>
+    <span class="c">#pfr._downloadDirectory = &#39;/Users/Dave/Desktop/xmlToolbox&#39; # ONLY USE FOR DEBUGGING</span>
+
+    <span class="c">## START LOGGING ##</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- STARTING TO READ THE PESSTO FEEDERS RSS FEEDS -----&#39;</span><span class="p">)</span>
+
+    <span class="c"># SETUP THE SUBSCRIPTIONS</span>
+    <span class="c"># pfr.set_subscription(&#39;http://feeds.bbci.co.uk/news/rss.xml&#39;,&#39;bbcNews&#39;,[&#39;title&#39;,&#39;updated_parsed&#39;])</span>
+    <span class="c"># pfr.set_subscription(&#39;http://skyalert.org/feeds/667&#39;,&#39;crts_css&#39;,[&#39;updated&#39;,&#39;ra&#39;])</span>
+    <span class="c"># pfr.set_subscription(&#39;http://skyalert.org/feeds/290&#39;,&#39;cbat&#39;,[&#39;updated&#39;,&#39;ra&#39;])</span>
+    <span class="c"># pfr.set_subscription(&#39;http://skyalert.org/feeds/667&#39;,&#39;crts_css&#39;,[&#39;updated&#39;,&#39;ra&#39;])</span>
+    <span class="c"># pfr.set_subscription(&#39;http://skyalert.org/feeds/664&#39;,&#39;crts_mls&#39;,[&#39;updated&#39;,&#39;ra&#39;])</span>
+    <span class="c"># pfr.set_subscription(&#39;http://skyalert.org/feeds/665&#39;,&#39;crts_sss&#39;,[&#39;updated&#39;,&#39;ra&#39;])</span>
+    <span class="n">pfr</span><span class="o">.</span><span class="n">refresh_feeds</span><span class="p">()</span>
+
+    <span class="n">dbConn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- FINISHED READING THE XML SUBSCRIPTIONS -----&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">#############################################################################################</span>
+<span class="c"># CLASSES                                                                                   #</span>
+<span class="c">#############################################################################################</span></div>
+<div class="viewcode-block" id="xml_file"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.xml_file">[docs]</a><span class="k">class</span> <span class="nc">xml_file</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Blue-print for an XML file - can be local (via file path) or remote (via URL). Can return both the XML channel elements and items as a dictionary and a list of dictionaries respectively.</span>
+
+<span class="sd">    Variable Attributes:</span>
+<span class="sd">        - var -- definition</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">## VARIABLES THAT NEED ADJUSTED WITH OBJECT INSTANSIATION ##</span>
+    <span class="n">rssFeedName</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">feedUrl</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c">########## METHOD TO RETURN WHOLE XML PACKET ##########</span>
+<div class="viewcode-block" id="xml_file.get_object"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.xml_file.get_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">xfce</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_channel_elements</span><span class="p">()</span>
+        <span class="n">xml_channel_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_channel_items</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">xfce</span><span class="p">,</span> <span class="n">xml_channel_items</span>
+
+    <span class="c">########## METHOD TO GRAB CHANNEL ELEMENTS ##########</span></div>
+<div class="viewcode-block" id="xml_file.get_channel_elements"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.xml_file.get_channel_elements">[docs]</a>    <span class="k">def</span> <span class="nf">get_channel_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+
+        <span class="c"># PARSE FEED &amp; LOG NUMBER OF ELEMENTS</span>
+        <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">()</span>
+        <span class="n">feedElementsCount</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">feed</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;the &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">rssFeedName</span><span class="o">+</span><span class="s">&#39; rss channel has &#39;</span><span class="o">+</span><span class="n">feedElementsCount</span><span class="o">+</span> <span class="s">&#39; feed elements&#39;</span><span class="p">)</span>
+
+        <span class="c"># PLACE CHANNEL ELEMENTS INTO A DICTIONARY AND RETURN</span>
+        <span class="n">xfce</span> <span class="o">=</span> <span class="n">xml</span><span class="o">.</span><span class="n">feed</span>
+
+        <span class="k">return</span> <span class="n">xfce</span>
+
+    <span class="c">########## METHOD TO GRAB CHANNEL ITEMS ##########</span></div>
+<div class="viewcode-block" id="xml_file.get_channel_items"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.xml_file.get_channel_items">[docs]</a>    <span class="k">def</span> <span class="nf">get_channel_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+
+        <span class="c"># PARSE FEED &amp; NUMBER OF ITEMS IN THE FEED</span>
+        <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">()</span>
+        <span class="n">feedItemCount</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">entries</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;the &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">rssFeedName</span><span class="o">+</span><span class="s">&#39; channel has &#39;</span><span class="o">+</span><span class="n">feedItemCount</span><span class="o">+</span> <span class="s">&#39; feed items&#39;</span><span class="p">)</span>
+
+        <span class="c"># PLACE CHANNEL ITEMS INTO A LIST OF DICTIONARIES AND RETURN</span>
+        <span class="n">xml_channel_items</span> <span class="o">=</span> <span class="n">xml</span><span class="o">.</span><span class="n">entries</span>
+
+        <span class="k">return</span> <span class="n">xml_channel_items</span>
+
+    <span class="c">########## FEED PARSER METHOD ##########</span></div>
+<div class="viewcode-block" id="xml_file.parse_feed"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.xml_file.parse_feed">[docs]</a>    <span class="k">def</span> <span class="nf">parse_feed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+        <span class="kn">import</span> <span class="nn">feedparser</span>
+
+        <span class="c"># TRY AND PARSE THE FEED - RETURN PACKET</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;reading the &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">rssFeedName</span><span class="o">+</span><span class="s">&#39; xml file&#39;</span><span class="p">)</span>
+            <span class="n">xml</span> <span class="o">=</span> <span class="n">feedparser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">feedUrl</span> <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&#39;failed to read the &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">rssFeedName</span><span class="o">+</span><span class="s">&#39; xml file&#39;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">xml</span>
+
+
+<span class="c">#############################################</span>
+<span class="c"># RSS READER (WRITTEN BY DRYX)              #</span>
+<span class="c">#############################################</span></div></div>
+<div class="viewcode-block" id="rss_reader"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.rss_reader">[docs]</a><span class="k">class</span> <span class="nc">rss_reader</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Blue-o for an RSS Reader - builds and maintains an RSS Reader within a MySQL DB</span>
+
+<span class="sd">    Variable Attributes:</span>
+<span class="sd">        - dbConn -- the connection to the database required to host the rss feed data</span>
+<span class="sd">        - subscriptionTable -- name of the table that will hold the feed subscription list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">## GLOBAL IMPORTS ##</span>
+    <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+
+    <span class="c">#### PUBLIC VARIABLE ATTRIBUTES ####</span>
+    <span class="n">dbConn</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">subscriptionTable</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+    <span class="c">#### PRIVATE VARIABLE ATTRIBUTES ####</span>
+    <span class="n">_downloadDirectory</span> <span class="o">=</span> <span class="s">&#39;/tmp/rss_reader_xml_packets&#39;</span>
+    <span class="n">_feedTablePrefix</span> <span class="o">=</span> <span class="s">&#39;rss_channel_&#39;</span>
+    <span class="n">_voeTablePrefix</span> <span class="o">=</span> <span class="s">&#39;voevent_streams_&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c">#### METHODS ####</span>
+    <span class="c">########################################################################</span>
+    <span class="c">## LAST MODIFIED : 20121101</span>
+    <span class="c">## CREATED : 20121101</span>
+<div class="viewcode-block" id="rss_reader.set_subscription"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.rss_reader.set_subscription">[docs]</a>    <span class="k">def</span> <span class="nf">set_subscription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">feedURL</span><span class="p">,</span><span class="n">rssFeedName</span><span class="p">,</span><span class="n">rssFeedSource</span><span class="p">,</span><span class="n">uniqueColumns</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add an XML subscription to the subscriptionTable</span>
+
+<span class="sd">            Key Arguments:</span>
+<span class="sd">                - feedURL -- the URL of the XML file for the rss feed channel</span>
+<span class="sd">                - rssFeedName -- name of the rss feed channel to be logged in subscription table e.g. BBC News</span>
+<span class="sd">                - feedSoruce -- the top level source e.g. BBC</span>
+<span class="sd">                - uniqueColumns -- list of columns to set as unique so that duplicate items are ignored</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">                - None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">## &gt; IMPORTS ##</span>
+        <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+        <span class="kn">import</span> <span class="nn">dryxCommonUtils</span> <span class="kn">as</span> <span class="nn">b</span>
+        <span class="kn">import</span> <span class="nn">dryxWebCrawlers</span> <span class="kn">as</span> <span class="nn">wc</span>
+        <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+        <span class="kn">import</span> <span class="nn">sys</span>
+
+        <span class="c">## &gt;SETTINGS ##</span>
+
+
+
+        <span class="c">###########################################################</span>
+        <span class="c"># &gt;ACTION(S)                                              #</span>
+        <span class="c">###########################################################</span>
+        <span class="c"># FIRST CHECK TO MAKE SURE THE FEED IS NOT SUBSCRIBED TO ALREADY</span>
+        <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT table_name</span>
+<span class="s">                    FROM information_schema.tables</span>
+<span class="s">                    WHERE table_schema = DATABASE()</span>
+<span class="s">                    AND table_name = &#39;</span><span class="si">%s</span><span class="s">&#39;;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="p">,)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;select count(*) from </span><span class="si">%s</span><span class="s"> where feedUrl = &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="p">,</span> <span class="n">feedURL</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&quot;result: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;count(*)&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="c">## LOGGING HEADER ##</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;- SUBSCRIBING TO &#39;</span><span class="o">+</span><span class="n">rssFeedName</span><span class="o">+</span><span class="s">&#39; FEED -&#39;</span><span class="p">)</span>
+
+        <span class="c"># CREATE DOWNLOADS DIRECTORY</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">dryx_mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_downloadDirectory</span><span class="p">)</span>
+
+
+        <span class="c"># DOWNLOAD ALL THE XML FILE</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;downloading </span><span class="si">%s</span><span class="s"> xml file&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rssFeedName</span><span class="p">,))</span>
+            <span class="n">localUrl</span> <span class="o">=</span> <span class="n">wc</span><span class="o">.</span><span class="n">singleWebDocumentDownloader</span><span class="p">(</span><span class="n">feedURL</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_downloadDirectory</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not download </span><span class="si">%s</span><span class="s"> xml file : </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rssFeedName</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c"># INSTANTIATE THE XML FILE OBJECT</span>
+        <span class="n">xf</span> <span class="o">=</span> <span class="n">xml_file</span><span class="p">()</span>
+        <span class="n">xf</span><span class="o">.</span><span class="n">feedUrl</span> <span class="o">=</span> <span class="n">localUrl</span>
+        <span class="n">xf</span><span class="o">.</span><span class="n">rssFeedName</span> <span class="o">=</span> <span class="n">rssFeedName</span>
+
+        <span class="c"># CHANNEL ELEMENTS = TOP LEVEL XML FEED METADATA</span>
+        <span class="c"># GRAB THE DICTIONARY OF ELEMENTS AND CREATE/APPEND TO MYSQL TABLE</span>
+        <span class="n">xfce</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">get_channel_elements</span><span class="p">()</span>
+        <span class="c"># ADD EXTRA COLUMNS TO THE DICTIONARY</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">nowDateTimeStamp</span><span class="p">())</span>
+        <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;dateCreated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+        <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;dateLastModified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+        <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;dateLastRead&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+        <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rssFeedName</span>
+        <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feedURL</span>
+        <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rssFeedSource</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">uniqueColumns</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">):</span> <span class="c"># I.E. DICTIONARY</span>
+            <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;feedTableUniqueKeyName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">uniqueColumns</span><span class="p">)</span>
+            <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;uniqueKeyCols&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">uniqueColumns</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;feedTableUniqueKeyName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniqueColumns</span>
+            <span class="n">xfce</span><span class="p">[</span><span class="s">&#39;uniqueKeyCols&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniqueColumns</span>
+
+        <span class="c"># APPEND TO MYSQL SUBSCRIPTION TABLE</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;appending </span><span class="si">%s</span><span class="s"> feed subscription to the mysql </span><span class="si">%s</span><span class="s"> table&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rssFeedName</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="p">))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">,</span><span class="n">xfce</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="p">,[</span><span class="s">&#39;feedURL&#39;</span><span class="p">,])</span>
+
+        <span class="c">## LOGGING FOOTER ##</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;- SUCCESSFULLY SUBSCRIBED TO &#39;</span><span class="o">+</span><span class="n">feedURL</span><span class="o">+</span><span class="s">&#39; FEED -&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">None</span>
+
+
+    <span class="c">############################################################################################################</span>
+    <span class="c">## LAST MODIFIED : 20121101</span>
+    <span class="c">## CREATED : 20121101</span></div>
+<div class="viewcode-block" id="rss_reader.refresh_rss_feeds"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.rss_reader.refresh_rss_feeds">[docs]</a>    <span class="k">def</span> <span class="nf">refresh_rss_feeds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Refresh all feeds in the subscriptionTable - adding feed items to the the relevant RSS channel tables</span>
+
+<span class="sd">            Key Arguments:</span>
+<span class="sd">                - None</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">                - None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">## &gt; IMPORTS ##</span>
+        <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+        <span class="kn">import</span> <span class="nn">dryxWebCrawlers</span> <span class="kn">as</span> <span class="nn">wc</span>
+        <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+        <span class="kn">import</span> <span class="nn">dryxCommonUtils</span> <span class="kn">as</span> <span class="nn">b</span>
+
+        <span class="c">## &gt;SETTINGS ##</span>
+
+        <span class="c">## LOGGING HEADER ##</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;&lt;m&gt; STARTING TO REFRESH THE FEEDS FOUND IN &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="o">+</span><span class="s">&#39;&lt;m&gt;&#39;</span><span class="p">)</span>
+
+        <span class="c">###########################################################</span>
+        <span class="c"># &gt;ACTION(S)                                              #</span>
+        <span class="c">###########################################################</span>
+        <span class="c"># CREATE DOWNLOADS DIRECTORY</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">dryx_mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_downloadDirectory</span><span class="p">)</span>
+
+        <span class="c">## READ THE FEED NAMES AND URLS FROM SUBSCRIPTION TABLE</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;reading feed data from the subscription table : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="p">,))</span>
+        <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&#39;SELECT rssFeedName, feedURL, rssFeedSource, dateLastRead, uniqueKeyCols from &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span>
+        <span class="n">feeds</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">)</span>
+
+        <span class="c">## DOWNLOAD THE FEED CHANNEL XML FILES AND SWITCH TO LOCAL URL</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;downloading the feed channel xml files&#39;</span><span class="p">)</span>
+        <span class="n">remoteURLList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">feed</span> <span class="ow">in</span> <span class="n">feeds</span><span class="p">:</span>
+            <span class="n">remoteURLList</span> <span class="o">+=</span> <span class="p">[</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">]]</span>
+        <span class="n">localUrls</span> <span class="o">=</span> <span class="n">wc</span><span class="o">.</span><span class="n">multiWebDocumentDownloader</span><span class="p">(</span><span class="n">remoteURLList</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_downloadDirectory</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">ifc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">feed</span> <span class="ow">in</span> <span class="n">feeds</span><span class="p">:</span>
+            <span class="n">feed</span><span class="p">[</span><span class="s">&#39;remoteFeedUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">]</span>
+            <span class="n">feed</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localUrls</span><span class="p">[</span><span class="n">ifc</span><span class="p">]</span>
+            <span class="n">ifc</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c"># INSTANTIATE THE XML FILE OBJECT</span>
+            <span class="n">xf</span> <span class="o">=</span> <span class="n">xml_file</span><span class="p">()</span>
+            <span class="n">xf</span><span class="o">.</span><span class="n">feedUrl</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">]</span>
+            <span class="n">xf</span><span class="o">.</span><span class="n">rssFeedName</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span>
+
+            <span class="c"># DETERMINE UNQUIE KEY</span>
+            <span class="n">ukCols</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;uniqueKeyCols&#39;</span><span class="p">])</span>
+
+            <span class="c"># CHANNEL ITEMS = BASE LEVEL XML FEED METADATA - THE NEWS/CONTENT</span>
+            <span class="c"># GRAB THE LIST OF XML ITEM DICTIONARIES</span>
+            <span class="n">xml_channel_items</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">get_channel_items</span><span class="p">()</span>
+            <span class="c"># ADD EXTRA COLUMNS TO THE DICTIONARY</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">nowDateTimeStamp</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">xml_channel_items</span><span class="p">:</span>
+                <span class="n">item</span><span class="p">[</span><span class="s">&#39;dateCreated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+                <span class="n">item</span><span class="p">[</span><span class="s">&#39;dateLastModified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+                <span class="n">item</span><span class="p">[</span><span class="s">&#39;awaitingAction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">item</span><span class="p">[</span><span class="s">&#39;rssFeedUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;remoteFeedUrl&#39;</span><span class="p">]</span>
+                <span class="n">item</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span>
+                <span class="n">item</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span>
+
+            <span class="n">feedTableName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feedTablePrefix</span><span class="o">+</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span>
+            <span class="n">feedTableName</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">make_lowercase_nospace</span><span class="p">(</span><span class="n">feedTableName</span><span class="p">)</span>
+
+            <span class="c">## APPEND THE DATA TO THE TABLE</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;adding data to the </span><span class="si">%s</span><span class="s"> table&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feedTableName</span><span class="p">,))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xml_channel_items</span><span class="p">)):</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;here is the element dictionary: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">xml_channel_items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),))</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">,</span><span class="n">xml_channel_items</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">feedTableName</span><span class="p">,</span><span class="n">ukCols</span><span class="p">)</span>
+
+        <span class="c">## LOGGING FOOTER ##</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;&lt;m&gt; SUCCESSFULLY ATTEMPTED TO REFRESH THE FEEDS FOUND IN &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="o">+</span><span class="s">&#39;&lt;m&gt;&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">None</span>
+
+
+    <span class="c">#############################################################################################################</span>
+    <span class="c">## LAST MODIFIED : 20121105</span>
+    <span class="c">## CREATED : 20121105</span></div>
+<div class="viewcode-block" id="rss_reader.refresh_voevent_feeds"><a class="viewcode-back" href="../dryxXMLTools.html#dryxXMLTools.rss_reader.refresh_voevent_feeds">[docs]</a>    <span class="k">def</span> <span class="nf">refresh_voevent_feeds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Refresh all VoEvents in the subscriptionTable - adding feed items to the relevant VoEvent channel tables</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">                - None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">## &gt; IMPORTS ##</span>
+        <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+        <span class="kn">import</span> <span class="nn">dryxWebCrawlers</span> <span class="kn">as</span> <span class="nn">wc</span>
+        <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+        <span class="kn">import</span> <span class="nn">dryxCommonUtils</span> <span class="kn">as</span> <span class="nn">b</span>
+        <span class="kn">from</span> <span class="nn">VOEventLib</span> <span class="kn">import</span> <span class="n">Vutil</span> <span class="k">as</span> <span class="n">vou</span>
+        <span class="kn">import</span> <span class="nn">VOEventLib</span> <span class="kn">as</span> <span class="nn">vo</span>
+        <span class="kn">import</span> <span class="nn">re</span>
+        <span class="kn">import</span> <span class="nn">sys</span>
+
+        <span class="c">## &gt;SETTINGS ##</span>
+
+        <span class="c">## LOGGING HEADER ##</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;&lt;m&gt; STARTING TO REFRESH THE VOEVENT STREAMS FOUND IN &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="o">+</span><span class="s">&#39;&lt;m&gt;&#39;</span><span class="p">)</span>
+
+        <span class="c">###########################################################</span>
+        <span class="c"># &gt;ACTION(S)                                              #</span>
+        <span class="c">###########################################################</span>
+        <span class="c"># CREATE DOWNLOADS DIRECTORY</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">dryx_mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_downloadDirectory</span><span class="p">)</span>
+
+        <span class="c">## READ THE FEED NAMES AND URLS FROM SUBSCRIPTION TABLE</span>
+        <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&#39;SELECT rssFeedSource, rssFeedName, feedURL, dateLastRead, uniqueKeyCols from &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span>
+        <span class="n">feeds</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">)</span>
+
+        <span class="c">## DOWNLOAD THE FEEDS AND SWITCH TO LOCAL URLS</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;downloading the voevent stream xml files&#39;</span><span class="p">)</span>
+        <span class="n">remoteURLList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">feed</span> <span class="ow">in</span> <span class="n">feeds</span><span class="p">:</span>
+            <span class="n">remoteURLList</span> <span class="o">+=</span> <span class="p">[</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">]]</span>
+        <span class="n">localUrls</span> <span class="o">=</span> <span class="n">wc</span><span class="o">.</span><span class="n">multiWebDocumentDownloader</span><span class="p">(</span><span class="n">remoteURLList</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_downloadDirectory</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">ifc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">feed</span> <span class="ow">in</span> <span class="n">feeds</span><span class="p">:</span>
+            <span class="n">feed</span><span class="p">[</span><span class="s">&#39;voeURL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">]</span>
+            <span class="n">feed</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localUrls</span><span class="p">[</span><span class="n">ifc</span><span class="p">]</span>
+            <span class="n">ifc</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c">## CLEAR THE LIST &amp; DICTIONARY REQUIRED TO HOLD THE VOEVENT &#39;METADATA&#39; - ANY DATA NOT FOUND WITHIN &lt;WHAT&gt;..&lt;/WHAT&gt;</span>
+            <span class="n">metadataList</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">metadataDict</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c">## CREATE THE VOEVENT ITS &amp; DATA OBJECTS</span>
+            <span class="k">try</span><span class="p">:</span>
+              <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;attempting to read the </span><span class="si">%s</span><span class="s"> voevent xml file&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">],))</span>
+              <span class="n">event</span> <span class="o">=</span>  <span class="n">vou</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;feedURL&#39;</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+              <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not read the </span><span class="si">%s</span><span class="s"> voevent xml file - failed with this error </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+              <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;attempting to parse the data found in the </span><span class="si">%s</span><span class="s"> voevent xml file&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">],))</span>
+
+            <span class="c">## PARSE &#39;DESCRIPTION&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;description&#39;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## PARSE &#39;IVORN&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ivorn&#39;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">get_ivorn</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## PARSE &#39;ROLE&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;role&#39;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">get_role</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## PARSE &#39;VERSION&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;version&#39;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">get_version</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## PARSE &#39;CITATION&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">citations</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get_Citations</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;cite&#39;</span><span class="p">,</span><span class="n">citations</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;cite_des&#39;</span><span class="p">,</span><span class="n">citations</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">cite_ivorn</span> <span class="o">=</span> <span class="n">citations</span><span class="o">.</span><span class="n">get_EventIVORN</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;cite_ivorn&#39;</span><span class="p">,</span><span class="n">cite_ivorn</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;cite_ivorn_cite&#39;</span><span class="p">,</span><span class="n">cite_ivorn</span><span class="o">.</span><span class="n">get_cite</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;cite_ivorn_value&#39;</span><span class="p">,</span><span class="n">cite_ivorn</span><span class="o">.</span><span class="n">get_valueOf_</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## PARSE &#39;HOW&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">how</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get_How</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;how&#39;</span><span class="p">,</span><span class="n">how</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;how_des&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">how_ref</span> <span class="o">=</span> <span class="n">how</span><span class="o">.</span><span class="n">get_Reference</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;how_ref&#39;</span><span class="p">,</span><span class="n">how_ref</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;how_ref_mean&#39;</span><span class="p">,</span><span class="n">how_ref</span><span class="o">.</span><span class="n">get_meaning</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;how_ref_mtype&#39;</span><span class="p">,</span><span class="n">how_ref</span><span class="o">.</span><span class="n">get_mimetype</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;how_ref_type&#39;</span><span class="p">,</span><span class="n">how_ref</span><span class="o">.</span><span class="n">get_type</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;how_ref_uri&#39;</span><span class="p">,</span><span class="n">how_ref</span><span class="o">.</span><span class="n">get_uri</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;how_ref_valueOf_&#39;</span><span class="p">,</span><span class="n">how_ref</span><span class="o">.</span><span class="n">get_valueOf_</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## PARSE &#39;REFERENCE&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">reference</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get_Reference</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;reference&#39;</span><span class="p">,</span><span class="n">reference</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_mean&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_meaning</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_mtype&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_mimetype</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_type&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_type</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_uri&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_uri</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_valueOf&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_valueOf_</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## PARSE &#39;WHY&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">why</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get_Why</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why&#39;</span><span class="p">,</span><span class="n">why</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_conc&#39;</span><span class="p">,</span><span class="n">why</span><span class="o">.</span><span class="n">get_Concept</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_desc&#39;</span><span class="p">,</span><span class="n">why</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">why_inf</span> <span class="o">=</span> <span class="n">why</span><span class="o">.</span><span class="n">get_Inference</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_inf&#39;</span><span class="p">,</span><span class="n">why_inf</span><span class="p">)]</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;why_inf value: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">why_inf</span><span class="p">,))</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;why_inf exception </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_inf_conc&#39;</span><span class="p">,</span> <span class="n">why_inf</span><span class="o">.</span><span class="n">get_Concept</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">print</span> <span class="s">&quot;did not find concept:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_inf_desc&#39;</span><span class="p">,</span> <span class="n">why_inf</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_inf_name&#39;</span><span class="p">,</span> <span class="n">why_inf</span><span class="o">.</span><span class="n">get_Name</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_inf_ref&#39;</span><span class="p">,</span> <span class="n">why_inf</span><span class="o">.</span><span class="n">get_Reference</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_inf_prob&#39;</span><span class="p">,</span> <span class="n">why_inf</span><span class="o">.</span><span class="n">get_probability</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_inf_rela&#39;</span><span class="p">,</span> <span class="n">why_inf</span><span class="o">.</span><span class="n">get_relation</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_name&#39;</span><span class="p">,</span><span class="n">why</span><span class="o">.</span><span class="n">get_Name</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_ref&#39;</span><span class="p">,</span><span class="n">why</span><span class="o">.</span><span class="n">get_Reference</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_expir&#39;</span><span class="p">,</span><span class="n">why</span><span class="o">.</span><span class="n">get_expires</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;why_import&#39;</span><span class="p">,</span><span class="n">why</span><span class="o">.</span><span class="n">get_importance</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+
+            <span class="c">## PARSE &#39;WHO&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">who</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get_Who</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who&#39;</span><span class="p">,</span><span class="n">who</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_date&#39;</span><span class="p">,</span> <span class="n">who</span><span class="o">.</span><span class="n">get_Date</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_des&#39;</span><span class="p">,</span> <span class="n">who</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_ref&#39;</span><span class="p">,</span> <span class="n">who</span><span class="o">.</span><span class="n">get_Reference</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="c">#### AND &#39;AUTHOR&#39; IN &#39;WHO&#39;</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">author</span> <span class="o">=</span> <span class="n">who</span><span class="o">.</span><span class="n">get_Author</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut&#39;</span><span class="p">,</span><span class="n">author</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut_email&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">.</span><span class="n">get_contactEmail</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut_name&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">.</span><span class="n">get_contactName</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut_phone&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">.</span><span class="n">get_contactPhone</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut_contr&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">.</span><span class="n">get_contributor</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut_logo&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">.</span><span class="n">get_logoURL</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut_sname&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">.</span><span class="n">get_shortName</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut_title&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">.</span><span class="n">get_title</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;who_aut_ivorn&#39;</span><span class="p">,</span> <span class="n">who</span><span class="o">.</span><span class="n">get_AuthorIVORN</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## PARSE &#39;WHEREWHEN&#39; VALUES</span>
+            <span class="n">ww</span> <span class="o">=</span> <span class="n">vou</span><span class="o">.</span><span class="n">getWhereWhen</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ww</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;wherewhen_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">ww</span><span class="p">[</span><span class="n">key</span><span class="p">])]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="c">## PARSE BASE &#39;WHAT&#39; VALUES</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">what</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get_What</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;what&#39;</span><span class="p">,</span><span class="n">what</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;des&#39;</span><span class="p">,</span><span class="n">what</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;table&#39;</span><span class="p">,</span><span class="n">what</span><span class="o">.</span><span class="n">get_Table</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">reference</span> <span class="o">=</span> <span class="n">what</span><span class="o">.</span><span class="n">get_Reference</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="n">metadataList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref&#39;</span><span class="p">,</span><span class="n">reference</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="c">## EITHER NONE OR A CLASS</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_mean&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_meaning</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_mtype&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_mimetype</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_type&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_type</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_uri&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_uri</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="s">&#39;ref_valueOf&#39;</span><span class="p">,</span><span class="n">reference</span><span class="o">.</span><span class="n">get_valueOf_</span><span class="p">())]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## AND &#39;PARAMS&#39; IN &#39;WHAT&#39; -- BASE</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">params</span> <span class="o">=</span> <span class="n">what</span><span class="o">.</span><span class="n">get_Param</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                <span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;param_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span><span class="o">+</span><span class="s">&#39;_&#39;</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;des&#39;</span><span class="p">,</span><span class="n">param</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="n">passset_subscription</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;ref&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_Reference</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_Value</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;dataType&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_dataType</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_name</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;ucd&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_ucd</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;unit&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_unit</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;utype&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_utype</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">whatdataBaseList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_value</span><span class="p">())]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+            <span class="c">## AND &#39;GROUPS&#39; IN &#39;WHAT&#39;</span>
+            <span class="k">try</span><span class="p">:</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">what</span><span class="o">.</span><span class="n">get_Group</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+            <span class="n">groupsList</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+                <span class="n">thisGroupList</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupName</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;name&#39;</span><span class="p">,</span><span class="n">thisGroupName</span><span class="p">)]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">params</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">get_Param</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;param_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span><span class="o">+</span><span class="s">&#39;_&#39;</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;name&#39;</span><span class="p">,</span><span class="n">param</span><span class="o">.</span><span class="n">get_name</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;des&#39;</span><span class="p">,</span><span class="n">param</span><span class="o">.</span><span class="n">get_Description</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;ref&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_Reference</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_Value</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;dataType&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_dataType</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_name</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;ucd&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_ucd</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;unit&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_unit</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;utype&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_utype</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span> <span class="n">thisGroupList</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">prefix</span><span class="o">+</span><span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">get_value</span><span class="p">())]</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span> <span class="n">groupsList</span> <span class="o">+=</span> <span class="p">[</span><span class="n">thisGroupList</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="k">pass</span>
+
+
+            <span class="c">###### CREATE/APPEND TO METADATA SQL TABLE #######</span>
+            <span class="c">## CREATE METADATA DICTIONARY</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;attempting to create a dictionary of the meta-data parsed from the </span><span class="si">%s</span><span class="s"> voevent xml file&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">],))</span>
+            <span class="n">metadataDict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">metadataList</span><span class="p">:</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">tag</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">make_lowercase_nospace</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;key: </span><span class="si">%s</span><span class="s"> is a list (value </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">))</span>
+                    <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+                        <span class="n">metadataDict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;key: </span><span class="si">%s</span><span class="s"> exists and is a </span><span class="si">%s</span><span class="s"> (value </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">value</span><span class="p">))</span>
+                    <span class="n">metadataDict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+            <span class="c"># DETERMINE UNQUIE KEY</span>
+            <span class="n">unqCols</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;uniqueKeyCols&#39;</span><span class="p">])</span>
+
+            <span class="c"># ADD EXTRA COLUMNS TO THE DICTIONARY</span>
+            <span class="n">metadataDict</span><span class="p">[</span><span class="s">&#39;voEventUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;voeURL&#39;</span><span class="p">]</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">nowDateTimeStamp</span><span class="p">())</span>
+            <span class="n">metadataDict</span><span class="p">[</span><span class="s">&#39;dateCreated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+            <span class="n">metadataDict</span><span class="p">[</span><span class="s">&#39;dateLastModified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+            <span class="n">metadataDict</span><span class="p">[</span><span class="s">&#39;awaitingAction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">metadataDict</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span>
+            <span class="n">metadataDict</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span>
+
+            <span class="n">feedTableName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_voeTablePrefix</span><span class="o">+</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;_metadata&quot;</span>
+            <span class="n">feedTableName</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">make_lowercase_nospace</span><span class="p">(</span><span class="n">feedTableName</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;appending data from the </span><span class="si">%s</span><span class="s"> voevent xml file into </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">],</span><span class="n">feedTableName</span><span class="p">))</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">,</span><span class="n">metadataDict</span><span class="p">,</span><span class="n">feedTableName</span><span class="p">,</span><span class="n">unqCols</span><span class="p">)</span>
+
+            <span class="c">###### CREATE/APPEND TO WHATDATABASE SQL TABLE #######</span>
+            <span class="c">## CREATE WHATDATABASE DICTIONARY</span>
+            <span class="n">whatdataBaseDict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;creating a dictionary of the what-data parsed from the </span><span class="si">%s</span><span class="s"> voevent xml file&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">],))</span>
+            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">whatdataBaseList</span><span class="p">:</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">tag</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">make_lowercase_nospace</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;key: </span><span class="si">%s</span><span class="s"> is a list (value </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">))</span>
+                    <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+                        <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;key: </span><span class="si">%s</span><span class="s"> exists and is a </span><span class="si">%s</span><span class="s"> (value </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">value</span><span class="p">))</span>
+                    <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+            <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;select primaryId from &quot;</span><span class="o">+</span><span class="n">feedTableName</span><span class="o">+</span><span class="s">&quot; where voEventUrl = &#39;&quot;</span><span class="o">+</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;voeURL&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+            <span class="n">contextId</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">)</span>
+            <span class="n">contextId</span> <span class="o">=</span> <span class="n">contextId</span>
+
+            <span class="c"># ADD EXTRA COLUMNS TO THE DICTIONARY</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;dateCreated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;dateLastModified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;awaitingAction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;voPrimaryId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">contextId</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;primaryId&#39;</span><span class="p">]</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;voEventUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;voeURL&#39;</span><span class="p">]</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span>
+            <span class="n">whatdataBaseDict</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedSource&#39;</span><span class="p">]</span>
+
+            <span class="n">whatdataBaseTableName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_voeTablePrefix</span><span class="o">+</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;_what_base&quot;</span>
+            <span class="n">whatdataBaseTableName</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">make_lowercase_nospace</span><span class="p">(</span><span class="n">whatdataBaseTableName</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;appending data from the </span><span class="si">%s</span><span class="s"> voevent xml file into </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">],</span><span class="n">whatdataBaseTableName</span><span class="p">))</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">,</span><span class="n">whatdataBaseDict</span><span class="p">,</span><span class="n">whatdataBaseTableName</span><span class="p">,[</span><span class="s">&#39;primaryId&#39;</span><span class="p">,</span><span class="s">&#39;voEventUrl&#39;</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">groupList</span> <span class="ow">in</span> <span class="n">groupsList</span><span class="p">:</span>
+                <span class="c">###### CREATE/APPEND TO WHATDATA GROUP SQL TABLE #######</span>
+                <span class="c">## CREATE WHATDATABASE GROUP DICTIONARY</span>
+                <span class="n">groupDict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">groupList</span><span class="p">:</span>
+                    <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">tag</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">make_lowercase_nospace</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">):</span>
+                        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;key: </span><span class="si">%s</span><span class="s"> is a list (value </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">))</span>
+                        <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+                            <span class="n">groupDict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">pass</span>
+                    <span class="k">elif</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;key: </span><span class="si">%s</span><span class="s"> exists and is a </span><span class="si">%s</span><span class="s"> (value </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">value</span><span class="p">))</span>
+                        <span class="n">groupDict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">pass</span>
+
+                <span class="c"># ADD EXTRA COLUMNS TO THE DICTIONARY</span>
+                <span class="n">groupDict</span><span class="p">[</span><span class="s">&#39;voEventUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feed</span><span class="p">[</span><span class="s">&#39;voeURL&#39;</span><span class="p">]</span>
+                <span class="n">groupDict</span><span class="p">[</span><span class="s">&#39;dateCreated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+                <span class="n">groupDict</span><span class="p">[</span><span class="s">&#39;dateLastModified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+                <span class="n">groupDict</span><span class="p">[</span><span class="s">&#39;awaitingAction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">groupDict</span><span class="p">[</span><span class="s">&#39;voPrimaryId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">contextId</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;primaryId&#39;</span><span class="p">]</span>
+
+                <span class="n">ukCols</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">groupTableName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_voeTablePrefix</span><span class="o">+</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;_what_group_&#39;</span><span class="o">+</span><span class="n">groupDict</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                <span class="n">groupTableName</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">make_lowercase_nospace</span><span class="p">(</span><span class="n">groupTableName</span><span class="p">)</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">groupTableName</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;groupTableName </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">groupTableName</span><span class="p">,))</span>
+                <span class="k">if</span> <span class="s">&quot;asteroid_params&quot;</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                    <span class="n">ukCols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">,</span><span class="s">&#39;param_apparent_motion_value&#39;</span><span class="p">,</span><span class="s">&#39;param_cssid_value&#39;</span><span class="p">,</span><span class="s">&#39;param_sssid_value&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="s">&quot;first_detection_params&quot;</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                    <span class="n">ukCols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">,</span><span class="s">&#39;param_average_seeing_value&#39;</span><span class="p">,</span><span class="s">&#39;param_magnitude_value&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="s">&quot;second_detection_params&quot;</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                    <span class="n">ukCols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">,</span><span class="s">&#39;param_average_seeing2_value&#39;</span><span class="p">,</span><span class="s">&#39;param_magnitude2_value&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="s">&quot;third_detection_params&quot;</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                    <span class="n">ukCols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">,</span><span class="s">&#39;param_average_seeing3_value&#39;</span><span class="p">,</span><span class="s">&#39;param_magnitude3_value&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="s">&quot;fourth_detection_params&quot;</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                    <span class="n">ukCols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">,</span><span class="s">&#39;param_average_seeing4_value&#39;</span><span class="p">,</span><span class="s">&#39;param_magnitude4_value&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="s">&quot;portfolio&quot;</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                    <span class="n">ukCols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">,</span><span class="s">&#39;param_lightcurve_value&#39;</span><span class="p">]</span>
+
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;appending data from the </span><span class="si">%s</span><span class="s"> voevent xml file into </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed</span><span class="p">[</span><span class="s">&#39;rssFeedName&#39;</span><span class="p">],</span><span class="n">groupTableName</span><span class="p">))</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span><span class="p">,</span><span class="n">groupDict</span><span class="p">,</span><span class="n">groupTableName</span><span class="p">,</span><span class="n">ukCols</span><span class="p">)</span>
+
+
+        <span class="c">## LOGGING FOOTER ##</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;&lt;m&gt; SUCCESSFULLY ATTEMPTED TO REFRESH THE FEEDS FOUND IN &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">subscriptionTable</span><span class="o">+</span><span class="s">&#39;&lt;m&gt;&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">############################################</span>
+<span class="c"># PUBLIC FUNCTIONS                         #</span>
+<span class="c">############################################</span>
+
+
+
+<span class="c">############################################</span>
+<span class="c"># PRIVATE (HELPER) FUNCTIONS               #</span>
+<span class="c">############################################</span>
+
+
+
+
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,858 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dryxHTMLFramework &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dryxHTMLFramework</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">dryxHTMLFramework</span>
+
+<span class="sd">Summary: An HTML Framework -- building webpages from the ground up starting with small objects (div,li,span ...), building into large objects (tables,large divs,header groups ...) until finally building the webpage object.</span>
+
+<span class="sd">Created by David Young on 23rd July 2012</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">xxx = come back here and do some more work</span>
+<span class="sd">_someObject = a &#39;private&#39; object that should only be changed for debugging</span>
+
+<span class="sd">notes:</span>
+<span class="sd">  - Dave started work on this file on 23rd July 2012</span>
+<span class="sd">  - A work in progress</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c">################# GLOBAL IMPORTS ####################</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c">######################################################</span>
+<span class="c"># MAIN LOOP - USED FOR DEBUGGING OR WHEN SCRIPTING   #</span>
+<span class="c">######################################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;one-line summary</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+  <span class="c">################ &gt; SETUP ##################</span>
+  <span class="c">## SETUP DB CONNECTION AND A LOGGER</span>
+  <span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
+  <span class="c">## START LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- STARTING TO RUN THE dryxHTMLFramework -----&#39;</span><span class="p">)</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="c">################ &gt;ACTION(S) ###############</span>
+
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">commit</span> <span class="p">()</span>
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+  <span class="c">## FINISH LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- FINISHED ATTEMPT TO RUN THE dryxHTMLFramework -----&#39;</span><span class="p">)</span>
+  <span class="k">return</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># CLASSES                                                                                   #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="HTMLDivForm"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.HTMLDivForm">[docs]</a><span class="k">class</span> <span class="nc">HTMLDivForm</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a form from a bunch of divs</span>
+
+<span class="sd">    Variable Attributes:</span>
+<span class="sd">      - labelList -- list of labels to appear on the form</span>
+<span class="sd">      - textboxList -- list of input textboxs to appear on the form</span>
+<span class="sd">      - selectList -- list of dropdown select lists to appear on the form</span>
+<span class="sd">      - checkboxList -- list of the radio buttons needed</span>
+<span class="sd">      - buttonList -- list of the buttons needed (strings)</span>
+<span class="sd">      - numberOfRows -- number of rows for the form</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">###################### GLOBAL IMPORTS ######################</span>
+    <span class="c">################ PUBLIC VARIABLE ATTRIBUTES ################</span>
+    <span class="n">labelList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">textboxList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">selectList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">checkboxList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">buttonList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">numberOfRows</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="c">############### PRIVATE VARIABLE ATTRIBUTES ###############</span>
+    <span class="c">################ INSTANSIATION METHOD ######################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c">############### METHODS ####################################</span>
+<div class="viewcode-block" id="HTMLDivForm.get_objects"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.HTMLDivForm.get_objects">[docs]</a>    <span class="k">def</span> <span class="nf">get_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+	    <span class="c">#### GENERATE FORM LABELS (DIVS) ####</span>
+	    <span class="c">#--------------------------------------------------------------------------------#</span>
+	    <span class="n">labelDict</span> <span class="o">=</span> <span class="p">{}</span>
+	    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelList</span><span class="p">:</span>
+	      <span class="n">htmlId</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+	      <span class="n">labelDict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+																	<span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+																	<span class="n">htmlId</span><span class="o">=</span><span class="n">htmlId</span><span class="p">,</span>
+																	<span class="n">htmlClass</span><span class="o">=</span><span class="s">&quot;labels&quot;</span><span class="p">,</span>
+																	<span class="n">blockContent</span><span class="o">=</span><span class="n">label</span>
+																<span class="p">)</span>
+
+	    <span class="c">#### GENERATE TEXTBOXES (INPUTS) ####</span>
+	    <span class="c">#--------------------------------------------------------------------------------#</span>
+	    <span class="n">textDict</span> <span class="o">=</span> <span class="p">{}</span>
+	    <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">textboxList</span><span class="p">:</span>
+	      <span class="n">name</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+	      <span class="n">textDict</span><span class="p">[</span><span class="n">text</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+  															<span class="n">tag</span><span class="o">=</span><span class="s">&quot;input&quot;</span><span class="p">,</span>
+  															<span class="nb">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span><span class="p">,</span>
+  															<span class="n">placeholder</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+  															<span class="n">name</span><span class="o">=</span><span class="n">name</span>
+  														<span class="p">)</span>
+
+
+	    <span class="c">#### GERERATE SELECTS ####</span>
+	    <span class="c">#--------------------------------------------------------------------------------#</span>
+	    <span class="n">selectDict</span> <span class="o">=</span> <span class="p">{}</span>
+	    <span class="k">for</span> <span class="n">select</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectList</span><span class="p">:</span>
+	      <span class="n">htmlId</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+	      <span class="n">htmlClass</span> <span class="o">=</span> <span class="n">select</span><span class="o">+</span><span class="s">&quot;Select&quot;</span>
+	      <span class="n">selectDict</span><span class="p">[</span><span class="n">select</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+																		<span class="n">tag</span><span class="o">=</span><span class="s">&quot;select&quot;</span><span class="p">,</span>
+																		<span class="n">htmlId</span><span class="o">=</span><span class="n">htmlId</span><span class="p">,</span>
+																		<span class="n">htmlClass</span><span class="o">=</span><span class="n">htmlClass</span>
+																	<span class="p">)</span>
+
+
+	    <span class="c">#### GERERATE CHECKBOXES ####</span>
+	    <span class="c">#--------------------------------------------------------------------------------#</span>
+	    <span class="n">checkboxDict</span> <span class="o">=</span> <span class="p">{}</span>
+	    <span class="k">for</span> <span class="n">checkbox</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkboxList</span><span class="p">:</span>
+	      <span class="n">htmlId</span> <span class="o">=</span> <span class="n">checkbox</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+	      <span class="n">checkboxDict</span><span class="p">[</span><span class="n">checkbox</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+																				<span class="n">tag</span><span class="o">=</span><span class="s">&quot;input&quot;</span><span class="p">,</span>
+																				<span class="nb">type</span><span class="o">=</span><span class="s">&quot;checkbox&quot;</span><span class="p">,</span>
+																				<span class="n">name</span><span class="o">=</span><span class="n">checkbox</span><span class="p">,</span>
+																				<span class="n">value</span><span class="o">=</span><span class="n">checkbox</span><span class="p">,</span>
+																				<span class="n">htmlId</span><span class="o">=</span><span class="n">htmlId</span>
+																			<span class="p">)</span>
+
+	    <span class="c">#### GENERATE BUTTONS ####</span>
+	    <span class="c">#--------------------------------------------------------------------------------#</span>
+	    <span class="n">buttonDict</span> <span class="o">=</span> <span class="p">{}</span>
+	    <span class="k">for</span> <span class="n">button</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonList</span><span class="p">:</span>
+	      <span class="n">htmlId</span> <span class="o">=</span> <span class="n">button</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+	      <span class="n">buttonDict</span><span class="p">[</span><span class="n">button</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+																		<span class="n">tag</span><span class="o">=</span><span class="s">&quot;button&quot;</span><span class="p">,</span>
+																		<span class="n">htmlClass</span><span class="o">=</span><span class="s">&quot;greyButton&quot;</span><span class="p">,</span>
+																		<span class="n">blockContent</span><span class="o">=</span><span class="n">button</span><span class="p">,</span>
+																		<span class="n">htmlId</span><span class="o">=</span><span class="n">htmlId</span>
+																	<span class="p">)</span>
+
+	    <span class="c">#### GENERATE THE ROWS ####</span>
+	    <span class="c">#--------------------------------------------------------------------------------#</span>
+	    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+	    <span class="n">rowList</span> <span class="o">=</span> <span class="p">[]</span>
+	    <span class="n">rowList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;NULL&quot;</span><span class="p">)</span>
+	    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numberOfRows</span><span class="p">):</span>
+	      <span class="n">rowName</span> <span class="o">=</span> <span class="s">&quot;row&quot;</span><span class="o">+</span><span class="s">&quot;{0:02.0f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+	      <span class="n">rowList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+	      								<span class="nb">dict</span><span class="p">(</span>
+															<span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+															<span class="n">htmlClass</span><span class="o">=</span><span class="s">&quot;divHorizontalKids&quot;</span><span class="p">,</span>
+                              <span class="n">htmlId</span> <span class="o">=</span> <span class="n">rowName</span>
+														<span class="p">)</span>
+											<span class="p">)</span>
+	      <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+	    <span class="n">form</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">tag</span><span class="o">=</span><span class="s">&quot;form&quot;</span><span class="p">,</span>
+                    <span class="n">htmlClass</span><span class="o">=</span><span class="s">&quot;form&quot;</span><span class="p">,</span>
+                    <span class="n">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span><span class="p">,</span>
+                  <span class="p">)</span>
+	    <span class="n">formContent</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+													<span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+													<span class="n">htmlClass</span><span class="o">=</span><span class="s">&quot;formContent&quot;</span>
+												<span class="p">)</span>
+
+	    <span class="k">return</span> <span class="n">labelDict</span><span class="p">,</span><span class="n">textDict</span><span class="p">,</span><span class="n">selectDict</span><span class="p">,</span><span class="n">checkboxDict</span><span class="p">,</span><span class="n">buttonDict</span><span class="p">,</span><span class="n">rowList</span><span class="p">,</span><span class="n">formContent</span><span class="p">,</span><span class="n">form</span>
+
+
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div></div>
+<div class="viewcode-block" id="HTMLHead"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.HTMLHead">[docs]</a><span class="k">class</span> <span class="nc">HTMLHead</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a custom HTML ``Head`` element for a webpage, with Doctype, javascript &amp; css referencing</span>
+
+<span class="sd">    Variable Attributes:</span>
+<span class="sd">      relativeUrlBase -- relative base url for js, css, image folders</span>
+<span class="sd">      pageTitle -- well, the page title!</span>
+<span class="sd">      cssFileName -- css file name</span>
+<span class="sd">      extraHeadInfo -- any extra info to be included in the ``head`` element</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - block -- the HTML Head code block</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">###################### GLOBAL IMPORTS ######################</span>
+    <span class="c">################ PUBLIC VARIABLE ATTRIBUTES ################</span>
+    <span class="n">relativeUrlBase</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">pageTitle</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">cssFileName</span> <span class="o">=</span> <span class="s">&quot;main.css&quot;</span>
+    <span class="n">extraHeadInfo</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="c">############### PRIVATE VARIABLE ATTRIBUTES ###############</span>
+    <span class="c">################ INSTANSIATION METHOD ######################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">pass</span>
+
+    <span class="c">############### METHODS ####################################</span>
+<div class="viewcode-block" id="HTMLHead.get_object"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.HTMLHead.get_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	    <span class="n">relativeCssUrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="o">+</span><span class="s">&quot;/css/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">cssFileName</span>
+	    <span class="n">styleSheetLink</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;&lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="si">%s</span><span class="s">&quot; type=&quot;text/css&quot; /&gt;&lt;!-- Here is the main style sheet for the website --&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">relativeCssUrl</span><span class="p">,)</span>
+	    <span class="n">webFontsLink</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;&lt;link href=&#39;http://fonts.googleapis.com/css?family=Signika+Negative|Inder|Acme|Loved+by+the+King&#39; rel=&#39;stylesheet&#39; type=&#39;text/css&#39;&gt;&lt;!-- Google Web Font Integration --&gt;&quot;&quot;&quot;</span>
+	    <span class="c"># &lt;script src=&quot;&#39;+self.relativeUrlBase+&#39;/js/jquery.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+
+	    <span class="c"># BROWSER COMPATABILITY CLAUSES #</span>
+	    <span class="n">ieClause</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">	              &lt;!--[if IE]&gt;</span>
+<span class="s">	                &lt;script src=&quot;http://html5shiv.googlecode.com/svn/trunk/html5.js&quot;&gt;&lt;/script&gt;</span>
+<span class="s">	              &lt;![endif]--&gt; &lt;!-- run html5 shiv code directly from Google Code for all versions of IE --&gt;&quot;&quot;&quot;</span>
+	    <span class="n">ieSevenClause</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">	              &lt;!--[if lte IE 7]&gt;</span>
+<span class="s">	                  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;all&quot; href=&quot;</span><span class="si">%s</span><span class="s">/css/ie.css&quot;/&gt;</span>
+<span class="s">	                  &lt;script src=&quot;js/IE8.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</span>
+<span class="s">	              &lt;![endif]--&gt; &lt;!-- IE8.js for better backwards compatibility for IE7 and below as well as an ie.css file which will slove IE7 and below CSS bugs --&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="p">,)</span>
+	    <span class="n">ieLtSevenClause</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">	              &lt;!--[if lt IE 7]&gt;</span>
+<span class="s">	                  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;all&quot; href=&quot;</span><span class="si">%s</span><span class="s">/css/ie6.css&quot;/&gt;</span>
+<span class="s">	              &lt;![endif]--&gt; &lt;!-- A CSS file to fix IE6 bugs --&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="p">,)</span>
+
+	    <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">	            &lt;head&gt;</span>
+<span class="s">	              &lt;title&gt;</span><span class="si">%s</span><span class="s">&lt;/title&gt;</span>
+<span class="s">	              &lt;meta charset=&quot;utf-8&quot; /&gt;</span>
+<span class="s">	              </span><span class="si">%s</span><span class="s"></span>
+<span class="s">	              </span><span class="si">%s</span><span class="s"></span>
+<span class="s">	              </span><span class="si">%s</span><span class="s"></span>
+<span class="s">	              </span><span class="si">%s</span><span class="s"></span>
+<span class="s">	              </span><span class="si">%s</span><span class="s"></span>
+<span class="s">	              </span><span class="si">%s</span><span class="s"></span>
+<span class="s">	            &lt;/head&gt;</span>
+<span class="s">	            &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pageTitle</span><span class="p">,</span><span class="n">styleSheetLink</span><span class="p">,</span><span class="n">webFontsLink</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">extraHeadInfo</span><span class="p">,</span><span class="n">ieClause</span><span class="p">,</span><span class="n">ieSevenClause</span><span class="p">,</span><span class="n">ieLtSevenClause</span><span class="p">,)</span>
+	    <span class="k">return</span> <span class="n">block</span>
+
+
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div></div>
+<div class="viewcode-block" id="HTMLBody"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.HTMLBody">[docs]</a><span class="k">class</span> <span class="nc">HTMLBody</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Builds the body of an HTML -- built from smaller HTML code blocks</span>
+
+<span class="sd">    Variable Attributes:</span>
+<span class="sd">      - htmlClass -- ``class`` attribute of the body</span>
+<span class="sd">      - htmlId -- ``id`` attribute of the body</span>
+<span class="sd">      - blockContent -- body content built from smaller HTML code blocks</span>
+<span class="sd">      - jsEvents -- inline javascript events</span>
+<span class="sd">      - extraAttr -- an extra attributes to be added to the body definition</span>
+<span class="sd">      - relativeUrlBase -- how to get back to the document root</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - block -- the HTML body code</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">###################### GLOBAL IMPORTS ######################</span>
+    <span class="c">################ PUBLIC VARIABLE ATTRIBUTES ################</span>
+    <span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">relativeUrlBase</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="c">############### PRIVATE VARIABLE ATTRIBUTES ###############</span>
+    <span class="c">################ INSTANSIATION METHOD ######################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">pass</span>
+
+    <span class="c">############### METHODS ####################################</span>
+<div class="viewcode-block" id="HTMLBody.get_object"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.HTMLBody.get_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="n">javascriptLink</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">          &lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;!-- jquery --&gt;</span>
+<span class="s">            &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="si">%s</span><span class="s">/css/prettyPhoto.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot; charset=&quot;utf-8&quot; /&gt;&lt;!-- prettyPhoto --&gt;</span>
+<span class="s">            &lt;script src=&quot;</span><span class="si">%s</span><span class="s">/js/jquery.prettyPhoto.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="p">,)</span>
+      <span class="n">prettyPhotoScript</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">          &lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;$(document).ready(function(){$(&quot;a[rel^=&#39;prettyPhoto&#39;]&quot;).prettyPhoto();});&lt;/script&gt;&quot;&quot;&quot;</span>
+      <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">          &lt;body class=&quot;</span><span class="si">%s</span><span class="s">&quot; id=&quot;</span><span class="si">%s</span><span class="s">&quot; </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&gt;</span>
+<span class="s">            </span><span class="si">%s</span><span class="s"></span>
+<span class="s">            </span><span class="si">%s</span><span class="s"></span>
+<span class="s">            </span><span class="si">%s</span><span class="s"></span>
+<span class="s">          &lt;/body&gt;&lt;!-- /#&#39;+self.htmlId+&#39;--&gt;</span>
+<span class="s">          &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="p">,</span><span class="n">javascriptLink</span><span class="p">,</span><span class="n">prettyPhotoScript</span><span class="p">,)</span>
+      <span class="k">return</span> <span class="n">block</span>
+
+
+
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PUBLIC FUNCTIONS                                                                          #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div></div>
+<div class="viewcode-block" id="get_html_block"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_html_block">[docs]</a><span class="k">def</span> <span class="nf">get_html_block</span><span class="p">(</span><span class="n">attributeDict</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Template to build an HTML code block (tag) which in turn can be meshed together to build webpages.</span>
+
+<span class="sd">    Variable Attributes:</span>
+<span class="sd">      - attributeDict -- dictionary of the following keywords:</span>
+<span class="sd">        - tag -- the html tag (a, div, span ...)</span>
+<span class="sd">        - htmlClass -- the html element class</span>
+<span class="sd">        - htmlId -- the html element id</span>
+<span class="sd">        - href -- linked url</span>
+<span class="sd">        - blockContent -- actual content to be placed in html code block</span>
+<span class="sd">        - jsEvents -- inline javascript event(s)</span>
+<span class="sd">        - extraAttr -- extra incline css attributes and/or handles</span>
+<span class="sd">        - src -- source for images</span>
+<span class="sd">        - alt -- alternative text for images</span>
+<span class="sd">        - action -- action used in forms</span>
+<span class="sd">        - method -- method used in forms</span>
+<span class="sd">        - type -- type of object</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      - block -- the html block</span>
+
+<span class="sd">  attributeDict template -- dict(tag=___,htmlClass:divVerticalKids/divHorizontalKids,htmlId=___,jsEvents=___,extraAttr=___,blockContent=___,href=___,src=___,alt=___,action=___,method=___,type=___)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">attributeDict</span>
+  <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&lt;</span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;tag&quot;</span><span class="p">],)</span>  <span class="c"># THE HTML BLOCK</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">## SET THE ATTRIBUTES</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlClass&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;class=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlClass&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlId&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;id=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlId&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;jsEvents&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;jsEvents&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;extraAttr&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;extraAttr&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;href&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;href=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;src&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;src=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;alt&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;alt=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;alt&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;action&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;action=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;action&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;method&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;method=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;method&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;type&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;type=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">],)</span>
+  <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&gt;&quot;</span>
+
+  <span class="c">## SET THE CONTENT</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;blockContent&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;blockContent=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;blockContent&quot;</span><span class="p">],)</span>
+
+  <span class="c">## CLOSE THE BLOCK</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlId&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;/</span><span class="si">%s</span><span class="s">&gt;&lt;!--- /#</span><span class="si">%s</span><span class="s"> ---&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;tag&quot;</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlId&quot;</span><span class="p">],)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;/</span><span class="si">%s</span><span class="s">&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;tag&quot;</span><span class="p">],)</span>
+
+  <span class="k">return</span> <span class="n">block</span>
+
+<span class="c">## LAST MODIFIED : December 11, 2012</span>
+<span class="c">## CREATED : December 11, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_nav_block"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_nav_block">[docs]</a><span class="k">def</span> <span class="nf">get_nav_block</span><span class="p">(</span><span class="n">attributeDict</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Template to build a basic ``&lt;nav&gt;`` code block</span>
+
+<span class="sd">  Variable Attributes:</span>
+<span class="sd">      - attributeDict -- dictionary of the following keywords:</span>
+<span class="sd">        - htmlClass -- the html element class</span>
+<span class="sd">        - htmlId -- the html element id</span>
+<span class="sd">        - blockContent -- actual content to be placed in html code block</span>
+<span class="sd">        - jsEvents -- inline javascript event(s)</span>
+<span class="sd">        - extraAttr -- extra incline css attributes and/or handles</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    - block -- the html block</span>
+
+<span class="sd">  attributeDict template --</span>
+<span class="sd">  	attributeDict = dict(</span>
+<span class="sd">  												htmlClass=___,</span>
+<span class="sd">  												htmlId=___,</span>
+<span class="sd">  												jsEvents=___,</span>
+<span class="sd">  												extraAttr=___,</span>
+<span class="sd">  												blockContent=___</span>
+<span class="sd">  											)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&lt;div &quot;</span>   <span class="c"># THE HTML BLOCK</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">attributeDict</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">## SET THE ATTRIBUTES</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlClass&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;class=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlClass&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlId&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;id=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlId&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;jsEvents&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;jsEvents&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;extraAttr&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;extraAttr&quot;</span><span class="p">],)</span>
+  <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&gt;&lt;nav&gt;&lt;ul&gt;&quot;</span>
+
+  <span class="c">## SET THE CONTENT</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;blockContent&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;blockContent=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;blockContent&quot;</span><span class="p">],)</span>
+
+  <span class="c">## CLOSE THE BLOCK</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlId&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;/ul&gt;&lt;/nav&gt;&lt;/div&gt;&lt;!--- /#</span><span class="si">%s</span><span class="s"> ---&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlId&quot;</span><span class="p">],)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;/ul&gt;&lt;/nav&gt;&lt;/div&gt;&quot;</span>
+
+  <span class="k">return</span> <span class="n">block</span>
+
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_input_block"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_input_block">[docs]</a><span class="k">def</span> <span class="nf">get_input_block</span><span class="p">(</span><span class="n">attributeDict</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;The HTML5 input tag used mainly in forms</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - attributeDict -- dictionary of the following keywords:</span>
+<span class="sd">        - tag -- input, textarea</span>
+<span class="sd">        - htmlClass -- the html element class</span>
+<span class="sd">        - htmlId -- the html element id</span>
+<span class="sd">        - blockContent -- actual content to be placed in html code block</span>
+<span class="sd">        - jsEvents -- inline javascript event(s)</span>
+<span class="sd">        - extraAttr -- extra incline css attributes and/or handles</span>
+<span class="sd">        - name -- an extra hook (much like &quot;id&quot;)</span>
+<span class="sd">        - type -- HTML input types = color, date, datetime, datetime-local, email, month, number, range, search, tel, time, url, week</span>
+<span class="sd">        - placeholder -- text to be displayed by default in the input box</span>
+<span class="sd">        - required -- make input required (boolean)</span>
+<span class="sd">        - autofocus -- make this the auofocus element of the form (i.e. place cursor here)</span>
+<span class="sd">        - maxlength -- maximum character length for the form</span>
+<span class="sd">        - row -- number of rows for a ``textarea`` (i.e. height of the textbox)</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - block -- the input HTML code block</span>
+
+<span class="sd">  attributeDict template --</span>
+<span class="sd">  		dict(</span>
+<span class="sd">  					tag=___,</span>
+<span class="sd">  					htmlClass=___,</span>
+<span class="sd">  					htmlId=___,</span>
+<span class="sd">  					jsEvents=___,</span>
+<span class="sd">  					extraAttr=___,</span>
+<span class="sd">  					blockContent=___,</span>
+<span class="sd">  					name=___,</span>
+<span class="sd">  					type=___,</span>
+<span class="sd">  					placeholder=___,</span>
+<span class="sd">  					required=___,</span>
+<span class="sd">  					autofocus=___,</span>
+<span class="sd">  					maxlength=___,</span>
+<span class="sd">  					row=___,</span>
+<span class="sd">            value=___</span>
+<span class="sd">  				)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">attributeDict</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;label&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;&lt;label&gt;</span><span class="si">%s</span><span class="s">&lt;label&gt;</span><span class="se">\n</span><span class="s">&lt;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;label&quot;</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;tag&quot;</span><span class="p">],)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;&lt;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;tag&quot;</span><span class="p">],)</span>
+
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlClass&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;class=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlClass&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlId&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;id=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlId&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;jsEvents&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;jsEvents&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;extraAttr&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;extraAttr&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;name=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;type&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;type=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;placeholder&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;placeholder=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;placeholder&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;maxlength&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;maxlength=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;maxlength&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;required&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;required&quot;</span><span class="p">]:</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;required &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;autofocus&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;autofocus &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;value &quot;&quot;&quot;</span>
+  <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&gt;&quot;</span>
+
+  <span class="c">## SET THE CONTENT</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;blockContent&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;blockContent=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;blockContent&quot;</span><span class="p">],)</span>
+  <span class="c">## CLOSE THE BLOCK</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlId&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;/</span><span class="si">%s</span><span class="s">&gt;&lt;!--- /#</span><span class="si">%s</span><span class="s"> ---&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;tag&quot;</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlId&quot;</span><span class="p">],)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;/</span><span class="si">%s</span><span class="s">&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;tag&quot;</span><span class="p">],)</span>
+
+  <span class="k">return</span> <span class="n">block</span>
+
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_option_list"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_option_list">[docs]</a><span class="k">def</span> <span class="nf">get_option_list</span><span class="p">(</span><span class="n">optionList</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Creare a dropdown option list</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - optionList -- list of items to appear in option list</span>
+<span class="sd">    - attributeDict -- dictionary of the following keywords:</span>
+<span class="sd">        - htmlClass -- the html element class</span>
+<span class="sd">        - htmlId -- the html element id</span>
+<span class="sd">        - blockContent -- actual content to be placed in html code block</span>
+<span class="sd">        - jsEvents -- inline javascript event(s)</span>
+<span class="sd">        - extraAttr -- extra incline css attributes and/or handles</span>
+<span class="sd">        - name -- an extra hook (much like &quot;id&quot;)</span>
+<span class="sd">        - type -- HTML input types = color, date, datetime, datetime-local, email, month, number, range, search, tel, time, url, week</span>
+<span class="sd">        - placeholder -- text to be displayed by default in the input box</span>
+<span class="sd">        - required -- make input required (boolean)</span>
+<span class="sd">        - autofocus -- make this the auofocus element of the form (i.e. place cursor here)</span>
+<span class="sd">        - maxlength -- maximum character length for the form</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - block -- the HTML code block</span>
+
+<span class="sd">  attributeDict template -- dict(htmlClass=___,htmlId=___,jsEvents=___,extraAttr=___,blockContent=___,name=___,type=___,placeholder=___,required=___,autofocus=___,maxlength=___)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">optionList</span><span class="p">:</span>
+    <span class="n">htmlId</span> <span class="o">=</span> <span class="n">option</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="n">get_html_block</span><span class="p">(</span>
+															<span class="nb">dict</span><span class="p">(</span>
+																<span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+																<span class="n">htmlId</span><span class="o">=</span><span class="n">htmlId</span><span class="p">,</span>
+																<span class="n">value</span><span class="o">=</span><span class="n">option</span><span class="p">,</span>
+																<span class="n">blockContent</span><span class="o">=</span><span class="n">option</span>
+															<span class="p">)</span>
+														<span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">block</span>
+
+
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_fieldset"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_fieldset">[docs]</a><span class="k">def</span> <span class="nf">get_fieldset</span><span class="p">(</span><span class="n">attributeDict</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Create a ``fieldset`` HTML code block with legend</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - attributeDict -- dictionary of the following keywords:</span>
+<span class="sd">        - htmlClass -- the html element class</span>
+<span class="sd">        - htmlId -- the html element id</span>
+<span class="sd">        - blockContent -- actual content to be placed in html code block</span>
+<span class="sd">        - jsEvents -- inline javascript event(s)</span>
+<span class="sd">        - extraAttr -- extra incline css attributes and/or handles</span>
+<span class="sd">        - legend -- fieldset legend</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - block</span>
+
+<span class="sd">  attributeDict template -- dict(htmlClass=___,htmlId=___,jsEvents=___,extraAttr=___,blockContent=___,legend=___)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&lt;fieldset &quot;</span>  <span class="c"># THE HTML BLOCK</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">attributeDict</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">## SET THE ATTRIBUTES</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlClass&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;class=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlClass&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlId&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;id=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlId&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;jsEvents&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;jsEvents&quot;</span><span class="p">],)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;extraAttr&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s"> &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;extraAttr&quot;</span><span class="p">],)</span>
+  <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&gt;&quot;</span>
+
+  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;legend&quot;</span><span class="p">]:</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;legend&gt;</span><span class="si">%s</span><span class="s">&lt;/legend&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;legend&quot;</span><span class="p">],)</span>
+
+  <span class="c">## SET THE CONTENT</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;blockContent&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;blockContent=&quot;</span><span class="si">%s</span><span class="s">&quot; &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;blockContent&quot;</span><span class="p">],)</span>
+
+  <span class="c">## CLOSE THE BLOCK</span>
+  <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;htmlId&quot;</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;/fieldset&gt;&lt;!--- /#</span><span class="si">%s</span><span class="s"> ---&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;htmlId&quot;</span><span class="p">],)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;&lt;/fieldset&gt;&quot;</span>
+
+  <span class="k">return</span> <span class="n">block</span>
+
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_javascript_block"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_javascript_block">[docs]</a><span class="k">def</span> <span class="nf">get_javascript_block</span><span class="p">(</span><span class="n">jsPath</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Create a javascript ``&lt;script&gt;`` html code block</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - jsPath -- path the js file</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - block -- HTML code block</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;&lt;script src=&quot;</span><span class="si">%s</span><span class="s">&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">jsPath</span><span class="p">,)</span>
+  <span class="k">return</span> <span class="n">block</span>
+
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_webpage"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_webpage">[docs]</a><span class="k">def</span> <span class="nf">get_webpage</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Create a full webpage from build up smaller HTML code blocks</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - content -- the content of the webpage</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - page</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">page</span> <span class="o">=</span> <span class="s">&#39;Content-Type: text/html</span><span class="se">\n\n</span><span class="s">&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s">&lt;html lang=&quot;en&quot;&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+  <span class="n">page</span> <span class="o">+=</span> <span class="n">content</span>
+  <span class="n">page</span> <span class="o">+=</span> <span class="s">&#39;&lt;/html&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+
+  <span class="k">return</span> <span class="n">page</span>
+
+<span class="c">## LAST MODIFIED : December 17, 2012</span>
+<span class="c">## CREATED : December 17, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_simple_div"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_simple_div">[docs]</a><span class="k">def</span> <span class="nf">get_simple_div</span><span class="p">(</span><span class="n">htmlId</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">blockContent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Generate a basic &lt;div&gt; with block-content</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - htmlId -- the html id attribute</span>
+<span class="sd">    - blockContent -- content to be surrounded by html div tag</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - div</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">div</span> <span class="o">=</span> <span class="n">get_html_block</span><span class="p">(</span>
+                        <span class="nb">dict</span> <span class="p">(</span>
+                              <span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+                              <span class="n">htmlId</span><span class="o">=</span><span class="n">htmlId</span><span class="p">,</span>
+                              <span class="n">blockContent</span><span class="o">=</span><span class="n">blockContent</span>
+                        <span class="p">)</span>
+                      <span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">div</span>
+
+<span class="c">## LAST MODIFIED : December 17, 2012</span>
+<span class="c">## CREATED : December 17, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="get_dropdown_menu_for"><a class="viewcode-back" href="../dryxHTMLFramework.html#dryxHTMLFramework.get_dropdown_menu_for">[docs]</a><span class="k">def</span> <span class="nf">get_dropdown_menu_for</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">menuName</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">linkList</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Generate a dropdown menu with the provided list of links.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - menuName -- the name of the menu</span>
+<span class="sd">    - title -- the title of the menu</span>
+<span class="sd">    - linkList -- a list of links that the menu should display</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - menu -- the dropdown menu</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxHTMLFramework</span> <span class="kn">as</span> <span class="nn">hf</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">gh</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">hf</span><span class="o">.</span><span class="n">get_html_block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">## BUTTONS</span>
+  <span class="n">buttonDict</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">linkList</span><span class="p">:</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">item</span>
+    <span class="n">buttonDict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                            <span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+                            <span class="n">htmlClass</span><span class="o">=</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;MenuButton&#39;</span><span class="p">,</span>
+                            <span class="n">blockContent</span><span class="o">=</span><span class="n">item</span>
+                          <span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">linkList</span><span class="p">:</span>
+    <span class="n">blockDict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">blockDict</span><span class="p">[</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;Hover&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_html_block</span><span class="p">(</span>
+                                                  <span class="nb">dict</span> <span class="p">(</span>
+                                                        <span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+                                                        <span class="n">htmlClass</span><span class="o">=</span><span class="s">&#39;dropDownMenu&#39;</span><span class="p">,</span>
+                                                        <span class="n">htmlId</span><span class="o">=</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;Hover&#39;</span><span class="p">,</span>
+                                                        <span class="n">blockContent</span> <span class="o">=</span> <span class="n">title</span>
+                                                  <span class="p">)</span>
+                                                <span class="p">)</span>
+    <span class="n">blockDict</span><span class="p">[</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;SubItems&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_html_block</span><span class="p">(</span>
+                                                      <span class="nb">dict</span> <span class="p">(</span>
+                                                            <span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+                                                            <span class="n">htmlClass</span><span class="o">=</span><span class="s">&#39;dropDownMenu&#39;</span><span class="p">,</span>
+                                                            <span class="n">htmlId</span><span class="o">=</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;SubItems&#39;</span>
+                                                      <span class="p">)</span>
+                                                    <span class="p">)</span>
+    <span class="n">blockDict</span><span class="p">[</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;Menu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_html_block</span><span class="p">(</span>
+                                                  <span class="nb">dict</span> <span class="p">(</span>
+                                                        <span class="n">tag</span><span class="o">=</span><span class="s">&quot;div&quot;</span><span class="p">,</span>
+                                                        <span class="n">htmlClass</span><span class="o">=</span><span class="s">&#39;dropDownMenu&#39;</span><span class="p">,</span>
+                                                        <span class="n">blockContent</span><span class="o">=</span><span class="n">blockDict</span><span class="p">[</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;Hover&#39;</span><span class="p">]</span><span class="o">+</span>\
+                                                                      <span class="n">gh</span><span class="p">(</span><span class="n">buttonDict</span><span class="p">[</span><span class="n">key</span><span class="p">]),</span>
+                                                        <span class="n">htmlId</span><span class="o">=</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;Menu&#39;</span>
+                                                  <span class="p">)</span>
+                                                <span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">blockDict</span><span class="p">[</span><span class="n">menuName</span><span class="o">+</span><span class="s">&#39;Menu&#39;</span><span class="p">]</span>
+
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PRIVATE (HELPER) FUNCTIONS                                                                #</span>
+<span class="c">#############################################################################################</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

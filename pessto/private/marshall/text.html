@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>pessto marshall log</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/pessto/css/dryx_python_logs.css" type="text/css" /> <!-- Here is dave's style sheet for his custom python logs -->
+<link href='http://fonts.googleapis.com/css?family=Signika+Negative|Inder|Acme|Loved+by+the+King' rel='stylesheet' type='text/css'>   <!-- Google Web Font Integration -->
+</head>
+
+<body>
+<div id="replace" title="log.html"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> <!-- jquery -->
+<script>
+
+$("#replace").each(function(){
+    var inc=$(this);
+    $.get(inc.attr("title"), function(data){
+        inc.replaceWith(data);
+    });
+});
+
+</script>
+</body>
+
+</html>
+

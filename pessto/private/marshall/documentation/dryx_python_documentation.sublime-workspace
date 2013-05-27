@@ -1,0 +1,1999 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"pes",
+				"pessto_icon"
+			],
+			[
+				"get",
+				"get_object"
+			],
+			[
+				"pesstoMarshall",
+				"pesstoMarshallHTMLFramework"
+			],
+			[
+				"get_o",
+				"get_object"
+			],
+			[
+				"link",
+				"linkList"
+			],
+			[
+				"su",
+				"surveyObjectUrl"
+			],
+			[
+				"ex",
+				"extraAttr"
+			],
+			[
+				"block",
+				"blockContent"
+			],
+			[
+				"html",
+				"htmlId"
+			],
+			[
+				"get_",
+				"get_html_block	dryx_python_z_get_html_block"
+			],
+			[
+				"page",
+				"pageMax"
+			],
+			[
+				"div",
+				"divVerticalKids"
+			],
+			[
+				"set",
+				"set_html_block"
+			],
+			[
+				"cla",
+				"classification"
+			],
+			[
+				"class",
+				"class	dryx_python_class"
+			],
+			[
+				"pess",
+				"pesstoObjectsId"
+			],
+			[
+				"sql",
+				"sqlQuery"
+			],
+			[
+				"atel",
+				"atelNumbers"
+			],
+			[
+				"try",
+				"try	dryx_python_try_error"
+			],
+			[
+				"loc",
+				"localUrls"
+			],
+			[
+				"red",
+				"redButton"
+			],
+			[
+				"bo",
+				"box-pack	dryx_css_box-pack"
+			],
+			[
+				"transientBuck",
+				"transientBucketId"
+			],
+			[
+				"box",
+				"box-align	dryx_css_box-align"
+			],
+			[
+				"las",
+				"lastNonDetectionLabel"
+			],
+			[
+				"followu",
+				"followupReview"
+			],
+			[
+				"margin",
+				"margin-right"
+			],
+			[
+				"bu",
+				"buttonDict"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"ab",
+				"absolute"
+			],
+			[
+				"ho",
+				"horizontal"
+			],
+			[
+				"display",
+				"display: box	dryx_css_display_box"
+			],
+			[
+				"displ",
+				"display: box	dryx_css_display_box"
+			],
+			[
+				"v",
+				"vertical-align"
+			],
+			[
+				"can",
+				"cancelButton"
+			],
+			[
+				"center",
+				"center"
+			],
+			[
+				"mar",
+				"margin-bottom"
+			],
+			[
+				"r",
+				"right"
+			],
+			[
+				"ge",
+				"get_object"
+			],
+			[
+				"blo",
+				"blockContent"
+			],
+			[
+				"g",
+				"get_object"
+			],
+			[
+				"expand",
+				"expandButton"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"background",
+				"background-color"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "index.rst",
+			"settings":
+			{
+				"buffer_size": 487,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pessto_modules.rst",
+			"settings":
+			{
+				"buffer_size": 691,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ingestChase.rst",
+			"settings":
+			{
+				"buffer_size": 264,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ingestLSQ.rst",
+			"settings":
+			{
+				"buffer_size": 256,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ingestPanstarrs.rst",
+			"settings":
+			{
+				"buffer_size": 280,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pessto_raw_ntt_data_processor.rst",
+			"settings":
+			{
+				"buffer_size": 364,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pesstoMarshallButtons.rst",
+			"settings":
+			{
+				"buffer_size": 318,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pesstoMarshallCommonUtils.rst",
+			"settings":
+			{
+				"buffer_size": 317,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pesstoMarshallHTMLFramework.rst",
+			"settings":
+			{
+				"buffer_size": 369,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pesstoMarshallMySQL.rst",
+			"settings":
+			{
+				"buffer_size": 283,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pesstoMarshallPythonPath.rst",
+			"settings":
+			{
+				"buffer_size": 318,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pesstoMarshallRssReader.rst",
+			"settings":
+			{
+				"buffer_size": 310,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pesstoObjects_sweeper_script.rst",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "retrospectiveHTMDataCalculation.rst",
+			"settings":
+			{
+				"buffer_size": 359,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "transientSurveysHtmlParsers.rst",
+			"settings":
+			{
+				"buffer_size": 346,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "utils.rst",
+			"settings":
+			{
+				"buffer_size": 235,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryx_modules.rst",
+			"settings":
+			{
+				"buffer_size": 375,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxAstroTools.rst",
+			"settings":
+			{
+				"buffer_size": 265,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "atelParser.rst",
+			"settings":
+			{
+				"buffer_size": 253,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "",
+			"file": "btnx_add_object_comment.rst",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "btnx_add_new_object.rst",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "btnx_change_awf_flag.rst",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "btnx_change_mwf_flag.rst",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "btnx_classify_object.rst",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "bucketFiller.rst",
+			"settings":
+			{
+				"buffer_size": 328,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "bucketFiller2.rst",
+			"settings":
+			{
+				"buffer_size": 337,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "clsx_dryx_html_blocks.rst",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "clsx_pessto_marshall_html_blocks.rst",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxCommonUtils.rst",
+			"settings":
+			{
+				"buffer_size": 203,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxHTMLFramework.rst",
+			"settings":
+			{
+				"buffer_size": 286,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxLogging.rst",
+			"settings":
+			{
+				"buffer_size": 252,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxMySQL.rst",
+			"settings":
+			{
+				"buffer_size": 245,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxRandomDataGenerator.rst",
+			"settings":
+			{
+				"buffer_size": 321,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxRegexs.rst",
+			"settings":
+			{
+				"buffer_size": 279,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxWebCrawlers.rst",
+			"settings":
+			{
+				"buffer_size": 287,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dryxXMLTools.rst",
+			"settings":
+			{
+				"buffer_size": 239,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "generate_csv_of_pessto_classifications.rst",
+			"settings":
+			{
+				"buffer_size": 370,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "htmCircle.rst",
+			"settings":
+			{
+				"buffer_size": 256,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"command_palette":
+	{
+		"height": 71.0,
+		"selected_items":
+		[
+			[
+				"brow",
+				"Preferences: Browse Packages"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: dict",
+				"Snippet: dryx_python_z_dict_format"
+			],
+			[
+				"brw",
+				"Preferences: Browse Packages"
+			],
+			[
+				"bro",
+				"Preferences: Browse Packages"
+			],
+			[
+				"pyth",
+				"Set Syntax: Python"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Sn",
+				"Set Syntax: CSS"
+			],
+			[
+				"",
+				"Build: Build"
+			]
+		],
+		"width": 489.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": true,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/tmp/crontab.Z5DTg7vnLM",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/dryx_python_documentation.sublime-workspace",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/dryx_python_documentation.sublime-project",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/mtdx_pessto_marshall_html_generator.rstc",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/getting_started.rst",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/mtdx_mysql_dryx.rst",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/Makefile",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/make.bat",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/dryxMySQL.rst",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/conf.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/index.cgi",
+		"/Users/Dave/Dropbox/archive/cheatsheets/index.html",
+		"/Users/Dave/Desktop/__tmp.py",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_pesstoMarshallHTMLFramework.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_dryxHTMLFramework.sublime-snippet",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/pesstoMarshallMySQL.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/mtdx_pessto_marshall_html_generator.py",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_get_simple_div.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_dict_format.sublime-snippet",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/clsx_pessto_marshall_html_blocks.py",
+		"/Users/Dave/Dropbox/WORKSPACES/HOME/ADDDATE_omnifocus_completed_tasks.md",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_get_input_block.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_get_option_list.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_get_nav_block.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_get_html_block.sublime-snippet",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/mtdx_pessto_marshall_common_methods.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/mtdx_dryx_html_blocks.py",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_percentage_variable.sublime-snippet",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/mtdx_pessto_marshall_query_generator.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/clsx_pessto_marshall_mysql_queries.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/database/ingestors/html_sn_surveys_parser/python/transientSurveysHtmlParsers.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/pm_common_code/python/pesstoMarshallCommonUtils.py",
+		"/Users/Dave/Desktop/tmp.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/dependencies/dryx_code/python/dryxMySQL.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/database/maintenance/pesstoMarshallSweeper.py",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_mysql_write_command.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_log_argu.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_z_dbConn_argu.sublime-snippet",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/database/ingestors/atel_html_parser/xxxatel_downloader.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/documentation/index.rst",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_python_function_definition.sublime-snippet",
+		"/Users/Dave/Downloads/readability-to-instapaper-master/Gemfile",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/database/ingestors/bucketfiller/python/bucketFiller2.py",
+		"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/settings/dryx_macbook/pessto_marshall/settings/logging.yaml",
+		"/Users/Dave/Dropbox/projects/WORK/PESSTO/MARSHALL/svn_stable_build/database/ingestors/xml_reader/python/pesstoMarshallRssReader.py",
+		"/Users/Dave/Dropbox/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/assets/js/marshall_workflow_pages.js",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/css/main.css",
+		"/Users/Dave/Dropbox/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/css/main.css",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/css/dryx_fonts.css",
+		"/Users/Dave/Dropbox/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/mtdx_pessto_marshall_query_generator.py",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/css/global_main.css",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/assets/js/marshall_workflow_pages.js",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/review.cgi",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/obs_queue.cgi",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_icon.sublime-snippet",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/_mysql_exceptions.OperationalError",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/example_passing_url_parameters.cgi",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/bucketFiller.py",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/clsx_dryx_html_blocks.py",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/alert_queue.cgi",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_css_box-orient.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_css_box-flex.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_css_display_box.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_css_box-align.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_css_box-pack.sublime-snippet",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/Package Control.sublime-settings",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/Dave/Dropbox/Application Support/Sublime Text 2/Packages/User/dryx_icon.sublime_snippet",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/test.cgi",
+		"/Users/Dave/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/Dave/Desktop/test_path.py",
+		"/Users/Dave/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/Dave/Library/Application Support/Sublime Text 2/Packages/User/JSON.sublime-settings",
+		"/Users/Dave/workspace/projects/WORK/PESSTO/MARSHALL/svn_trunk/webpages/document_root/pessto/private/marshall/scripts/dryx_pessto_marshall_scripts.tmproj"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"<open files>",
+			"selection"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"png",
+			"logo",
+			"executeMySQLReadCommand",
+			"executeMySQLWriteCommand",
+			"dbConn(",
+			"dictionary2MySQLConverter",
+			"Arguuments",
+			"print",
+			"get_webpage",
+			"get_top_navbar",
+			"buttonDict",
+			"checkboxDict",
+			"htmlf",
+			"form",
+			"HTMLDivForm",
+			"<!--- /#%s --->",
+			"</div>",
+			"</ul><",
+			"\"</ul></nav></div><!--- /#%s --->",
+			"get_nav_block",
+			"pmLeftNavBar",
+			"pmTopNavBar",
+			"js",
+			"html_include_js_class",
+			"get_we",
+			"floatingForm",
+			"floatingF",
+			".tt",
+			"floatingForm",
+			"formItems",
+			"buttonDict",
+			"hf.get_input_block",
+			".placeholder",
+			"selectDict",
+			"textDict",
+			"selectD",
+			"get_option_list",
+			"floatingForm",
+			"topNavBar",
+			"over",
+			"html_overlay_window_class",
+			"__",
+			"get_html_block",
+			"FloatingForm",
+			"table",
+			"objectRow",
+			"form",
+			"get_comment_dropdown_for",
+			"get_move_to_menu_for",
+			"moveToButtons",
+			"columnWrapper",
+			".required",
+			"HTMLDivForm",
+			".htmlClass",
+			"clearButtonDict",
+			"greyB",
+			"dict (",
+			"greyButtonDict",
+			".extraAttr",
+			".blockContent",
+			"get_object_peak_mag",
+			"get_",
+			"get_bright",
+			"date_ordered_classification_history",
+			"cu.pretty_date(",
+			"ddDict",
+			"tb_name",
+			"ddDict['tb_name']\nddDict['tb_name']",
+			"ddDict['tb_name']",
+			"objectImages",
+			"divBlock['objectImages']",
+			"get_html_block",
+			"drop",
+			"get_dropdown_menu_for",
+			"generate_",
+			"generate",
+			"functionbar",
+			"  gh = hf.get_html_block()",
+			"  gh = gh()",
+			"get_wor",
+			"gh = get_html_block()",
+			"hf.get_html_block",
+			"get_html_block",
+			"pageIndex",
+			"hf.get_html_block",
+			"htmld",
+			"floating",
+			"form",
+			"HTMLD",
+			"get_floating_form",
+			"HTMLD",
+			"HTMLDivForm",
+			"get_input_block",
+			"labelList = []\n	textboxList = []\n	selectList = []\n	checkboxList = []\n	buttonList = []\n	numberOfRows = 1",
+			"float",
+			"form",
+			"HTMLDivForm",
+			"block += \"</%s><!--- /#%s --->\" % (d[\"tag\"],d[\"htmlId\"],)",
+			"htmlD",
+			"hf.get_html_block",
+			"pesstoMarhshallHTMLFramework",
+			"left",
+			"mpmhg",
+			"cb\\[",
+			"cb[",
+			"\"header",
+			"header",
+			"cb\\[",
+			"cb\\[(.*)\\].header",
+			"cb\\[(.*)\\].blockContent",
+			"divBlock[",
+			"'])\n",
+			"divBlock[",
+			"divBlock(.*)\\.blockContent",
+			"divBlock[",
+			"divBlock",
+			"get_object_discovery_data",
+			"ddDict",
+			"ddDict.*get_ob",
+			".blockContent",
+			"ddDict",
+			"objectRow",
+			"divBlock",
+			"table",
+			"htmlClass=divVerticalKids/divHorizontalKids,",
+			"generate_dropdown_menu_for",
+			" htmlClass=\"columnWrapper\",\n      											               ",
+			"    tag=\"form\",\n		  						                      htmlClass=\"searchForm\",\n		  						                      blockContent=searchInput+'<span class=\"icon-search\"></span>'"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"execute_mysql_read_query",
+			"execute_mysql_write_query",
+			"set_db_connection(",
+			"convert_dictionary_to_mysql_table",
+			"Arguments",
+			"gi",
+			"placeholder",
+			"[\".placeholder\"]",
+			"[\"required\"]",
+			"[\"htmlClass\"]",
+			"dict(",
+			"[\"extraAttr\"]",
+			"[\"blockContent\"]",
+			"gh",
+			"  gh = lambda x: hf.get_html_block(x)",
+			"  gh = hf.get_html_block()",
+			"gh",
+			"cb\\[\\1\\]\\[\"header\"\\]",
+			"cb\\[\\1\\]\\[\"blockContent\"\\]",
+			"divBlock\\1[\"blockContent\"]",
+			"[\"blockContent\"]",
+			"\\+\\\\\\n",
+			"[\"blockContent\"]",
+			"\\+\\\\\\n",
+			"+\\\\\\n",
+			"",
+			"htmlId",
+			",\\n",
+			"",
+			"HTMLDivForm",
+			"get_html_block\\(",
+			"get_html_block[(]",
+			",\\n",
+			"\\n\\)\\n\\)",
+			",\\n",
+			"\\ndict\\(\\n",
+			"\\ndict(\\n",
+			"cb",
+			"=",
+			"",
+			"\"",
+			"\")",
+			" d.has_key(\"",
+			"d = attributeDict",
+			"=",
+			"=___",
+			")",
+			"dict(",
+			"",
+			"attributeDict",
+			"hf",
+			"--",
+			"block",
+			"get_",
+			"HTMLDivForm",
+			",",
+			"get_object_discovery_data",
+			"get_pessto_objects_with_flagset",
+			"",
+			"pm",
+			"",
+			"pesstoMarshallMySQL",
+			"count_objects_with_flagset",
+			"get_object_peak_mag",
+			"get_object_classification_data",
+			"get_object_last_non_detection",
+			"get_object_discovery_data",
+			"get_object_akas",
+			"get_object_mag_history",
+			"get_object_comments",
+			"find_object_comments",
+			"find_object_mag_history",
+			"find_object_akas",
+			"find_object_discovery_data",
+			"find_object_last_non_detection",
+			"sqlQuery",
+			"pm",
+			"pesstoMarshallMySQL",
+			"pm",
+			"  ",
+			",",
+			")",
+			"dbConn.",
+			"dbConn",
+			"pesstoMarshallSweeper",
+			"debug",
+			"return -1",
+			"transientSurveysHtmlParsers",
+			"dbConn",
+			"self",
+			"self.log",
+			"None",
+			"None'",
+			"None",
+			"",
+			"<span ",
+			"",
+			"clear"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 14,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "index.rst",
+					"settings":
+					{
+						"buffer_size": 487,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								394,
+								394
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "pessto_modules.rst",
+					"settings":
+					{
+						"buffer_size": 691,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								243,
+								243
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "ingestChase.rst",
+					"settings":
+					{
+						"buffer_size": 264,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "ingestLSQ.rst",
+					"settings":
+					{
+						"buffer_size": 256,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 3,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "ingestPanstarrs.rst",
+					"settings":
+					{
+						"buffer_size": 280,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "pessto_raw_ntt_data_processor.rst",
+					"settings":
+					{
+						"buffer_size": 364,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "pesstoMarshallButtons.rst",
+					"settings":
+					{
+						"buffer_size": 318,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "pesstoMarshallCommonUtils.rst",
+					"settings":
+					{
+						"buffer_size": 317,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "pesstoMarshallHTMLFramework.rst",
+					"settings":
+					{
+						"buffer_size": 369,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "pesstoMarshallMySQL.rst",
+					"settings":
+					{
+						"buffer_size": 283,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "pesstoMarshallPythonPath.rst",
+					"settings":
+					{
+						"buffer_size": 318,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "pesstoMarshallRssReader.rst",
+					"settings":
+					{
+						"buffer_size": 310,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "pesstoObjects_sweeper_script.rst",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "retrospectiveHTMDataCalculation.rst",
+					"settings":
+					{
+						"buffer_size": 359,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "transientSurveysHtmlParsers.rst",
+					"settings":
+					{
+						"buffer_size": 346,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "utils.rst",
+					"settings":
+					{
+						"buffer_size": 235,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "dryx_modules.rst",
+					"settings":
+					{
+						"buffer_size": 375,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								375
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "dryxAstroTools.rst",
+					"settings":
+					{
+						"buffer_size": 265,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "atelParser.rst",
+					"settings":
+					{
+						"buffer_size": 253,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "btnx_add_object_comment.rst",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "btnx_add_new_object.rst",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "btnx_change_awf_flag.rst",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 22,
+					"file": "btnx_change_mwf_flag.rst",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"file": "btnx_classify_object.rst",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"file": "bucketFiller.rst",
+					"settings":
+					{
+						"buffer_size": 328,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"file": "bucketFiller2.rst",
+					"settings":
+					{
+						"buffer_size": 337,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 26,
+					"file": "clsx_dryx_html_blocks.rst",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 27,
+					"file": "clsx_pessto_marshall_html_blocks.rst",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 28,
+					"file": "dryxCommonUtils.rst",
+					"settings":
+					{
+						"buffer_size": 203,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 29,
+					"file": "dryxHTMLFramework.rst",
+					"settings":
+					{
+						"buffer_size": 286,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 30,
+					"file": "dryxLogging.rst",
+					"settings":
+					{
+						"buffer_size": 252,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 31,
+					"file": "dryxMySQL.rst",
+					"settings":
+					{
+						"buffer_size": 245,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 32,
+					"file": "dryxRandomDataGenerator.rst",
+					"settings":
+					{
+						"buffer_size": 321,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 33,
+					"file": "dryxRegexs.rst",
+					"settings":
+					{
+						"buffer_size": 279,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 34,
+					"file": "dryxWebCrawlers.rst",
+					"settings":
+					{
+						"buffer_size": 287,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 35,
+					"file": "dryxXMLTools.rst",
+					"settings":
+					{
+						"buffer_size": 239,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 36,
+					"file": "generate_csv_of_pessto_classifications.rst",
+					"settings":
+					{
+						"buffer_size": 370,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 37,
+					"file": "htmCircle.rst",
+					"settings":
+					{
+						"buffer_size": 256,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/RestructuredText/reStructuredText.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 28.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/Users/Dave/Dropbox/bitbucket_projects/pessto_marshall/webpages/document_root/pessto/private/marshall/scripts/mtdx_pessto_marshall_html_generator.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/Users/Dave/Dropbox/projects/WORK/PESSTO/MARSHALL/svn_stable_build/webpages/document_root/pessto/private/marshall/scripts/marshall.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 242.0,
+	"status_bar_visible": true
+}

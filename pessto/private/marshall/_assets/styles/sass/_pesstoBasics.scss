@@ -1,0 +1,37 @@
+// IMPORTS
+
+// INCLUDES
+
+// DEFAULT VARIABLES
+
+
+// MAIN MIXIN
+@mixin pesstoBasics() {
+    a {
+        border-bottom:0px;
+        text-decoration: none;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    [text*=bold]{
+     font-style: bold!important;
+    }
+
+    [text*=red]{
+     color: $solRed!important;
+    }
+
+    [text*=larger]{
+     font-size: 1.2em!important;
+    }
+
+    span.veryLightGrey{
+        color: darken(saturate($solLightGrey, 10%), 5%) !important;
+    }
+}
+
+// SETUP-MIXINS
+
+// EXTRA MIXINS

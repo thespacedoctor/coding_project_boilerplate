@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ingestChase &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for ingestChase</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">csv</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">MySQLdb</span><span class="o">,</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">StringIO</span>
+
+<span class="c"># URL settings added as global variables at the moment. These don&#39;t change very often.</span>
+
+<span class="n">CHASE_URL_BASE</span><span class="o">=</span><span class="s">&#39;http://www.pessto.org/kws/test/marshall&#39;</span>
+
+<span class="n">SUMMARY_CSV</span><span class="o">=</span><span class="s">&#39;/pessto/chase_candidates.csv&#39;</span>
+<span class="n">RECURRENCES_CSV</span><span class="o">=</span><span class="s">&#39;/pessto/chase_candidates_obs.csv&#39;</span>
+
+<span class="n">authuser</span> <span class="o">=</span> <span class="s">&#39;ps1sc&#39;</span>
+<span class="n">authpass</span> <span class="o">=</span> <span class="s">&#39;skysurveys&#39;</span>
+
+
+<div class="viewcode-block" id="insertChaseData"><a class="viewcode-back" href="../ingestChase.html#ingestChase.insertChaseData">[docs]</a><span class="k">def</span> <span class="nf">insertChaseData</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span>
+                    <span class="n">candidateID</span><span class="p">,</span>
+                    <span class="n">ra</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">decl</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">mag</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">magerr</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">discDate</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">discMag</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">mjd</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">suggestedType</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">catalogType</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">hostZ</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">lastNonDetection</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">tripletImageURL</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">objectURL</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">ra_deg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">dec_deg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">htm16ID</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">htm20ID</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">cx</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">cy</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">cz</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                    <span class="n">summaryRow</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">cursor</span> <span class="o">=</span> <span class="n">dbConn</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">MySQLdb</span><span class="o">.</span><span class="n">cursors</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+
+      <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">             insert into fs_chase (candidateID,</span>
+<span class="s">                                 ra,</span>
+<span class="s">                                 decl,</span>
+<span class="s">                                 mag,</span>
+<span class="s">                                 magerr,</span>
+<span class="s">                                 discDate,</span>
+<span class="s">                                 discMag,</span>
+<span class="s">                                 observationMJD,</span>
+<span class="s">                                 suggestedType,</span>
+<span class="s">                                 catalogType,</span>
+<span class="s">                                 hostZ,</span>
+<span class="s">                                 lastNonDetection,</span>
+<span class="s">                                 tripletImageURL,</span>
+<span class="s">                                 objectURL,</span>
+<span class="s">                                 ra_deg,</span>
+<span class="s">                                 dec_deg,</span>
+<span class="s">                                 htm16ID,</span>
+<span class="s">                                 htm20ID,</span>
+<span class="s">                                 cx,</span>
+<span class="s">                                 cy,</span>
+<span class="s">                                 cz,</span>
+<span class="s">                                 summaryRow)</span>
+<span class="s">             values (</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)</span>
+<span class="s">          &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">candidateID</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">decl</span><span class="p">,</span> <span class="n">mag</span><span class="p">,</span> <span class="n">magerr</span><span class="p">,</span> <span class="n">discDate</span><span class="p">,</span> <span class="n">discMag</span><span class="p">,</span> <span class="n">mjd</span><span class="p">,</span> <span class="n">suggestedType</span><span class="p">,</span> <span class="n">catalogType</span><span class="p">,</span> <span class="n">hostZ</span><span class="p">,</span> <span class="n">lastNonDetection</span><span class="p">,</span> <span class="n">tripletImageURL</span><span class="p">,</span> <span class="n">objectURL</span><span class="p">,</span> <span class="n">ra_deg</span><span class="p">,</span> <span class="n">dec_deg</span><span class="p">,</span> <span class="n">htm16ID</span><span class="p">,</span> <span class="n">htm20ID</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">,</span> <span class="n">summaryRow</span><span class="p">))</span>
+
+      <span class="n">cursor</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+
+   <span class="k">except</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1062</span><span class="p">:</span> <span class="c"># Duplicate Key error</span>
+         <span class="k">print</span> <span class="n">e</span>
+         <span class="k">pass</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="k">print</span> <span class="n">e</span>
+         <span class="k">pass</span>
+
+   <span class="n">cursor</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+   <span class="k">return</span> <span class="n">dbConn</span><span class="o">.</span><span class="n">insert_id</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="nullValue"><a class="viewcode-back" href="../ingestChase.html#ingestChase.nullValue">[docs]</a><span class="k">def</span> <span class="nf">nullValue</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+   <span class="n">returnValue</span> <span class="o">=</span> <span class="bp">None</span>
+
+   <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+      <span class="n">returnValue</span> <span class="o">=</span> <span class="n">value</span>
+
+   <span class="k">return</span> <span class="n">value</span>
+
+</div>
+<div class="viewcode-block" id="floatValue"><a class="viewcode-back" href="../ingestChase.html#ingestChase.floatValue">[docs]</a><span class="k">def</span> <span class="nf">floatValue</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+   <span class="n">returnValue</span> <span class="o">=</span> <span class="bp">None</span>
+
+   <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+         <span class="n">returnValue</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+         <span class="k">pass</span>
+
+   <span class="k">return</span> <span class="n">returnValue</span>
+
+</div>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../ingestChase.html#ingestChase.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">argv</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+   <span class="c"># if argv is None:</span>
+   <span class="c">#    argv = sys.argv</span>
+
+   <span class="c"># if len(argv) != 5:</span>
+   <span class="c">#    sys.exit(&quot;Usage: ingestChase.py &lt;username&gt; &lt;password&gt; &lt;database&gt; &lt;hostname&gt;&quot;)</span>
+
+   <span class="c"># username = argv[1]</span>
+   <span class="c"># password = argv[2]</span>
+   <span class="c"># database = argv[3]</span>
+   <span class="c"># hostname = argv[4]</span>
+
+   <span class="c"># dbConn = dbConnect(hostname, username, password, database)</span>
+
+   <span class="c">################ &gt; IMPORTS ################</span>
+   <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+   <span class="c">################ &gt; SETUP ##################</span>
+   <span class="c">## SETUP DB dbConnECTION AND A LOGGER</span>
+   <span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
+   <span class="c">## START LOGGING ##</span>
+   <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- STARTING TO RUN ingestChase -----&#39;</span><span class="p">)</span>
+
+
+   <span class="n">summaryURL</span> <span class="o">=</span> <span class="n">CHASE_URL_BASE</span><span class="o">+</span><span class="n">SUMMARY_CSV</span>
+   <span class="n">data</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">getRemoteWebPage</span><span class="p">(</span><span class="n">summaryURL</span><span class="p">,</span> <span class="n">authuser</span><span class="p">,</span> <span class="n">authpass</span><span class="p">)</span>
+   <span class="c"># Create a StringIO object - an in-memory file, which we can pass to the CSV reader</span>
+   <span class="n">summaryFileObject</span> <span class="o">=</span> <span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+   <span class="n">summaryRows</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">summaryFileObject</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;|&#39;</span><span class="p">,</span> <span class="n">skipinitialspace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+   <span class="c"># ASSUMPTION.  Chase recurrence data will be 1 CSV per object - and the CSV data is located via the &#39;objectURL&#39;.</span>
+
+   <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">summaryRows</span><span class="p">:</span>
+
+      <span class="n">summaryRow</span> <span class="o">=</span> <span class="bp">True</span>
+      <span class="n">magerr</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="n">mjd</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+      <span class="n">candidateID</span> <span class="o">=</span> <span class="n">nullValue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;candidateID&quot;</span><span class="p">])</span>
+      <span class="n">ra</span> <span class="o">=</span> <span class="n">nullValue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;RA&quot;</span><span class="p">])</span>
+      <span class="n">decl</span> <span class="o">=</span> <span class="n">nullValue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;DEC&quot;</span><span class="p">])</span>
+      <span class="n">mag</span> <span class="o">=</span> <span class="n">nullValue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;mag&quot;</span><span class="p">])</span>
+      <span class="n">magerr</span> <span class="o">=</span> <span class="n">nullValue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;magErr&quot;</span><span class="p">])</span>
+      <span class="n">discDate</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&quot;discDate&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="s">&quot;discDate&quot;</span><span class="p">][</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="s">&quot;discDate&quot;</span><span class="p">][</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+      <span class="n">discMag</span> <span class="o">=</span> <span class="n">floatValue</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;mag&quot;</span><span class="p">]))</span>
+      <span class="n">mjd</span> <span class="o">=</span> <span class="n">getMJDFromSqlDate</span><span class="p">(</span><span class="n">discDate</span> <span class="o">+</span> <span class="s">&#39; 00:00:00&#39;</span><span class="p">)</span>
+      <span class="n">tripletImageURL</span> <span class="o">=</span> <span class="n">nullValue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;tripletImageURL&quot;</span><span class="p">])</span>
+
+
+      <span class="c"># Extra columns for fast searching</span>
+      <span class="n">ra_deg</span><span class="p">,</span> <span class="n">dec_deg</span> <span class="o">=</span> <span class="n">coords_sex_to_dec</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">decl</span><span class="p">)</span>
+      <span class="n">htm16ID</span> <span class="o">=</span> <span class="n">htmID</span><span class="p">(</span><span class="n">ra_deg</span><span class="p">,</span> <span class="n">dec_deg</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+      <span class="n">htm20ID</span> <span class="o">=</span> <span class="n">htmID</span><span class="p">(</span><span class="n">ra_deg</span><span class="p">,</span> <span class="n">dec_deg</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+      <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span> <span class="o">=</span> <span class="n">calculate_cartesians</span><span class="p">(</span><span class="n">ra_deg</span><span class="p">,</span> <span class="n">dec_deg</span><span class="p">)</span>
+
+      <span class="k">print</span> <span class="n">candidateID</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">decl</span><span class="p">,</span> <span class="n">mag</span><span class="p">,</span> <span class="n">magerr</span><span class="p">,</span> <span class="n">discDate</span><span class="p">,</span> <span class="n">discMag</span><span class="p">,</span> <span class="n">mjd</span><span class="p">,</span> <span class="n">tripletImageURL</span><span class="p">,</span> <span class="n">ra_deg</span><span class="p">,</span> <span class="n">dec_deg</span><span class="p">,</span> <span class="n">htm16ID</span><span class="p">,</span> <span class="n">htm20ID</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">,</span> <span class="n">summaryRow</span>
+      <span class="n">insertChaseData</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span>
+                      <span class="n">candidateID</span><span class="p">,</span>
+                      <span class="n">ra</span> <span class="o">=</span> <span class="n">ra</span><span class="p">,</span>
+                      <span class="n">decl</span> <span class="o">=</span> <span class="n">decl</span><span class="p">,</span>
+                      <span class="n">mag</span> <span class="o">=</span> <span class="n">mag</span><span class="p">,</span>
+                      <span class="n">magerr</span> <span class="o">=</span> <span class="n">magerr</span><span class="p">,</span>
+                      <span class="n">discDate</span> <span class="o">=</span> <span class="n">discDate</span><span class="p">,</span>
+                      <span class="n">discMag</span> <span class="o">=</span> <span class="n">mag</span><span class="p">,</span>
+                      <span class="n">mjd</span> <span class="o">=</span> <span class="n">mjd</span><span class="p">,</span>
+                      <span class="n">tripletImageURL</span> <span class="o">=</span> <span class="n">tripletImageURL</span><span class="p">,</span>
+                      <span class="n">ra_deg</span> <span class="o">=</span> <span class="n">ra_deg</span><span class="p">,</span>
+                      <span class="n">dec_deg</span> <span class="o">=</span> <span class="n">dec_deg</span><span class="p">,</span>
+                      <span class="n">htm16ID</span> <span class="o">=</span> <span class="n">htm16ID</span><span class="p">,</span>
+                      <span class="n">htm20ID</span> <span class="o">=</span> <span class="n">htm20ID</span><span class="p">,</span>
+                      <span class="n">cx</span> <span class="o">=</span> <span class="n">cx</span><span class="p">,</span>
+                      <span class="n">cy</span> <span class="o">=</span> <span class="n">cy</span><span class="p">,</span>
+                      <span class="n">cz</span> <span class="o">=</span> <span class="n">cz</span><span class="p">,</span>
+                      <span class="n">summaryRow</span> <span class="o">=</span> <span class="n">summaryRow</span><span class="p">)</span>
+
+
+   <span class="n">dbConn</span><span class="o">.</span><span class="n">commit</span> <span class="p">()</span>
+   <span class="n">dbConn</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+   <span class="c">## FINISH LOGGING ##</span>
+   <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- FINISHED ATTEMPT TO RUN ingestChase -----&#39;</span><span class="p">)</span>
+
+   <span class="k">return</span> <span class="mi">0</span>
+
+
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

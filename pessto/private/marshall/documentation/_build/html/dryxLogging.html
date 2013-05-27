@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Logging: dryxLogging.py &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="index.html" />
+    <link rel="up" title="Dave’s General Classes and Functions" href="dryx_modules.html" />
+    <link rel="next" title="MySQL: dryxMySQL.py" href="dryxMySQL.html" />
+    <link rel="prev" title="HTML5 Framework: dryxHTMLFramework.py" href="dryxHTMLFramework.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxMySQL.html" title="MySQL: dryxMySQL.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dryxHTMLFramework.html" title="HTML5 Framework: dryxHTMLFramework.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" accesskey="U">Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dryxHTMLFramework.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">HTML5</span> <span class="pre">Framework</span></tt>: dryxHTMLFramework.py</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dryxMySQL.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">MySQL</span></tt>: dryxMySQL.py</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dryxLogging.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dryxLogging">
+<span id="logging-dryxlogging-py"></span><span id="dryxlogging"></span><h1><tt class="docutils literal"><span class="pre">Logging</span></tt>: dryxLogging.py<a class="headerlink" href="#module-dryxLogging" title="Permalink to this headline">¶</a></h1>
+<p>dryxLogging.py</p>
+<p>Initially created by David Young on October 10, 2012
+If you have any questions requiring this script please email me: <a class="reference external" href="mailto:d&#46;r&#46;young&#37;&#52;&#48;qub&#46;ac&#46;uk">d<span>&#46;</span>r<span>&#46;</span>young<span>&#64;</span>qub<span>&#46;</span>ac<span>&#46;</span>uk</a></p>
+<p>dryx syntax:
+p&lt;Var&gt; = variable formated in the way I want it output to file or screen
+xxx = come back here and do some more work</p>
+<dl class="class">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler">
+<em class="property">class </em><tt class="descclassname">dryxLogging.</tt><tt class="descname">GroupWriteRotatingFileHandler</tt><big>(</big><em>filename</em>, <em>mode='a'</em>, <em>maxBytes=0</em>, <em>backupCount=0</em>, <em>encoding=None</em>, <em>delay=0</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/logging.handlers.html#logging.handlers.RotatingFileHandler" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">logging.handlers.RotatingFileHandler</span></tt></a></p>
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler._open">
+<tt class="descname">_open</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler._open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.acquire">
+<tt class="descname">acquire</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.acquire" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire the I/O thread lock.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.addFilter">
+<tt class="descname">addFilter</tt><big>(</big><em>filter</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.addFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the specified filter to this handler.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the stream.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.createLock">
+<tt class="descname">createLock</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.createLock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire a thread lock for serializing access to the underlying I/O.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.doRollover">
+<tt class="descname">doRollover</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.doRollover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do a rollover, as described in __init__().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.emit">
+<tt class="descname">emit</tt><big>(</big><em>record</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.emit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emit a record.</p>
+<p>Output the record to the file, catering for rollover as described
+in doRollover().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.filter">
+<tt class="descname">filter</tt><big>(</big><em>record</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if a record is loggable by consulting all the filters.</p>
+<p>The default is to allow the record to be logged; any filter can veto
+this and the record is then dropped. Returns a zero value if a record
+is to be dropped, else non-zero.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.flush">
+<tt class="descname">flush</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flushes the stream.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.format">
+<tt class="descname">format</tt><big>(</big><em>record</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the specified record.</p>
+<p>If a formatter is set, use it. Otherwise, use the default formatter
+for the module.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.get_name">
+<tt class="descname">get_name</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.get_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.handle">
+<tt class="descname">handle</tt><big>(</big><em>record</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conditionally emit the specified logging record.</p>
+<p>Emission depends on filters which may have been added to the handler.
+Wrap the actual emission of the record with acquisition/release of
+the I/O thread lock. Returns whether the filter passed the record for
+emission.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.handleError">
+<tt class="descname">handleError</tt><big>(</big><em>record</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.handleError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle errors which occur during an emit() call.</p>
+<p>This method should be called from handlers when an exception is
+encountered during an emit() call. If raiseExceptions is false,
+exceptions get silently ignored. This is what is mostly wanted
+for a logging system - most users will not care about errors in
+the logging system, they are more interested in application errors.
+You could, however, replace this with a custom handler if you wish.
+The record which was being processed is passed in to this method.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.name">
+<tt class="descname">name</tt><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.release">
+<tt class="descname">release</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.release" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release the I/O thread lock.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.removeFilter">
+<tt class="descname">removeFilter</tt><big>(</big><em>filter</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.removeFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the specified filter from this handler.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.setFormatter">
+<tt class="descname">setFormatter</tt><big>(</big><em>fmt</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.setFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the formatter for this handler.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.setLevel">
+<tt class="descname">setLevel</tt><big>(</big><em>level</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.setLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the logging level of this handler.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.set_name">
+<tt class="descname">set_name</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.set_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dryxLogging.GroupWriteRotatingFileHandler.shouldRollover">
+<tt class="descname">shouldRollover</tt><big>(</big><em>record</em><big>)</big><a class="headerlink" href="#dryxLogging.GroupWriteRotatingFileHandler.shouldRollover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if rollover should occur.</p>
+<p>Basically, see if the supplied record would cause the file to exceed
+the size limit we have.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxLogging.main">
+<tt class="descclassname">dryxLogging.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxLogging.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dryxLogging.setup_dryx_logging">
+<tt class="descclassname">dryxLogging.</tt><tt class="descname">setup_dryx_logging</tt><big>(</big><em>yaml_file</em><big>)</big><a class="reference internal" href="_modules/dryxLogging.html#setup_dryx_logging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxLogging.setup_dryx_logging" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxMySQL.html" title="MySQL: dryxMySQL.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dryxHTMLFramework.html" title="HTML5 Framework: dryxHTMLFramework.py"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" >Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Feb 22, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

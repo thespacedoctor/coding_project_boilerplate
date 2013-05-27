@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Utilities: dryxCommonUtils.py &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="index.html" />
+    <link rel="up" title="Dave’s General Classes and Functions" href="dryx_modules.html" />
+    <link rel="next" title="HTML5 Framework: dryxHTMLFramework.py" href="dryxHTMLFramework.html" />
+    <link rel="prev" title="Astro Tools: dryxAstroTools.py" href="dryxAstroTools.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxHTMLFramework.html" title="HTML5 Framework: dryxHTMLFramework.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dryxAstroTools.html" title="Astro Tools: dryxAstroTools.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" accesskey="U">Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dryxAstroTools.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">Astro</span> <span class="pre">Tools</span></tt>: dryxAstroTools.py</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dryxHTMLFramework.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">HTML5</span> <span class="pre">Framework</span></tt>: dryxHTMLFramework.py</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dryxCommonUtils.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dryxCommonUtils">
+<span id="utilities-dryxcommonutils-py"></span><span id="dryxcommonutils"></span><h1><tt class="docutils literal"><span class="pre">Utilities</span></tt>: dryxCommonUtils.py<a class="headerlink" href="#module-dryxCommonUtils" title="Permalink to this headline">¶</a></h1>
+<p><strong>dryxCommonUtils</strong></p>
+<p>A collection of miscellaneous useful utilities</p>
+<div class="line-block">
+<div class="line">Initially created by David Young on October 8, 2012</div>
+<div class="line">If you have any questions requiring this script please email me: <a class="reference external" href="mailto:d&#46;r&#46;young&#37;&#52;&#48;qub&#46;ac&#46;uk">d<span>&#46;</span>r<span>&#46;</span>young<span>&#64;</span>qub<span>&#46;</span>ac<span>&#46;</span>uk</a></div>
+</div>
+<dl class="docutils">
+<dt>dryx syntax:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">xxx</span></tt> = come back here and do some more work</li>
+<li><tt class="docutils literal"><span class="pre">_someObject</span></tt> = a &#8216;private&#8217; object that should only be changed for debugging</li>
+</ul>
+</dd>
+</dl>
+<dl class="function">
+<dt id="dryxCommonUtils.append_now_datestamp_to_filename">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">append_now_datestamp_to_filename</tt><big>(</big><em>log</em>, <em>filename</em><big>)</big><a class="headerlink" href="#dryxCommonUtils.append_now_datestamp_to_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a filename, will append the current datestamp to the end of the filename (before the extension).</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">filename</span></tt> &#8211; the filename</li>
+</ul>
+</dd>
+<dt>Return:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dsFilename</span></tt> &#8211; datestamped filename</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.calculate_time_difference">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">calculate_time_difference</tt><big>(</big><em>startDate</em>, <em>endDate</em><big>)</big><a class="headerlink" href="#dryxCommonUtils.calculate_time_difference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the time difference between two dates</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">startDate</span></tt> &#8211; the first date in YYYY-MM-DDTHH:MM:SS format</li>
+<li><tt class="docutils literal"><span class="pre">endDate</span></tt> &#8211; the final date YYYY-MM-DDTHH:MM:SS format</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">diffDate</span></tt> &#8211; the difference between the two dates in Y,M,D,h,m,s (string)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.dryx_mkdir">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">dryx_mkdir</tt><big>(</big><em>log</em>, <em>directoryPath</em><big>)</big><a class="reference internal" href="_modules/dryxCommonUtils.html#dryx_mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxCommonUtils.dryx_mkdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a directory if it does not yet exist</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">directoryPath</span></tt> &#8211; absolute/relative path to required directory</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.extract_filename_from_url">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">extract_filename_from_url</tt><big>(</big><em>log</em>, <em>url</em><big>)</big><a class="headerlink" href="#dryxCommonUtils.extract_filename_from_url" title="Permalink to this definition">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">Return the filename after the last &#8216;/&#8217; in a URL.</div>
+<div class="line">Will return &#8216;<em>untitled.html</em>&#8216;, if no filename is found.</div>
+</div>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">url</span></tt> &#8211; the url to extract filename from</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">filename</span></tt> &#8211; the filename</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.get_current_mjd">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">get_current_mjd</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxCommonUtils.get_current_mjd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current datetime as MJD</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">MJD</span></tt> &#8211; Current datetime as MJD</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.get_now_datetime_filestamp">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">get_now_datetime_filestamp</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxCommonUtils.get_now_datetime_filestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>A datetime stamp to be appended to the end of filenames:
+<tt class="docutils literal"><span class="pre">YYYYMMDDtHHMMSS</span></tt></p>
+<dl class="docutils">
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">now</span></tt> &#8211; current time and date in filename format</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.get_now_sql_datetime">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">get_now_sql_datetime</tt><big>(</big><big>)</big><a class="headerlink" href="#dryxCommonUtils.get_now_sql_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>A datetime stamp in MySQL format:
+<tt class="docutils literal"><span class="pre">YYYY-MM-DDTHH:MM:SS</span></tt></p>
+<dl class="docutils">
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">now</span></tt> &#8211; current time and date in MySQL format</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.main">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dryxCommonUtils.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxCommonUtils.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.make_lowercase_nospace">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">make_lowercase_nospace</tt><big>(</big><em>theString</em><big>)</big><a class="reference internal" href="_modules/dryxCommonUtils.html#make_lowercase_nospace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxCommonUtils.make_lowercase_nospace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a string to a neatly formated filename type - no space, commas, lowercase etc</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">theString</span></tt> &#8211; the string to be made pretty</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">prettyString</span></tt> &#8211; the formatted string</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.pretty_date">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">pretty_date</tt><big>(</big><em>date</em><big>)</big><a class="reference internal" href="_modules/dryxCommonUtils.html#pretty_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxCommonUtils.pretty_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an absolute date, return a relative datetime (e.g. +15m, +2hr, +1w)</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">date</span></tt> &#8211; absolute date</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li>a relative date</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxCommonUtils.strip_whitespace_from_dictionary_values">
+<tt class="descclassname">dryxCommonUtils.</tt><tt class="descname">strip_whitespace_from_dictionary_values</tt><big>(</big><em>log</em>, <em>dictionary</em><big>)</big><a class="reference internal" href="_modules/dryxCommonUtils.html#strip_whitespace_from_dictionary_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxCommonUtils.strip_whitespace_from_dictionary_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip the leading and trailing whitespace from dictionary values and returns the cleaned up dictionary</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+<li><tt class="docutils literal"><span class="pre">dictionary</span></tt> &#8211; dictionary to be cleaned</li>
+</ul>
+</dd>
+<dt>Return:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dictionary</span></tt> &#8211; cleaned dictionary</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxHTMLFramework.html" title="HTML5 Framework: dryxHTMLFramework.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dryxAstroTools.html" title="Astro Tools: dryxAstroTools.py"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" >Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 22, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

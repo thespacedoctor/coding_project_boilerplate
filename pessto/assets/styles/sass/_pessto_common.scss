@@ -1,0 +1,63 @@
+
+$bodyFont: 'Signika Negative', 'Inder', 'Acme', sans-serif, 'Loved by the King', cursive;
+$bodyFont2: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+$bodyLineHeight: 1.429;
+
+$headerFont: 'Acme';
+$baseFontSize: 100%;
+
+.body {
+    clear: both;
+    margin: 0 auto;
+    width: 960px;
+}
+
+img.right,figure.right {
+    float: right;
+    margin: 0 0 10px 10px;
+}
+
+img.left, figure.left {float: left; margin: 10px 30px 0 0;}
+
+@mixin set_sidebar_button($indexIdList) {
+   @each $bodyId in $indexIdList {
+         body##{$bodyId} #sidenav a.#{$bodyId}_button  {
+            background-image: url("/pessto/assets/images/#{$bodyId}_button_selected.png");
+        }
+
+        body##{$bodyId} #sidenav li a.#{$bodyId}_button {
+            background-color: $lightCream;
+        }
+
+        #sidenav a.#{$bodyId}_button  {
+            background-image: url("/pessto/assets/images/#{$bodyId}_button_plain.png");
+            // float: right;
+            border: 1px solid $lightMud;
+            color: $lightCream;
+        }
+
+        #sidenav a.#{$bodyId}_button:hover {
+            background-image: url("/pessto/assets/images/#{$bodyId}_button_plain.png");
+            // float: right;
+        }
+   }
+}
+
+@mixin sn_counter_color($color){
+        border-color: $color;
+        background-color: lighten($color, 20%);
+        color: $color;
+}
+
+@mixin remove_nth_last_child_boarder($n) {
+    &:nth-last-child(#{$n}), &:nth-last-child(#{$n}) a {
+        border: 0;
+    }
+}
+
+@mixin remove_nth_last_child_boarder($n) {
+    &:nth-last-child(#{$n}), &:nth-last-child(#{$n}) a {
+        border: 0;
+    }
+}
+

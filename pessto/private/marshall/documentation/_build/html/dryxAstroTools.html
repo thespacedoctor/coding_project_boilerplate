@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Astro Tools: dryxAstroTools.py &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="index.html" />
+    <link rel="up" title="Dave’s General Classes and Functions" href="dryx_modules.html" />
+    <link rel="next" title="Utilities: dryxCommonUtils.py" href="dryxCommonUtils.html" />
+    <link rel="prev" title="Dave’s General Classes and Functions" href="dryx_modules.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxCommonUtils.html" title="Utilities: dryxCommonUtils.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dryx_modules.html" title="Dave’s General Classes and Functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" accesskey="U">Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dryx_modules.html"
+                        title="previous chapter">Dave&#8217;s General Classes and Functions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dryxCommonUtils.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">Utilities</span></tt>: dryxCommonUtils.py</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dryxAstroTools.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dryxAstroTools">
+<span id="astro-tools-dryxastrotools-py"></span><span id="dryxastrotools"></span><h1><tt class="docutils literal"><span class="pre">Astro</span> <span class="pre">Tools</span></tt>: dryxAstroTools.py<a class="headerlink" href="#module-dryxAstroTools" title="Permalink to this headline">¶</a></h1>
+<p><strong>dryxAstroTools</strong></p>
+<div class="line-block">
+<div class="line">Created by David Young on December 10, 2012</div>
+<div class="line">If you have any questions requiring this script please email me: <a class="reference external" href="mailto:d&#46;r&#46;young&#37;&#52;&#48;qub&#46;ac&#46;uk">d<span>&#46;</span>r<span>&#46;</span>young<span>&#64;</span>qub<span>&#46;</span>ac<span>&#46;</span>uk</a></div>
+</div>
+<dl class="docutils">
+<dt>dryx syntax:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">xxx</span></tt> = come back here and do some more work</li>
+<li><tt class="docutils literal"><span class="pre">_someObject</span></tt> = a &#8216;private&#8217; object that should only be changed for debugging</li>
+</ul>
+</dd>
+<dt>notes:</dt>
+<dd><ul class="first last simple">
+<li>Dave started work on this file on December 10, 2012</li>
+<li>Dave &#8216;completed&#8217; this code on ... not complete yet!</li>
+</ul>
+</dd>
+</dl>
+<dl class="function">
+<dt id="dryxAstroTools.check_for_sdss_coverage">
+<tt class="descclassname">dryxAstroTools.</tt><tt class="descname">check_for_sdss_coverage</tt><big>(</big><em>dbConn</em>, <em>log</em>, <em>ra</em>, <em>decl</em><big>)</big><a class="reference internal" href="_modules/dryxAstroTools.html#check_for_sdss_coverage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxAstroTools.check_for_sdss_coverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an ra and dec, will check for SDSS DR9 image coverage of that location</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; db dbConnection</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; python logger</li>
+<li><tt class="docutils literal"><span class="pre">ra</span></tt> &#8211; ra in decimal degrees</li>
+<li><tt class="docutils literal"><span class="pre">dec</span></tt> &#8211; dec in decimal degrees</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxAstroTools.clean_supernova_name">
+<tt class="descclassname">dryxAstroTools.</tt><tt class="descname">clean_supernova_name</tt><big>(</big><em>dbConn</em>, <em>log</em>, <em>snName</em><big>)</big><a class="headerlink" href="#dryxAstroTools.clean_supernova_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a SN name as a string, this function will attempt to clean up the name so that it is somewhat homogeneous with SN/transient from the same survey/atel system.</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; mysql database connection</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+<li><tt class="docutils literal"><span class="pre">snName</span></tt> &#8211; sn name to be cleaned (string)</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">snName</span></tt> &#8211; cleaned sn name (string)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxAstroTools.create_cbet_url">
+<tt class="descclassname">dryxAstroTools.</tt><tt class="descname">create_cbet_url</tt><big>(</big><em>dbConn</em>, <em>log</em>, <em>cbet</em><big>)</big><a class="reference internal" href="_modules/dryxAstroTools.html#create_cbet_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxAstroTools.create_cbet_url" title="Permalink to this definition">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">Generates the CBET URL given a CBET number.</div>
+<div class="line">The URL contains a <em>fiddly</em> middle number before the CBET txt file - this function calculates this number before returning the valid URL.</div>
+</div>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; mysql database connection</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+<li><tt class="docutils literal"><span class="pre">cbet</span></tt> &#8211; cbet number</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">cbetUrl</span></tt> &#8211; CBET URL</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxAstroTools.luminosity_to_flux">
+<tt class="descclassname">dryxAstroTools.</tt><tt class="descname">luminosity_to_flux</tt><big>(</big><em>lumErg_S</em>, <em>dist_Mpc</em><big>)</big><a class="headerlink" href="#dryxAstroTools.luminosity_to_flux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert luminosity to a flux</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">lumErg_S</span></tt> &#8211; luminosity in ergs/sec</li>
+<li><tt class="docutils literal"><span class="pre">dist_Mpc</span></tt> &#8211; distance in Mpc</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">fluxErg_cm2_S</span></tt> &#8211; flux in ergs/cm2/s</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxAstroTools.main">
+<tt class="descclassname">dryxAstroTools.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dryxAstroTools.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxAstroTools.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>debugger function</p>
+<p><strong>Key Arguments:</strong></p>
+<dl class="docutils">
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxCommonUtils.html" title="Utilities: dryxCommonUtils.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dryx_modules.html" title="Dave’s General Classes and Functions"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" >Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 22, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

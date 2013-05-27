@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Web Crawlers: dryxWebCrawlers.py &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="index.html" />
+    <link rel="up" title="Dave’s General Classes and Functions" href="dryx_modules.html" />
+    <link rel="next" title="XML Tools: dryxXMLTools.py" href="dryxXMLTools.html" />
+    <link rel="prev" title="Regular Expressions: dryxRegexs.py" href="dryxRegexs.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxXMLTools.html" title="XML Tools: dryxXMLTools.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dryxRegexs.html" title="Regular Expressions: dryxRegexs.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" accesskey="U">Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dryxRegexs.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">Regular</span> <span class="pre">Expressions</span></tt>: dryxRegexs.py</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dryxXMLTools.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">XML</span> <span class="pre">Tools</span></tt>: dryxXMLTools.py</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dryxWebCrawlers.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dryxWebCrawlers">
+<span id="web-crawlers-dryxwebcrawlers-py"></span><span id="dryxwebcrawlers"></span><h1><tt class="docutils literal"><span class="pre">Web</span> <span class="pre">Crawlers</span></tt>: dryxWebCrawlers.py<a class="headerlink" href="#module-dryxWebCrawlers" title="Permalink to this headline">¶</a></h1>
+<p><strong>dryxWebCrawlers</strong></p>
+<p>Created by David Young on October 25, 2012
+If you have any questions requiring this script please email me: <a class="reference external" href="mailto:d&#46;r&#46;young&#37;&#52;&#48;qub&#46;ac&#46;uk">d<span>&#46;</span>r<span>&#46;</span>young<span>&#64;</span>qub<span>&#46;</span>ac<span>&#46;</span>uk</a></p>
+<p>dryx syntax:
+p&lt;Var&gt; = variable formated in the way I want it output to file or screen
+xxx = come back here and do some more work</p>
+<dl class="function">
+<dt id="dryxWebCrawlers._dump_files_to_local_drive">
+<tt class="descclassname">dryxWebCrawlers.</tt><tt class="descname">_dump_files_to_local_drive</tt><big>(</big><em>bodies</em>, <em>theseUrls</em>, <em>dbConn</em>, <em>log</em><big>)</big><a class="reference internal" href="_modules/dryxWebCrawlers.html#_dump_files_to_local_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxWebCrawlers._dump_files_to_local_drive" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes the files stored in memory and dumps them to the local drive</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">bodies</span></tt> &#8211; array of file data (currently stored in memory)</li>
+<li><tt class="docutils literal"><span class="pre">theseUrls</span></tt> &#8211; array of local files paths to dump the file data into</li>
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; mysql database connection</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxWebCrawlers._fetch">
+<tt class="descclassname">dryxWebCrawlers.</tt><tt class="descname">_fetch</tt><big>(</big><em>url</em><big>)</big><a class="reference internal" href="_modules/dryxWebCrawlers.html#_fetch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxWebCrawlers._fetch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dryxWebCrawlers.main">
+<tt class="descclassname">dryxWebCrawlers.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dryxWebCrawlers.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxWebCrawlers.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dryxWebCrawlers.multiWebDocumentDownloader">
+<tt class="descclassname">dryxWebCrawlers.</tt><tt class="descname">multiWebDocumentDownloader</tt><big>(</big><em>urlList</em>, <em>downloadDirectory</em>, <em>log</em>, <em>dbConn</em>, <em>timeStamp=1</em>, <em>timeout=180</em>, <em>concurrentDownloads=10</em><big>)</big><a class="reference internal" href="_modules/dryxWebCrawlers.html#multiWebDocumentDownloader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxWebCrawlers.multiWebDocumentDownloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of document URLs this function will download the documents to a specified download directory</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">urlList</span></tt> &#8211; list of document urls</li>
+<li><tt class="docutils literal"><span class="pre">downloadDirectory</span></tt> &#8211; directory to download the documents to</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li>list of timestamped documents (same order as the input urlList)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxWebCrawlers.password_protected_page_downloader">
+<tt class="descclassname">dryxWebCrawlers.</tt><tt class="descname">password_protected_page_downloader</tt><big>(</big><em>dbConn</em>, <em>log</em><big>)</big><a class="headerlink" href="#dryxWebCrawlers.password_protected_page_downloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a page that is behind HTTPS authentication password protection</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; mysql database connection</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+<li><tt class="docutils literal"><span class="pre">___</span></tt> &#8211;</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li>None</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxWebCrawlers.singleWebDocumentDownloader">
+<tt class="descclassname">dryxWebCrawlers.</tt><tt class="descname">singleWebDocumentDownloader</tt><big>(</big><em>url</em>, <em>downloadDirectory</em>, <em>log</em>, <em>dbConn</em>, <em>timeStamp</em><big>)</big><a class="reference internal" href="_modules/dryxWebCrawlers.html#singleWebDocumentDownloader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxWebCrawlers.singleWebDocumentDownloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a single URL, this function will download the document to the specified directory</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">url</span></tt> &#8211; document url</li>
+<li><tt class="docutils literal"><span class="pre">downloadDirectory</span></tt> &#8211; download directory path</li>
+<li><tt class="docutils literal"><span class="pre">timeStamp</span></tt> &#8211; boolean, add a timestamp the end of the document name</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li>path to the local document</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxXMLTools.html" title="XML Tools: dryxXMLTools.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dryxRegexs.html" title="Regular Expressions: dryxRegexs.py"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" >Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 08, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

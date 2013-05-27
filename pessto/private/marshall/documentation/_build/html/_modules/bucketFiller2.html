@@ -1,0 +1,686 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bucketFiller2 &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for bucketFiller2</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">bucketFiller2</span>
+
+<span class="sd">Created by David Young on November 9, 2012</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">xxx = come back here and do some more work</span>
+<span class="sd">_someObject = a &#39;private&#39; object that should only be changed for debugging</span>
+
+<span class="sd">notes:</span>
+<span class="sd">  - Dave started work on this file on November 9, 2012</span>
+<span class="sd">  - Dave &#39;completed&#39; this code on ... not complete yet!</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">&quot;&quot;&quot;TEMPLATE INGESTOR INSTANSIATION AND EXECUTION&quot;&quot;&quot;</span>
+
+<span class="sd">&quot;&quot;&quot;END OF TEMPLATE&quot;&quot;&quot;</span>
+
+<span class="c">################# GLOBAL IMPORTS ####################</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c">######################################################</span>
+<span class="c"># MAIN LOOP - USED FOR DEBUGGING OR WHEN SCRIPTING   #</span>
+<span class="c">######################################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../bucketFiller2.html#bucketFiller2.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Takes data from the feeder survey tables, rss feed tables and parsed html tables,</span>
+<span class="sd">  does a cone-search against the ``transientBucket`` db table to identify reobservations of previously discovered objects.</span>
+<span class="sd">  If one match is found the object is entered into the ``transientBucket`` table as a new object with a new ``transientBucketId``.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    -</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+  <span class="c">################ &gt; SETUP ##################</span>
+  <span class="c">## SETUP DB CONNECTION AND A LOGGER</span>
+  <span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
+  <span class="c">## START LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- STARTING TO RUN THE bucketFiller2 -----&#39;</span><span class="p">)</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="c">################ &gt;ACTION(S) ###############</span>
+  <span class="n">ingest_ogle_events</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+  <span class="n">ingest_crts_events</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">commit</span> <span class="p">()</span>
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+  <span class="c">## FINISH LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- FINISHED ATTEMPT TO RUN THE bucketFiller2 -----&#39;</span><span class="p">)</span>
+  <span class="k">return</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># CLASSES                                                                                   #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## LAST MODIFIED : November 14, 2012</span>
+<span class="c">## CREATED : November 11, 2012</span>
+<span class="c">## CREATED BY DRYX</span></div>
+<div class="viewcode-block" id="feederSurveyIngester"><a class="viewcode-back" href="../bucketFiller2.html#bucketFiller2.feederSurveyIngester">[docs]</a><span class="k">class</span> <span class="nc">feederSurveyIngester</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Blue-print ingestor for pessto feeder survey, rss &amp; voevent db tables - adds data to the ``transientbucket`` db table in a semi-homogeneous format</span>
+
+<span class="sd">    Key Arguments:</span>
+<span class="sd">      - dbConn -- mysql database connector</span>
+<span class="sd">      - log -- a logger</span>
+
+<span class="sd">    Variable Attributes:</span>
+<span class="sd">        -</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">###################### GLOBAL IMPORTS ######################</span>
+    <span class="c">################ PUBLIC VARIABLE ATTRIBUTES ################</span>
+    <span class="c">############### PRIVATE VARIABLE ATTRIBUTES ###############</span>
+    <span class="c">################ INSTANSIATION METHOD ######################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+      <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+      <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+      <span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span> <span class="o">=</span> <span class="n">dbConn</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">log</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">basetable</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">newRowsQuery</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">recRowsQuery</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">csRadius</span> <span class="o">=</span> <span class="mf">5.0</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">surveyName</span> <span class="o">=</span> <span class="bp">None</span>
+
+      <span class="c"># VALUES TO BE ADDED TO transientBucket TABLE</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">colNames</span> <span class="o">=</span> <span class="p">{</span>
+                      <span class="s">&quot;name&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;name_other&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;survey&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;observationDate&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;observationMJD&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;raDeg&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;decDeg&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;raDegErr&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;decDegErr&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;magnitude&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;magnitudeError&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;filter&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;transientRedshift&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;transientRedshiftNotes&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;spectralType&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;discoveryPhase&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;dateCreated&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;dateLastModified&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;surveyObjectUrl&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;transientTypePrediction&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;transientTypePredicationSource&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;hostRedshift&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;hostRedshiftType&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;referenceImageUrl&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;targetImageUrl&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;subtractedImageUrl&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;tripletImageUrl&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;finderImageUrl&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;lastNonDetectionDate&quot;</span><span class="p">:</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="s">&quot;lastNonDetectionMJD&quot;</span><span class="p">:</span><span class="bp">None</span>
+                      <span class="p">}</span>
+
+    <span class="c">############### METHODS ###############</span>
+    <span class="c">## LAST MODIFIED : 20121111</span>
+    <span class="c">## CREATED : 20121111</span>
+    <span class="c">## AUTHOR : DRYX</span>
+<div class="viewcode-block" id="feederSurveyIngester.ingest_data"><a class="viewcode-back" href="../bucketFiller2.html#bucketFiller2.feederSurveyIngester.ingest_data">[docs]</a>    <span class="k">def</span> <span class="nf">ingest_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="sd">&quot;&quot;&quot;Method to ingest data from the feeder survey table(s) into the transientBucket</span>
+
+<span class="sd">          Key Arguments:</span>
+<span class="sd">            - dbConn -- mysql database connector</span>
+
+<span class="sd">          Returns</span>
+<span class="sd">            - None</span>
+<span class="sd">      &quot;&quot;&quot;</span>
+      <span class="c">################ &gt; IMPORTS ################</span>
+      <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+      <span class="c">################ &gt; SETTINGS VARIABLE ################</span>
+      <span class="n">dbConn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dbConn</span>
+      <span class="n">log</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span>
+      <span class="c"># NAME OF THE VIEW WE ARE MATCHING AGAINST PRE-INGEST</span>
+      <span class="n">masterView</span> <span class="o">=</span> <span class="s">&#39;view_transientBucketMaster&#39;</span>
+      <span class="n">cn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">colNames</span>
+
+      <span class="c">################ &gt;ACTION(S) ################</span>
+      <span class="c">## SET THE SUMMARY-ROW AND INGEST FLAGS FOR NEWLY ADDED ROWS ##</span>
+
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to add summary and ingest flags to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,))</span>
+        <span class="n">_add_ingested_and_summary_columns_to_tables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not add summary and ingest flags to </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+      <span class="c">## ADD &amp; POPULATE HTMID COLUMNS FOR ROWS MISSING THIS DATA NESSCESSARY FOR CROSS-MATCHING</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to add the HTMIds to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">add_HTMIds_to_mysql_tables</span><span class="p">(</span><span class="n">cn</span><span class="p">[</span><span class="s">&#39;raDeg&#39;</span><span class="p">],</span><span class="n">cn</span><span class="p">[</span><span class="s">&#39;decDeg&#39;</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not add the HTMIds to </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+      <span class="c">## GRAB ALL NEW ROWS</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to grab the new summary rows from the </span><span class="si">%s</span><span class="s"> table&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,))</span>
+        <span class="n">newRows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newRowsQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not grab the new summary rows from the </span><span class="si">%s</span><span class="s"> table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+      <span class="n">odate</span> <span class="o">=</span> <span class="bp">False</span>
+      <span class="n">omjd</span> <span class="o">=</span> <span class="bp">False</span>
+      <span class="k">if</span> <span class="n">cn</span><span class="p">[</span><span class="s">&#39;observationDate&#39;</span><span class="p">]:</span> <span class="n">odate</span> <span class="o">=</span> <span class="bp">True</span>
+      <span class="k">if</span> <span class="n">cn</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]:</span> <span class="n">omjd</span> <span class="o">=</span> <span class="bp">True</span>
+
+      <span class="c">## ITERATE THROUGH THESE NEW ROWS, CROSSMATCHING AGAINST THE TRANSIENTBUCKET OBJECTS</span>
+      <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">newRows</span><span class="p">:</span>
+        <span class="c"># GET THE NAME FROM OTHER COLUMN IF NOT POPULATED</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="n">cn</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">]]:</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;name_other&quot;</span><span class="p">]</span>
+
+        <span class="c"># CLEAN COLUMN VALUES</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">_row_dictionary_cleaner</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">columnNames</span><span class="o">=</span><span class="n">cn</span><span class="p">,</span><span class="n">mjdColumn</span><span class="o">=</span><span class="n">omjd</span><span class="p">,</span><span class="n">dateColumn</span><span class="o">=</span><span class="n">odate</span><span class="p">)</span>
+
+        <span class="c"># CONESEARCH THE TRANSIENTBUCKET OBJECTS (WITH MASTER-FLAG SET) TO FIND ANY MATCHING OBJECT ALREADY IN THE DATABASE</span>
+        <span class="k">try</span><span class="p">:</span>
+          <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to perform a conesearch on the transientBucket master view&quot;</span><span class="p">)</span>
+          <span class="n">message</span><span class="p">,</span> <span class="n">transientBucketXMObjects</span> <span class="o">=</span> <span class="n">coneSearch</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">cn</span><span class="p">[</span><span class="s">&#39;raDeg&#39;</span><span class="p">]]),</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">cn</span><span class="p">[</span><span class="s">&#39;decDeg&#39;</span><span class="p">]]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">csRadius</span><span class="p">,</span> <span class="n">masterView</span><span class="p">,</span> <span class="n">queryType</span> <span class="o">=</span> <span class="n">FULL</span><span class="p">,</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">dbConn</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+          <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not perform a conesearch on the transientBucket master view - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+          <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">message</span> <span class="ow">and</span> <span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;Error&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s">&#39;not recognised&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">):</span>
+           <span class="c"># SUCCESSFUL CONE SEARCHES SHOULD NOT RETURN AN ERROR MESSAGE, OTHERWISE SOMETHING WENT WRONG.</span>
+           <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not perform a conesearch on the transientBucket master view - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">message</span><span class="p">,))</span>
+           <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c">## SET THE DEFAULT VALUES HERE</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">&#39;masterIDFlag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c">## IF THERE WAS A MATCH WITHIN THE TRANSIENTBUCKET THEN CHANGE VALUES FOR transientBucketId AND masterIDFlag FROM DEFAULT VALUES</span>
+        <span class="k">if</span> <span class="n">transientBucketXMObjects</span><span class="p">:</span>
+
+           <span class="c"># WE HAVE A MATCH - AND WE ONLY WANT THE NEAREST ROW.</span>
+           <span class="n">d</span><span class="p">[</span><span class="s">&#39;masterIDFlag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+           <span class="n">numberOfMatches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">transientBucketXMObjects</span><span class="p">)</span>
+           <span class="n">nearestSep</span> <span class="o">=</span> <span class="n">transientBucketXMObjects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+           <span class="n">nearestCatRow</span> <span class="o">=</span> <span class="n">transientBucketXMObjects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+           <span class="n">nearestCatId</span> <span class="o">=</span> <span class="n">nearestCatRow</span><span class="p">[</span><span class="n">CAT_ID_RA_DEC_COLS</span><span class="p">[</span><span class="n">masterView</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+
+           <span class="n">d</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nearestCatRow</span><span class="p">[</span><span class="s">&quot;transientBucketId&quot;</span><span class="p">]</span>
+           <span class="c">#sys.exit(d[&#39;transientBucketId&#39;])</span>
+
+        <span class="k">try</span><span class="p">:</span>
+          <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to ingest row into transientbucket from </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,))</span>
+          <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s">&#39;transientBucket&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span><span class="s">&#39;observationMJD&#39;</span><span class="p">,</span><span class="s">&#39;magnitude&#39;</span><span class="p">,</span><span class="s">&#39;filter&#39;</span><span class="p">])</span>
+          <span class="n">primaryKeyId</span> <span class="o">=</span> <span class="n">dbConn</span><span class="o">.</span><span class="n">insert_id</span><span class="p">()</span>
+          <span class="k">print</span> <span class="n">d</span>
+          <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;primary key: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">primaryKeyId</span><span class="p">,))</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+          <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not ingest row into transientbucket from </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+
+
+        <span class="c"># SET MASTER FLAG IF THIS IS THE FIRST OBSERVATION OF AN OBJECT</span>
+        <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;masterIDFlag&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">primaryKeyId</span><span class="p">:</span>
+           <span class="c">#print d[&#39;masterIDFlag&#39;], primaryKeyId</span>
+           <span class="n">_update_transientBucketId_for_master_event</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">primaryKeyId</span><span class="p">)</span>
+           <span class="n">d</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">primaryKeyId</span>
+           <span class="n">d</span><span class="p">[</span><span class="s">&#39;masterIDFlag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c"># SWITCH THE INGESTED FLAG TO TRUE</span>
+        <span class="k">if</span> <span class="n">primaryKeyId</span><span class="p">:</span>
+          <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;UPDATE &quot;&quot;&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="o">+</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">                          set ingested = 1</span>
+<span class="s">                          where primaryid = </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">],)</span>
+
+          <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+
+          <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;circularComment&#39;</span><span class="p">):</span>
+            <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;INSERT into pesstoObjectsComments(pesstoObjectsId,commentAuthor,dateLastModified,dateCreated,comment) values(&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;CRTS Circular&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">primaryKeyId</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;circularDate&quot;</span><span class="p">],</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;circularDate&quot;</span><span class="p">],</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;circularComment&#39;</span><span class="p">])</span>
+            <span class="k">print</span> <span class="n">sqlQuery</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+
+        <span class="c">## GRAB ALL NEW RECURRENCE ROWS</span>
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recRowsQuery</span><span class="p">):</span>
+          <span class="k">try</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to grab the new recurrence rows from the </span><span class="si">%s</span><span class="s"> table&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,))</span>
+            <span class="n">sqlQuery</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recRowsQuery</span><span class="o">+</span><span class="s">&quot; and name = </span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span>
+            <span class="n">recRows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+          <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not grab the new recurrence rows from the </span><span class="si">%s</span><span class="s"> table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+          <span class="k">for</span> <span class="n">recRow</span> <span class="ow">in</span> <span class="n">recRows</span><span class="p">:</span>
+            <span class="c"># CLEAN COLUMN VALUES</span>
+            <span class="n">rd</span> <span class="o">=</span> <span class="n">_row_dictionary_cleaner</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">recRow</span><span class="p">,</span><span class="n">columnNames</span><span class="o">=</span><span class="n">cn</span><span class="p">,</span><span class="n">mjdColumn</span><span class="o">=</span><span class="n">omjd</span><span class="p">,</span><span class="n">dateColumn</span><span class="o">=</span><span class="n">odate</span><span class="p">)</span>
+            <span class="c">#print rd</span>
+
+            <span class="n">rd</span><span class="p">[</span><span class="s">&#39;masterIDFlag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">rd</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span>
+            <span class="k">print</span> <span class="n">rd</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span>
+
+            <span class="k">try</span><span class="p">:</span>
+              <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to ingest row into transientbucket from </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,))</span>
+              <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">rd</span><span class="p">,</span> <span class="s">&#39;transientBucket&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span><span class="s">&#39;observationMJD&#39;</span><span class="p">,</span><span class="s">&#39;magnitude&#39;</span><span class="p">,</span><span class="s">&#39;filter&#39;</span><span class="p">])</span>
+              <span class="n">primaryKeyId</span> <span class="o">=</span> <span class="n">dbConn</span><span class="o">.</span><span class="n">insert_id</span><span class="p">()</span>
+              <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;primary key: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">primaryKeyId</span><span class="p">,))</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+              <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not ingest row into transientbucket from </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+
+            <span class="c"># SWITCH THE INGESTED FLAG TO TRUE</span>
+            <span class="k">if</span> <span class="n">primaryKeyId</span><span class="p">:</span>
+              <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;UPDATE &quot;&quot;&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">basetable</span><span class="o">+</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">                              set ingested = 1</span>
+<span class="s">                              where primaryid = </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">recRow</span><span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">],)</span>
+
+            <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+
+      <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PUBLIC FUNCTIONS                                                                          #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## LAST MODIFIED : December 7, 2012</span>
+<span class="c">## CREATED : December 7, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div></div>
+<div class="viewcode-block" id="ingest_ogle_events"><a class="viewcode-back" href="../bucketFiller2.html#bucketFiller2.ingest_ogle_events">[docs]</a><span class="k">def</span> <span class="nf">ingest_ogle_events</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;ingests the ogle events from the ``fs_ogle`` db table into the ``transientBucket`` table.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="c">## INSTANTIATE THE INGESTOR OBJECT</span>
+  <span class="n">f</span> <span class="o">=</span> <span class="n">feederSurveyIngester</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">## OGLE HTML STREAM ##</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">basetable</span> <span class="o">=</span> <span class="s">&quot;fs_ogle&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">newRowsQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT * FROM &quot;&quot;&quot;</span><span class="o">+</span><span class="n">f</span><span class="o">.</span><span class="n">basetable</span><span class="o">+</span><span class="s">&quot;&quot;&quot; WHERE summaryRow = 1&quot;&quot;&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">recRowsQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT * FROM &quot;&quot;&quot;</span><span class="o">+</span><span class="n">f</span><span class="o">.</span><span class="n">basetable</span><span class="o">+</span><span class="s">&quot;&quot;&quot; WHERE summaryRow = 0 and ingested = 0&quot;&quot;&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;name&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;survey&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;survey&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;observationDate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;observationDate&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;observationMJD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;observationMJD&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;raDeg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;raDeg&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;decDeg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;decDeg&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;magnitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;mag&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;filter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;filter&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;dateCreated&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;dateCreated&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;dateLastModified&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;dateLastModified&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;surveyObjectUrl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;surveyObjectUrl&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;transientTypePrediction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;transientTypePrediction&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;referenceImageUrl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;referenceImageUrl&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;targetImageUrl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;targetImageUrl&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;subtractedImageUrl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;subtractedImageUrl&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;lastNonDetectionDate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;lastNonDetectionDate&quot;</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;lastNonDetectionMJD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;lastNonDetectionMJD&quot;</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;attempting to ingest new OGLE data into the transientbucket table&quot;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">ingest_data</span><span class="p">()</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not ingest the OGLE data into the transientbucket table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+  <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">## LAST MODIFIED : December 7, 2012</span>
+<span class="c">## CREATED : December 7, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="ingest_crts_events"><a class="viewcode-back" href="../bucketFiller2.html#bucketFiller2.ingest_crts_events">[docs]</a><span class="k">def</span> <span class="nf">ingest_crts_events</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;ingests the crts events from the various crts voevent db tables into the ``transientBucket`` table.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="n">g</span> <span class="o">=</span> <span class="n">feederSurveyIngester</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+
+  <span class="c">################ &gt;ACTION(S) ###############</span>
+  <span class="c"># CRTS VOEVENT STREAM ######################</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">basetable</span> <span class="o">=</span> <span class="s">&quot;voevent_streams_crts_metadata&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">newRowsQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT *</span>
+<span class="s">                      FROM rss_channel_crts r, voevent_streams_crts_metadata m, voevent_streams_crts_what_group_asteroid_params ap,</span>
+<span class="s">                            voevent_streams_crts_what_group_portfolio p, voevent_streams_crts_what_group_first_detection_params d</span>
+<span class="s">                      WHERE r.summaryRow = 1 and r.ingested = 0 and r.id = m.ivorn and m.primaryId = d.voPrimaryId and</span>
+<span class="s">                            m.primaryId = ap.voPrimaryId and m.primaryId = p.voPrimaryId and</span>
+<span class="s">                            (r.objectType like &quot;</span><span class="si">%o</span><span class="s">ther%&quot; or r.objectType like &quot;</span><span class="si">%s</span><span class="s">upernova%&quot;)&quot;&quot;&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_cssid_value&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;name_other&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_sssid_value&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;survey&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;rssFeedSource&quot;</span> <span class="c">#CAN CHANGE TO rssFeedName</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;observationDate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;wherewhen_time&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;observationMJD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_jd_value&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;raDeg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;wherewhen_longitude&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;decDeg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;wherewhen_latitude&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;magnitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_magnitude_value&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;magnitudeError&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_mag_error_value&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;filter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_magnitude_ucd&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;dateCreated&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;dateCreated&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;dateLastModified&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;dateLastModified&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;surveyObjectUrl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;voevent_referenceurl&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;transientTypePrediction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;objectType&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;transientTypePredicationSource&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;rssFeedSource&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;targetImageUrl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_imgmaster_value&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&quot;finderImageUrl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_finding_chart_value&quot;</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">colNames</span><span class="p">[</span><span class="s">&#39;lightcurveURL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;param_lightcurve_value&quot;</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;attempting to ingest the crts data into the transientbucket table&quot;</span><span class="p">)</span>
+    <span class="c"># HAD TO STOP INGEST DUE TO MAXING OUT THE MEMORY ON PSWEB - CHANGE TO HTML PARSER XXX</span>
+    <span class="c">#g.ingest_data(dbConn)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not ingest the crts data into the transientbucket table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+  <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PRIVATE (HELPER) FUNCTIONS                                                                #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## AUTHOR : KWS</span></div>
+<div class="viewcode-block" id="_update_transientBucketId_for_master_event"><a class="viewcode-back" href="../bucketFiller2.html#bucketFiller2._update_transientBucketId_for_master_event">[docs]</a><span class="k">def</span> <span class="nf">_update_transientBucketId_for_master_event</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">primaryKeyId</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   Sets the ``transientBucketId`` to the ``primaryKeyId`` in the ``transientBucket`` db table (for the object with the ``masterIDFlag`` set).</span>
+<span class="sd">   &quot;&quot;&quot;</span>
+   <span class="kn">import</span> <span class="nn">MySQLdb</span>
+   <span class="n">rowsUpdated</span> <span class="o">=</span> <span class="mi">0</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">cursor</span> <span class="o">=</span> <span class="n">dbConn</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">MySQLdb</span><span class="o">.</span><span class="n">cursors</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+
+      <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">          update transientBucket</span>
+<span class="s">          set transientBucketId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">          where primaryKeyId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">          and masterIDFlag is true</span>
+<span class="s">      &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">primaryKeyId</span><span class="p">,</span> <span class="n">primaryKeyId</span><span class="p">))</span>
+
+      <span class="n">rowsUpdated</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">rowcount</span>
+
+      <span class="c"># Did we update any transient object rows? If not issue a warning.</span>
+      <span class="k">if</span> <span class="n">rowsUpdated</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+         <span class="k">print</span> <span class="s">&quot;WARNING: No transient object entries were updated.&quot;</span>
+
+      <span class="n">cursor</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+
+
+   <span class="k">except</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&quot;Error </span><span class="si">%d</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+   <span class="k">return</span> <span class="n">rowsUpdated</span>
+
+<span class="c">## LAST MODIFIED : November 14, 2012</span>
+<span class="c">## CREATED : November 14, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="_row_dictionary_cleaner"><a class="viewcode-back" href="../bucketFiller2.html#bucketFiller2._row_dictionary_cleaner">[docs]</a><span class="k">def</span> <span class="nf">_row_dictionary_cleaner</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">row</span><span class="o">=</span><span class="p">{},</span><span class="n">columnNames</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">mjdColumn</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">dateColumn</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">surveyName</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Clean up some of the columns before ingest</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - row -- a dictionary of the db column keys and values for one db row</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - columnNames -- a dictionary of all the db column names</span>
+<span class="sd">    - mjdColumn -- name of the column containing an observation mjd</span>
+<span class="sd">    - dateColumn -- name of the column containing an observation date</span>
+<span class="sd">    - surveyName -- name of the column containing the survey name</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - d -- the cleaned up row dictionary</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">datetime</span>
+  <span class="kn">import</span> <span class="nn">re</span>
+
+  <span class="c">################ &gt;SETTINGS ################</span>
+  <span class="n">currentDate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&quot;</span><span class="p">)</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c"># INITIATE THE INGEST DICTIONARY</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">columnNames</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+      <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="c">## CLEAN PREDICTION SOURCE</span>
+  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;transientTypePredicationSource&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="s">&quot;crts&quot;</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;transientTypePredicationSource&quot;</span><span class="p">]:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&quot;transientTypePredicationSource&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;CRTS Circular&quot;</span>
+
+  <span class="c">## CLEAN PREDICTIONS</span>
+  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;transientTypePrediction&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;transientTypePrediction&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&quot;transientTypePrediction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;Supernova or Other&quot;</span>
+
+  <span class="c">## CONVERT FROM JD TO MJD</span>
+  <span class="k">if</span> <span class="n">mjdColumn</span> <span class="ow">and</span> <span class="mi">2450000</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2500000</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]</span> <span class="o">-</span><span class="mf">2400000.5</span>
+
+  <span class="c">## SOME DATES ARE SCREWED UP IN THE VOEVENTS - FORCE THEM THROUGH AND MANUALLY FIX LATER</span>
+  <span class="k">if</span> <span class="n">dateColumn</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationDate&#39;</span><span class="p">]:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;1981-05-18 12:00:00&quot;</span>
+  <span class="k">if</span> <span class="n">mjdColumn</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">getMJDFromSqlDate</span><span class="p">(</span><span class="n">strip</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;observationDate&#39;</span><span class="p">]))</span>
+
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">dateColumn</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">getDateFromMJD</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">cn</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]])</span>
+  <span class="k">elif</span> <span class="ow">not</span> <span class="n">mjdColumn</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">getMJDFromSqlDate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">cn</span><span class="p">[</span><span class="s">&#39;observationDate&#39;</span><span class="p">]]))</span>
+
+  <span class="c">## GRAB FILTER FROM VOEVENT SYNTAX</span>
+  <span class="k">if</span> <span class="s">&#39;phot.mag;em.opt&#39;</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;filter&#39;</span><span class="p">]:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&#39;filter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;opt\.(.*$)&#39;</span><span class="p">,</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;filter&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="c">## ADD EXTRA ITEMS TO THE INGEST DICTIONARY</span>
+  <span class="n">d</span><span class="p">[</span><span class="s">&#39;dateCreated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">currentDate</span>
+  <span class="n">d</span><span class="p">[</span><span class="s">&#39;dateLastModified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">currentDate</span>
+  <span class="n">d</span><span class="p">[</span><span class="s">&#39;htm20ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;htm20ID&#39;</span><span class="p">]</span>
+  <span class="n">d</span><span class="p">[</span><span class="s">&#39;htm16ID&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">row</span><span class="p">[</span><span class="s">&#39;htm16ID&#39;</span><span class="p">]</span>
+  <span class="n">d</span><span class="p">[</span><span class="s">&#39;cx&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">row</span><span class="p">[</span><span class="s">&#39;cx&#39;</span><span class="p">]</span>
+  <span class="n">d</span><span class="p">[</span><span class="s">&#39;cy&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">row</span><span class="p">[</span><span class="s">&#39;cy&#39;</span><span class="p">]</span>
+  <span class="n">d</span><span class="p">[</span><span class="s">&#39;cz&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">row</span><span class="p">[</span><span class="s">&#39;cz&#39;</span><span class="p">]</span>
+
+  <span class="c">## OVERRIDES cn[&#39;survey&#39;] IF surveyName IS GIVEN</span>
+  <span class="k">if</span> <span class="n">surveyName</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&#39;survey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">surveyName</span>
+
+  <span class="k">return</span> <span class="n">d</span>
+
+<span class="c">## LAST MODIFIED : November 14, 2012</span>
+<span class="c">## CREATED : November 14, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="_add_ingested_and_summary_columns_to_tables"><a class="viewcode-back" href="../bucketFiller2.html#bucketFiller2._add_ingested_and_summary_columns_to_tables">[docs]</a><span class="k">def</span> <span class="nf">_add_ingested_and_summary_columns_to_tables</span><span class="p">(</span><span class="n">tableName</span><span class="p">,</span><span class="n">summaryDefault</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Function to add &#39;ingested&#39; and &#39;summary&#39; flag columns to mysql db table</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - tableName -- name of table to columns to</span>
+<span class="sd">    - dbConn -- database hosting the above table</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">## &gt;SETTINGS ##</span>
+
+  <span class="c"># &gt;ACTION(S)  ###</span>
+  <span class="n">colsToAdd</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;summaryRow&#39;</span><span class="p">:</span><span class="s">&#39;TINYINT&#39;</span><span class="p">,</span><span class="s">&#39;ingested&#39;</span><span class="p">:</span><span class="s">&#39;TINYINT&#39;</span><span class="p">}</span>
+
+  <span class="c"># CHECK IF COLUMN EXISTS YET - IF NOT CREATE IT</span>
+  <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">colsToAdd</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to check and generate the ``ingested`` &amp; ``summaryRow`` columns for the </span><span class="si">%s</span><span class="s"> db table&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tableName</span><span class="p">,))</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">colExists</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT *</span>
+<span class="s">                  FROM information_schema.COLUMNS</span>
+<span class="s">                  WHERE TABLE_SCHEMA=DATABASE()</span>
+<span class="s">                  AND COLUMN_NAME=&#39;</span><span class="si">%s</span><span class="s">&#39;</span>
+<span class="s">                  AND TABLE_NAME=&#39;</span><span class="si">%s</span><span class="s">&#39;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">tableName</span><span class="p">,)</span>
+      <span class="n">colExists</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">colExists</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">colExists</span><span class="p">:</span>
+          <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;ALTER TABLE &quot;</span><span class="o">+</span><span class="n">tableName</span><span class="o">+</span><span class="s">&quot; ADD &quot;</span><span class="o">+</span><span class="n">key</span><span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">+</span><span class="n">htmCols</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; DEFAULT NULL&quot;</span>
+          <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not check and generate the ``ingested`` &amp; ``summaryRow`` columns for the </span><span class="si">%s</span><span class="s"> db table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tableName</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;SELECT primaryId from &quot;</span><span class="o">+</span><span class="n">tableName</span><span class="o">+</span><span class="s">&quot; where summaryRow is NULL&quot;</span>
+  <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;UPDATE </span><span class="si">%s</span><span class="s"> SET summaryRow=</span><span class="si">%s</span><span class="s"></span>
+<span class="s">                        where primaryId = &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tableName</span><span class="p">,</span><span class="n">summaryDefault</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">])</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to set the default values for the summaryRow column of the </span><span class="si">%s</span><span class="s"> db table&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tableName</span><span class="p">,))</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not set the default values for the summaryRow column of the </span><span class="si">%s</span><span class="s"> db table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tableName</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;SELECT primaryId from &quot;</span><span class="o">+</span><span class="n">tableName</span><span class="o">+</span><span class="s">&quot; where ingested is NULL&quot;</span>
+  <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;UPDATE </span><span class="si">%s</span><span class="s"> SET ingested=0</span>
+<span class="s">                        where primaryId = &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tableName</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;primaryId&#39;</span><span class="p">])</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to set the default values for the ingested column of the </span><span class="si">%s</span><span class="s"> db table&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tableName</span><span class="p">,))</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not set the default values for the ingested column of the </span><span class="si">%s</span><span class="s"> db table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tableName</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

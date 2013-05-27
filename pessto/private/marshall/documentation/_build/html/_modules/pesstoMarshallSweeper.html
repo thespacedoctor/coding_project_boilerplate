@@ -1,0 +1,593 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pesstoMarshallSweeper &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pesstoMarshallSweeper</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">pesstoMarshallSweeper</span>
+
+<span class="sd">Created by David Young on 2012-08-07</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">xxx = come back here and do some more work</span>
+<span class="sd">_someObject = a &#39;private&#39; object that should only be changed for debugging</span>
+
+<span class="sd">notes:</span>
+<span class="sd">  - Dave started work on this file on 2012-08-07</span>
+<span class="sd">  - Dave &#39;completed&#39; this code on ... not complete yet!</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c">################# GLOBAL IMPORTS ####################</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">dbConnect</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cgi</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span>
+<span class="kn">import</span> <span class="nn">cgitb</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="c">######################################################</span>
+<span class="c"># MAIN LOOP - USED FOR SCRIPTING                     #</span>
+<span class="c">######################################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Script to *sweep* the marshall. Its main function is to add new objects from the ``transientBucket`` into the ``pesstoObjects`` table.</span>
+<span class="sd">  It also updates flags, checks for sdss coverage etc. See function docstrings for more details.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    -</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+  <span class="c">################ &gt; SETUP ##################</span>
+  <span class="c">## SETUP DB CONNECTION AND A LOGGER</span>
+  <span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
+  <span class="c">## START LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- STARTING TO RUN THE pesstoMarshallSweeper -----&#39;</span><span class="p">)</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+  <span class="c">################ &gt;ACTION(S) ###############</span>
+  <span class="n">sweep</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">commit</span> <span class="p">()</span>
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+  <span class="c">## FINISH LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- FINISHED ATTEMPT TO RUN THE pesstoMarshallSweeper -----&#39;</span><span class="p">)</span>
+  <span class="k">return</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># CLASSES                                                                                   #</span>
+<span class="c">#############################################################################################</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PUBLIC FUNCTIONS                                                                          #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## LAST MODIFIED : December 10, 2012</span>
+<span class="c">## CREATED : December 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="sweep"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper.sweep">[docs]</a><span class="k">def</span> <span class="nf">sweep</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Uses a collection of functions to &#39;sweep&#39; or clean the pessto marshall database.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">add_new_transients_to_pesstoObjects_table</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+  <span class="n">update_pesstoObjects_with_external_classifications</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+  <span class="n">update_sdss_coverage_flags</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+  <span class="n">retrospectively_set_lsq_non_detection_dates</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+  <span class="n">_cleanup_null_dates</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+  <span class="n">_update_non_sn_crts_ingest_flags</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">## LAST MODIFIED : December 10, 2012</span>
+<span class="c">## CREATED : December 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="retrospectively_set_lsq_non_detection_dates"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper.retrospectively_set_lsq_non_detection_dates">[docs]</a><span class="k">def</span> <span class="nf">retrospectively_set_lsq_non_detection_dates</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;LSQ often set a last non-detection date for an object after the release of the discovery information.</span>
+<span class="sd">  This function looks back at the LSQ date to find updated last non-detection dates and propagates the information into the marshall.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">########## FIND THE LSQ LAST NON-DETECTIONS ##########</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT s.candidateId,s.lastNonDetection</span>
+<span class="s">                from fs_lsq_current_summaries s, fs_lsq l</span>
+<span class="s">                where s.candidateId = l.candidateId and l.summaryRow = 1 and</span>
+<span class="s">                  l.lastNonDetection != s.lastNonDetection and s.lastNonDetection is not NULL&quot;&quot;&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find the LSQ objects with updated last non-detection dates&quot;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find the LSQ objects with updated last non-detection dates - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="c">## UPDATE THE fs_lsq DB TABLE</span>
+  <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">sqlDate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;lastNonDetection&quot;</span><span class="p">],</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+      <span class="n">sqlDate</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&quot;lastNonDetection&quot;</span><span class="p">]</span>
+    <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;UPDATE fs_lsq</span>
+<span class="s">                  set lastNonDetection = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">                  where candidateId = &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sqlDate</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;candidateId&quot;</span><span class="p">],)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to update objects in the ``fs_lsq`` table with new last non-detection dates&quot;</span><span class="p">)</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not update objects in the ``fs_lsq`` table with new last non-detection dates - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT DISTINCT t.transientBucketId, l.lastNonDetection</span>
+<span class="s">                from transientBucket t, fs_lsq_current_summaries l</span>
+<span class="s">                where t.name = l.candidateId and t.lastNonDetectionDate is NULL and l.lastNonDetection is not NULL&quot;&quot;&quot;</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find lsq objects with new last non-detection dates set that are not set in the ``transientBucket`` table&quot;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find lsq objects with new last non-detection dates set that are not set in the ``transientBucket`` table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="n">row</span><span class="p">[</span><span class="s">&quot;lastNonDetection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;lastNonDetection&quot;</span><span class="p">]),</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;UPDATE transientBucket</span>
+<span class="s">                  set lastNonDetectionDate = &#39;</span><span class="si">%s</span><span class="s">&#39;, dateLastModified = NOW()</span>
+<span class="s">                  where transientBucketId = &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;lastNonDetection&quot;</span><span class="p">],</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;transientBucketId&quot;</span><span class="p">],)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to update transientBucketId = </span><span class="si">%s</span><span class="s"> with a new lsq last non-detection date = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;lastNonDetection&quot;</span><span class="p">]),</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;transientBucketId&quot;</span><span class="p">]),))</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not update transientBucketId = </span><span class="si">%s</span><span class="s"> with a new last non-detection date = </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">## LAST MODIFIED : December 10, 2012</span>
+<span class="c">## CREATED : December 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="update_sdss_coverage_flags"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper.update_sdss_coverage_flags">[docs]</a><span class="k">def</span> <span class="nf">update_sdss_coverage_flags</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Update all new objects in the ``pesstoObjects`` table with the sdss_coverage flag.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+  <span class="kn">import</span> <span class="nn">time</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+  <span class="kn">import</span> <span class="nn">dryxAstroTools</span> <span class="kn">as</span> <span class="nn">at</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">########## SET SDSS COVERAGE FLAG IN pesstoObjects TABLE ##########</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;SELECT t.transientBucketId, t.raDeg, t.decDeg from pesstoObjects p, transientBucket t where p.sdss_coverage is NULL and p.transientBucketId = t.transientBucketId and t.masterIDFlag = 1&quot;</span>
+  <span class="n">newRows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">newRow</span> <span class="ow">in</span> <span class="n">newRows</span><span class="p">:</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to check sdss coverage for ra &amp; dec </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">newRow</span><span class="p">[</span><span class="s">&#39;raDeg&#39;</span><span class="p">],</span> <span class="n">newRow</span><span class="p">[</span><span class="s">&#39;decDeg&#39;</span><span class="p">],))</span>
+      <span class="n">sdss</span> <span class="o">=</span> <span class="n">at</span><span class="o">.</span><span class="n">check_for_sdss_coverage</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">newRow</span><span class="p">[</span><span class="s">&#39;raDeg&#39;</span><span class="p">],</span> <span class="n">newRow</span><span class="p">[</span><span class="s">&#39;decDeg&#39;</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not check sdss coverage for transientBucketId - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">sdss</span><span class="p">:</span>
+      <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;UPDATE pesstoObjects set sdss_coverage = </span><span class="si">%s</span><span class="s"> where transientBucketId = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">newRow</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]),)</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to write sdss_coverage flag into db for transientBucketId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newRow</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]),))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not write sdss_coverage flag into db for transientBucketId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newRow</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]),</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;UPDATE pesstoObjects set sdss_coverage = </span><span class="si">%s</span><span class="s"> where transientBucketId = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">newRow</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]),)</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to write sdss_coverage flag into db for transientBucketId </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newRow</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]),))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not write sdss_coverage flag into db for transientBucketId </span><span class="si">%s</span><span class="s"> - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newRow</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]),</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">## LAST MODIFIED : October 10, 2012</span>
+<span class="c">## CREATED : October 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="add_new_transients_to_pesstoObjects_table"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper.add_new_transients_to_pesstoObjects_table">[docs]</a><span class="k">def</span> <span class="nf">add_new_transients_to_pesstoObjects_table</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Read the ``transientBucket`` table for new transients and add them to the ``pesstoObejcts`` db table.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+  <span class="kn">import</span> <span class="nn">time</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">#### ADD NEW OBJECTS TO THE PESSTOOBJECTS TABLE ####</span>
+  <span class="c">#---------------------------------------------------------------------------------------------------------------------------------#</span>
+  <span class="c"># FIND OBJECTS THAT ARE NOT IN THE TRANSIENT BUCKET BUT NOT IN THE PESSTOOBJECTS TABLE</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT DISTINCT transientBucketId</span>
+<span class="s">                FROM transientBucket</span>
+<span class="s">                WHERE transientBucketId NOT IN</span>
+<span class="s">                (</span>
+<span class="s">                SELECT transientBucketId</span>
+<span class="s">                FROM pesstoObjects</span>
+<span class="s">                )&quot;&quot;&quot;</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to find objects in the ``transientBucket`` table but not in the ``pesstoObjects`` table&quot;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not find objects in the ``transientBucket`` table but not in the ``pesstoObjects`` table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="n">tbId</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span>
+
+    <span class="c"># ADD NEW OBJECTS INTO PESSTOOBJECTS TABLE</span>
+    <span class="n">sqlQuery</span> <span class="o">=</span><span class="s">&quot;&quot;&quot;INSERT INTO pesstoObjects (</span>
+<span class="s">                  pesstoObjectsId,</span>
+<span class="s">                  transientBucketId,</span>
+<span class="s">                  classifiedFlag,</span>
+<span class="s">                  marshallWorkflowLocation,</span>
+<span class="s">                  alertWorkflowLocation,</span>
+<span class="s">                  publicStatus,</span>
+<span class="s">                  dateAdded,</span>
+<span class="s">                  dateLastModified)</span>
+<span class="s">                VALUES (</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, 0,&#39;Inbox&#39;,&#39;Pending Classification&#39;,1,NOW(),NOW())</span>
+<span class="s">              &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tbId</span><span class="p">,</span> <span class="n">tbId</span><span class="p">,)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;attempting to add transient with transientBucketId = </span><span class="si">%s</span><span class="s"> to the pesstoObjects db table&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tbId</span><span class="p">,))</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+      <span class="n">p</span><span class="o">.</span><span class="n">insert_changelog_entry</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">tbId</span><span class="p">,</span> <span class="s">&#39;object added to the pessto marshall inbox&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not add transient with transientBucketId = </span><span class="si">%s</span><span class="s"> to the pesstoObjects db table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tbId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">## LAST MODIFIED : December 10, 2012</span>
+<span class="c">## CREATED : December 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="update_pesstoObjects_with_external_classifications"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper.update_pesstoObjects_with_external_classifications">[docs]</a><span class="k">def</span> <span class="nf">update_pesstoObjects_with_external_classifications</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Reads new ``transientBucket`` events for any non-pessto classifications, propagates these classifications into the marshall and sets the correct marshall workflow flags to the relevant objects.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+  <span class="kn">import</span> <span class="nn">time</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">#### FIND OBJECTS IN TRANSIENT BUCKET THAT NOW HAVE A CLASSIFICATION EXTERNAL TO PESSTO ####</span>
+  <span class="c">#---------------------------------------------------------------------------------------------------------------------------------#</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT DISTINCT transientBucketId, survey</span>
+<span class="s">                FROM transientBucket WHERE</span>
+<span class="s">                (</span>
+<span class="s">                  spectralType is not NULL</span>
+<span class="s">                  AND transientBucketId NOT IN</span>
+<span class="s">                  (</span>
+<span class="s">                    SELECT transientBucketId</span>
+<span class="s">                    FROM pesstoObjects</span>
+<span class="s">                    WHERE classifiedFlag = 1</span>
+<span class="s">                  )</span>
+<span class="s">                )</span>
+<span class="s">            &quot;&quot;&quot;</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to query for objects in ``transientBucket`` table that now have an external classification&quot;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not query for objects in transientBucket table that now have an external classification - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="n">tbId</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;transientBucketId&#39;</span><span class="p">]</span>
+    <span class="n">survey</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;survey&#39;</span><span class="p">]</span>
+    <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">tbId</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">survey</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; </span><span class="se">\n</span><span class="s">&quot;</span>
+
+    <span class="c"># CHANGE CLASSIFICATION FLAG, MWFFLAG AND AWFFLAG</span>
+    <span class="n">_set_classified_flags</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">tbId</span><span class="p">,</span> <span class="n">survey</span><span class="p">)</span>
+
+    <span class="c"># UPDATE CHANGELOG TABLE</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">insert_changelog_entry</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">tbId</span><span class="p">,</span> <span class="s">&#39;object classified by an external source (not pessto)&#39;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PRIVATE (HELPER) FUNCTIONS                                                                #</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## LAST MODIFIED : November 8, 2012</span>
+<span class="c">## CREATED : November 8, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="_update_non_sn_crts_ingest_flags"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper._update_non_sn_crts_ingest_flags">[docs]</a><span class="k">def</span> <span class="nf">_update_non_sn_crts_ingest_flags</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Flag all non-*supernova* and non-*other* CRTS objects as ingested (i.e. no more work to be done with these objects)</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;SELECT primaryId FROM rss_channel_crts WHERE ingested = 0 and objectType not like &quot;</span><span class="si">%o</span><span class="s">ther%&quot; and objectType not like &quot;</span><span class="si">%s</span><span class="s">upernova%&quot; and objectType is not Null&quot;&quot;&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to read CRTS objects that are not &#39;supernova&#39; or &#39;other&#39;&quot;</span><span class="p">)</span>
+    <span class="n">IDs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not read CRTS objects that are not supernova or other - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to flag non-supernova and non-other CRTS objects as ingested&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">IDs</span><span class="p">:</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">set_flag</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="s">&quot;rss_channel_crts&quot;</span><span class="p">,</span><span class="s">&quot;ingested&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;primaryId&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="s">&quot;primaryId&quot;</span><span class="p">])</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not flag non-&#39;supernova&#39; and non-&#39;other&#39; CRTS objects as ingested - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+</div>
+<div class="viewcode-block" id="_set_classified_flags"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper._set_classified_flags">[docs]</a><span class="k">def</span> <span class="nf">_set_classified_flags</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">transientBucketId</span><span class="p">,</span> <span class="n">survey</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Set classification flags for an object in the ``pesstoObjects`` table.</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - transientBucketId</span>
+<span class="sd">    - survey -- name of the classifying survey</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - insert_id() -- ``pesstoObjectsId``</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;attempting to set classification flags for transientBicketId </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,))</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">dbConn</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">MySQLdb</span><span class="o">.</span><span class="n">cursors</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">      UPDATE pesstoObjects</span>
+<span class="s">      SET classifiedFlag = 1</span>
+<span class="s">      WHERE pesstoObjectsId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">      &quot;&quot;&quot;</span><span class="p">,</span> <span class="n">transientBucketId</span><span class="p">)</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">      UPDATE pesstoObjects</span>
+<span class="s">      SET marshallWorkflowLocation = &#39;review for followup&#39;</span>
+<span class="s">      WHERE pesstoObjectsId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">      &quot;&quot;&quot;</span><span class="p">,</span> <span class="n">transientBucketId</span><span class="p">)</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">survey</span><span class="o">==</span><span class="s">&#39;pessto&#39;</span><span class="p">):</span>
+      <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        UPDATE pesstoObjects</span>
+<span class="s">        SET alertWorkflowLocation = &#39;queued for alert&#39;</span>
+<span class="s">        WHERE pesstoObjectsId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">,</span> <span class="n">transientBucketId</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        UPDATE pesstoObjects</span>
+<span class="s">        SET alertWorkflowLocation = &#39;external alert released&#39;</span>
+<span class="s">        WHERE pesstoObjectsId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">,</span> <span class="n">transientBucketId</span><span class="p">)</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+
+  <span class="k">except</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;cound not set classification flags for transientBicketId </span><span class="si">%s</span><span class="s">, failed with error </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transientBucketId</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+
+  <span class="n">cursor</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+  <span class="k">return</span> <span class="n">dbConn</span><span class="o">.</span><span class="n">insert_id</span><span class="p">()</span>
+
+
+<span class="c">## LAST MODIFIED : December 10, 2012</span>
+<span class="c">## CREATED : December 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="_cleanup_null_dates"><a class="viewcode-back" href="../pesstoMarshallSweeper.html#pesstoMarshallSweeper._cleanup_null_dates">[docs]</a><span class="k">def</span> <span class="nf">_cleanup_null_dates</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Cleanup date values of ``00:00:00``</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    -</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c">########## CLEAN UP 00-00-00 00:00:00 DATES ##########</span>
+  <span class="n">sqlQuery</span> <span class="o">=</span> <span class="s">&quot;SELECT transientBucketId from transientBucket where lastNonDetectionDate = 0&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to read the ``transientBucket`` table for objects with 00:00:00 dates set&quot;</span><span class="p">)</span>
+      <span class="n">rows</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_read_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not read read the ``transientBucket`` table for objects with 00:00:00 dates set  - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="n">sqlQuery</span> <span class="o">=</span><span class="s">&quot;&quot;&quot;UPDATE transientBucket</span>
+<span class="s">                set lastNonDetectionDate = NULL</span>
+<span class="s">                where transientBucketId = </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&quot;transientBucketId&quot;</span><span class="p">],)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to cleanup NULL value last non-detection dates in the ``transientBucket`` table&quot;</span><span class="p">)</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">execute_mysql_write_query</span><span class="p">(</span><span class="n">sqlQuery</span><span class="p">,</span><span class="n">dbConn</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not update NULL last non-detection dates in the tansientBucket table - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

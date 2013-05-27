@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>transientSurveysHtmlParsers &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for transientSurveysHtmlParsers</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">transientSurveysHtmlParsers</span>
+
+<span class="sd">Created by David Young on November 7, 2012</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">xxx = come back here and do some more work</span>
+<span class="sd">_someObject = a &#39;private&#39; object that should only be changed for debugging</span>
+
+<span class="sd">notes:</span>
+<span class="sd">  - Dave started work on this file on November 7, 2012</span>
+<span class="sd">  - Dave &#39;completed&#39; this code on ... not complete yet!</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c">################# GLOBAL IMPORTS ####################</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c">######################################################</span>
+<span class="c"># MAIN LOOP - USED FOR DEBUGGING OR WHEN SCRIPTING   #</span>
+<span class="c">######################################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../transientSurveysHtmlParsers.html#transientSurveysHtmlParsers.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+  <span class="kn">import</span> <span class="nn">dryxCommonUtils</span> <span class="kn">as</span> <span class="nn">b</span>
+
+  <span class="c">################ &gt; SETUP ##################</span>
+  <span class="c">## SETUP DB dbConnECTION AND A LOGGER</span>
+  <span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
+  <span class="c">## START LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- STARTING TO RUN transientSurveysHtmlParsers -----&#39;</span><span class="p">)</span>
+
+  <span class="n">downloadDirectory</span> <span class="o">=</span> <span class="s">&quot;/tmp/html_parser&quot;</span>
+  <span class="n">b</span><span class="o">.</span><span class="n">dryx_mkdir</span><span class="p">(</span><span class="n">downloadDirectory</span><span class="p">)</span>
+
+  <span class="n">parse_ogle_pages</span><span class="p">(</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">commit</span> <span class="p">()</span>
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+  <span class="c">## FINISH LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- FINISHED ATTEMPT TO RUN transientSurveysHtmlParsers -----&#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># CLASSES                                                                                   #</span>
+<span class="c">#############################################################################################</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PUBLIC FUNCTIONS                                                                          #</span>
+<span class="c">#############################################################################################</span></div>
+<div class="viewcode-block" id="parse_ogle_pages"><a class="viewcode-back" href="../transientSurveysHtmlParsers.html#transientSurveysHtmlParsers.parse_ogle_pages">[docs]</a><span class="k">def</span> <span class="nf">parse_ogle_pages</span><span class="p">(</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Downloads the ogle page: http://ogle.astrouw.edu.pl/ogle4/transients/transients.html and parses the transient metadata into db</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - downloadDirectory -- directory to download the OGLE data files</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - None</span>
+
+<span class="sd">  created: November 12, 2012</span>
+<span class="sd">  last modified: November 13, 2012</span>
+<span class="sd">  author: dryx</span>
+<span class="sd">  status: tidy and complete as of November 13, 2012</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxWebCrawlers</span> <span class="kn">as</span> <span class="nn">wc</span>
+  <span class="kn">import</span> <span class="nn">re</span>
+  <span class="kn">import</span> <span class="nn">utils</span> <span class="kn">as</span> <span class="nn">u</span>
+  <span class="kn">import</span> <span class="nn">dryxCommonUtils</span> <span class="kn">as</span> <span class="nn">b</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+
+  <span class="c">################ &gt;SETTINGS ################</span>
+  <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://ogle.astrouw.edu.pl/ogle4/transients/transients.html&quot;</span>
+  <span class="n">urlp</span> <span class="o">=</span> <span class="s">&quot;http://ogle.astrouw.edu.pl/ogle4/transients/&quot;</span>
+
+  <span class="n">sumRow</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">recRow</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="c"># REGEXS</span>
+  <span class="n">reAllData</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;hr&gt;.*&lt;hr&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+  <span class="n">reDataList</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;(?=(&lt;hr&gt;.*?&lt;hr&gt;))&#39;</span><span class="p">,</span><span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+  <span class="n">reLcDataFile</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;images.*?dat&#39;</span><span class="p">)</span>
+  <span class="n">reLcPlot</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;images.*?plot.*?png&#39;</span><span class="p">)</span>
+  <span class="n">reRefImg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;images.*?chart.*?gif&#39;</span><span class="p">)</span>
+  <span class="n">reRefFits</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;images.*?chart.*?fts&#39;</span><span class="p">)</span>
+  <span class="n">reTargetImg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;images.*?frame.*?gif&#39;</span><span class="p">)</span>
+  <span class="n">reTargetFits</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;images.*?frame.*?fts&#39;</span><span class="p">)</span>
+  <span class="n">reSubImg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;images.*?sub.*?gif&#39;</span><span class="p">)</span>
+  <span class="n">reSubFits</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;images.*?sub.*?fts&#39;</span><span class="p">)</span>
+  <span class="n">reName</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;OGLE-\d{4}-[a-zA-Z]{2,4}-\d{3}&#39;</span><span class="p">)</span>
+  <span class="n">reTypeA</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;-[a-zA-Z]{2,4}-&#39;</span><span class="p">)</span>
+  <span class="n">reTypeB</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;[a-zA-Z]{2,4}&#39;</span><span class="p">)</span>
+  <span class="n">reRaDec</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\d{1,2}:.*&#39;</span><span class="p">)</span>
+  <span class="n">reJD</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;24.*?\s&#39;</span><span class="p">)</span>
+  <span class="n">reMag</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\s\d{1,2}\.\d{1,4}\s&#39;</span><span class="p">)</span>
+
+  <span class="c">## LAMBDA FUNCTIONS ##</span>
+  <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+  <span class="n">fl</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to download the ogle transient webpage&quot;</span><span class="p">)</span>
+    <span class="n">localFile</span> <span class="o">=</span> <span class="n">wc</span><span class="o">.</span><span class="n">singleWebDocumentDownloader</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not download the ogle transient webpage - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="c">## READ INTO THE DATABLOCK FROM THE WEBPAGE</span>
+  <span class="n">rf</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">localFile</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+  <span class="n">allData</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to read the data from the ogle html page&quot;</span><span class="p">)</span>
+    <span class="n">allData</span> <span class="o">=</span> <span class="n">reAllData</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">allData</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not read the data from the ogle html page - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="c">## SPLIT THE DATA INTO SINGLE OBJECTS &amp; ITERATE</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to split the ogle data into seperate object blocks&quot;</span><span class="p">)</span>
+    <span class="n">dataList</span> <span class="o">=</span> <span class="n">reDataList</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">allData</span><span class="p">)</span>
+    <span class="c">#dataList = [match.group(1) for match in matches]</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not split the ogle data into seperate object blocks - failed with this error: </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">dataList</span><span class="p">:</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">sumRow</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">recRow</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c">##log.debug(&#39;one object block:\n %s&#39; % (data.group(),))</span>
+    <span class="c">## GRAB THE SUMMARY (DISCOVERY) INFO FOR THE OGLE TRANSIENT</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to grab an ogle lightcurve plot&quot;</span><span class="p">)</span>
+      <span class="n">lcPlotUrl</span> <span class="o">=</span> <span class="n">urlp</span><span class="o">+</span><span class="n">f</span><span class="p">(</span><span class="n">reLcPlot</span><span class="p">)</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lightcurveUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lcPlotUrl</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not grab an ogle lightcurve plot - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to download an ogle reference image&quot;</span><span class="p">)</span>
+      <span class="n">refImgUrl</span> <span class="o">=</span> <span class="n">urlp</span><span class="o">+</span><span class="n">f</span><span class="p">(</span><span class="n">reRefImg</span><span class="p">)</span>
+      <span class="n">refFitsUrl</span> <span class="o">=</span> <span class="n">urlp</span><span class="o">+</span><span class="n">f</span><span class="p">(</span><span class="n">reRefFits</span><span class="p">)</span>
+      <span class="c">#log.debug(&quot;reference image url: &quot;+refImgUrl)</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;referenceImageUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">refImgUrl</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;referenceFitsUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">refFitsUrl</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not download an ogle reference image - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to download an ogle target image&quot;</span><span class="p">)</span>
+      <span class="n">targetImgUrl</span> <span class="o">=</span> <span class="n">urlp</span><span class="o">+</span><span class="n">f</span><span class="p">(</span><span class="n">reTargetImg</span><span class="p">)</span>
+      <span class="n">targetFitsUrl</span> <span class="o">=</span> <span class="n">urlp</span><span class="o">+</span><span class="n">f</span><span class="p">(</span><span class="n">reTargetFits</span><span class="p">)</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;targetImageUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">targetImgUrl</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;targetFitsUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">targetFitsUrl</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not download an ogle target image - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to download an ogle subtraction image&quot;</span><span class="p">)</span>
+      <span class="n">subImgUrl</span> <span class="o">=</span> <span class="n">urlp</span><span class="o">+</span><span class="n">f</span><span class="p">(</span><span class="n">reSubImg</span><span class="p">)</span>
+      <span class="n">subFitsUrl</span> <span class="o">=</span> <span class="n">urlp</span><span class="o">+</span><span class="n">f</span><span class="p">(</span><span class="n">reSubFits</span><span class="p">)</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;subtractedImageUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subImgUrl</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;subtractedFitsUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subFitsUrl</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not download an ogle subtraction image - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to parse ogle name&quot;</span><span class="p">)</span>
+      <span class="n">name</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">reName</span><span class="p">)</span>
+      <span class="n">oType</span> <span class="o">=</span> <span class="n">reTypeB</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">reTypeA</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">())</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;transientTypePrediction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">oType</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not parse ogle name - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to paser ogle object coordinates&quot;</span><span class="p">)</span>
+      <span class="n">raDec</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">reRaDec</span><span class="p">)</span>
+      <span class="n">raDecList</span> <span class="o">=</span> <span class="n">raDec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)</span>
+      <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">raDecList</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">raDecList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;raDeg&#39;</span><span class="p">]</span> <span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">sexToDec</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span><span class="n">ra</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;decDeg&#39;</span><span class="p">]</span> <span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">sexToDec</span><span class="p">(</span><span class="n">dec</span><span class="p">,</span><span class="n">ra</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not paser ogle object coordinates - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c">## GRAB THE RECURRENCE EVENTS</span>
+    <span class="n">lcDataFileUrl</span> <span class="o">=</span> <span class="n">urlp</span><span class="o">+</span><span class="n">f</span><span class="p">(</span><span class="n">reLcDataFile</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to download a datafile for an ogle object&quot;</span><span class="p">)</span>
+      <span class="n">lcDataFile</span> <span class="o">=</span> <span class="n">wc</span><span class="o">.</span><span class="n">singleWebDocumentDownloader</span><span class="p">(</span><span class="n">lcDataFileUrl</span><span class="p">,</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">rf2</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">lcDataFile</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not download a datafile for an ogle object - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="n">lndSwitch</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ndMJD</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">ndDate</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lastNonDetectionDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lastNonDetectionMJD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">rf2</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="s">&quot;103.149&quot;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">lndSwitch</span> <span class="o">==</span><span class="mi">0</span><span class="p">):</span> <span class="c">#NON-DETECTION</span>
+        <span class="n">ndMJD</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fl</span><span class="p">(</span><span class="n">reJD</span><span class="p">))</span><span class="o">-</span><span class="mf">2400000.5</span>
+        <span class="n">ndDate</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">getDateFromMJD</span><span class="p">(</span><span class="n">ndMJD</span><span class="p">)</span>
+      <span class="k">elif</span><span class="p">(</span><span class="s">&quot;103.149&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">lndSwitch</span> <span class="o">==</span><span class="mi">0</span><span class="p">):</span> <span class="c">#FIRST REAL DETECTION</span>
+        <span class="c"># CATCH LAST NON-DETECTION</span>
+        <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lastNonDetectionMJD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndMJD</span>
+        <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lastNonDetectionDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndDate</span>
+        <span class="n">lndSwitch</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fl</span><span class="p">(</span><span class="n">reJD</span><span class="p">))</span> <span class="o">-</span> <span class="mf">2400000.5</span>
+        <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;observationDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">getDateFromMJD</span><span class="p">(</span><span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">])</span>
+        <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;mag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fl</span><span class="p">(</span><span class="n">reMag</span><span class="p">)</span>
+      <span class="k">elif</span><span class="p">(</span><span class="s">&quot;103.149&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">lndSwitch</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">mjd</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fl</span><span class="p">(</span><span class="n">reJD</span><span class="p">))</span> <span class="o">-</span> <span class="mf">2400000.5</span>
+        <span class="n">mag</span> <span class="o">=</span> <span class="n">fl</span><span class="p">(</span><span class="n">reMag</span><span class="p">)</span>
+        <span class="n">odate</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">getDateFromMJD</span><span class="p">(</span><span class="n">mjd</span><span class="p">)</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;observationMJD&#39;</span><span class="p">:</span><span class="n">mjd</span><span class="p">,</span><span class="s">&#39;mag&#39;</span><span class="p">:</span><span class="n">mag</span><span class="p">,</span><span class="s">&#39;observationDate&#39;</span><span class="p">:</span><span class="n">odate</span><span class="p">}</span>
+        <span class="n">recRow</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">point</span><span class="p">])</span>
+
+      <span class="k">print</span> <span class="s">&quot;lnd: &quot;</span><span class="p">,</span> <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lastNonDetectionDate&#39;</span><span class="p">]</span>
+      <span class="k">print</span> <span class="s">&quot;lndmjd: &quot;</span><span class="p">,</span> <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lastNonDetectionMJD&#39;</span><span class="p">]</span>
+
+    <span class="c">## CHECK FOR OBJECTS WITH NO LAST NON-DETECTION</span>
+    <span class="k">if</span> <span class="n">lndSwitch</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lastNonDetectionMJD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;lastNonDetectionDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="c">## ADD EXTRA COLUMNS</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;dateCreated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_now_sql_datetime</span><span class="p">()</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;dateLastModified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_now_sql_datetime</span><span class="p">()</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;summaryRow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;ingested&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;survey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;ogleIV&quot;</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;surveyObjectUrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;http://ogle.astrouw.edu.pl/ogle4/transients/transients.html&quot;</span>
+    <span class="n">sumRow</span><span class="p">[</span><span class="s">&#39;filter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;I&quot;</span>
+    <span class="c">## KEYS TO APPEND TO RECURRENCE ROWS FROM SUMMARY ROW</span>
+    <span class="n">dups</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span><span class="s">&#39;raDeg&#39;</span><span class="p">,</span><span class="s">&#39;decDeg&#39;</span><span class="p">,</span><span class="s">&#39;dateCreated&#39;</span><span class="p">,</span><span class="s">&#39;dateLastModified&#39;</span><span class="p">,</span><span class="s">&#39;ingested&#39;</span><span class="p">,</span><span class="s">&#39;survey&#39;</span><span class="p">,</span><span class="s">&#39;filter&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">recRow</span><span class="p">:</span>
+      <span class="k">for</span> <span class="n">dup</span> <span class="ow">in</span> <span class="n">dups</span><span class="p">:</span>
+        <span class="n">point</span><span class="p">[</span><span class="n">dup</span><span class="p">]</span> <span class="o">=</span> <span class="n">sumRow</span><span class="p">[</span><span class="n">dup</span><span class="p">]</span>
+        <span class="n">point</span><span class="p">[</span><span class="s">&#39;summaryRow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c">## INGEST THE SUMMARY ROW</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to ingest the summary row for OGLE event&quot;</span><span class="p">)</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">sumRow</span><span class="p">,</span> <span class="s">&#39;fs_ogle&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">,</span><span class="s">&#39;name&#39;</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not ingest the summary row for OGLE event - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c">## INGEST THE RECURRANCE ROWS</span>
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">recRow</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to ingest the recurrance row for OGLE event&quot;</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="s">&#39;fs_ogle&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;observationMJD&#39;</span><span class="p">,</span><span class="s">&#39;name&#39;</span><span class="p">])</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;could not ingest the recurrance row for OGLE event - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="n">rf2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+  <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;we have </span><span class="si">%s</span><span class="s"> ogle datablocks to parse for ogle objects&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">),))</span>
+
+  <span class="n">rf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># PRIVATE (HELPER) FUNCTIONS                                                                #</span>
+<span class="c">#############################################################################################</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

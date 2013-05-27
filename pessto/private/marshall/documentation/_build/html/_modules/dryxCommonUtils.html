@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dryxCommonUtils &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dryxCommonUtils</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">dryxCommonUtils.py</span>
+
+<span class="sd">Initially created by David Young on October 8, 2012</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">p&lt;Var&gt; = variable formated in the way I want it output to file or screen</span>
+<span class="sd">xxx = come back here and do some more work</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">############################################</span>
+<span class="c"># MAIN LOOP - USED FOR DEBUGGING           #</span>
+<span class="c">############################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span> <span class="n">nowDateTimeStamp</span><span class="p">()</span>
+  <span class="n">dryx_mkdir</span><span class="p">(</span><span class="s">&#39;/Users/Dave/Desktop/shit&#39;</span><span class="p">)</span>
+
+
+<span class="c">##############################################</span>
+<span class="c"># LOGGER - SETTINGS FROM DICTIONARY          #</span>
+<span class="c">##############################################</span></div>
+<div class="viewcode-block" id="logger"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.logger">[docs]</a><span class="k">class</span> <span class="nc">logger</span><span class="p">():</span>
+<span class="c">#### IMPORTS ####</span>
+  <span class="kn">import</span> <span class="nn">logging</span>
+  <span class="kn">import</span> <span class="nn">logging.config</span>
+  <span class="kn">import</span> <span class="nn">yaml</span>
+
+  <span class="c">#### VARIABLES ####</span>
+  <span class="n">settingsFilePath</span> <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+  <span class="c">#### THE MAIN METHOD - BUILDS AND RETURNS THE ENTIRE OBJECT ####</span>
+<div class="viewcode-block" id="logger.get_object"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.logger.get_object">[docs]</a>  <span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c"># IMPORT YAML LOGGING DICTIONARY FROM THE GIVEN PATH</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dictConfig</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settingsFilePath</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)))</span>
+    <span class="c"># SET THE ROOT LOGGER</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">logger</span>
+
+
+<span class="c">############################################################################</span>
+<span class="c">#  RETURN A _DATETIME STAMP TO BE APPENDED TO FILENAMES (WRTITEN BY DRYX)  #</span>
+<span class="c">############################################################################</span>
+<span class="c">## LAST MODIFIED : 20121026</span>
+<span class="c">## CREATED : 20121026</span></div></div>
+<div class="viewcode-block" id="nowDateTimeFileStamp"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.nowDateTimeFileStamp">[docs]</a><span class="k">def</span> <span class="nf">nowDateTimeFileStamp</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;returns a _datetime stamp to be appended to filenames</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - current time and date in filename format</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="kn">import</span> <span class="nn">logging</span>
+  <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span>
+
+  <span class="c">## &gt;SETTINGS ##</span>
+
+  <span class="c">###########################################################</span>
+  <span class="c"># &gt;ACTION(S)                                              #</span>
+  <span class="c">###########################################################</span>
+  <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+  <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y%m</span><span class="si">%d</span><span class="s">t%H%M%S&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">now</span>
+
+
+<span class="c">############################################################################</span>
+<span class="c">#  RETURNS A MYSQL STYLE TIMESTAMP (WRTITEN BY DRYX)                        #</span>
+<span class="c">############################################################################</span>
+<span class="c">## LAST MODIFIED : 20121031</span>
+<span class="c">## CREATED : 20121031</span></div>
+<div class="viewcode-block" id="nowDateTimeStamp"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.nowDateTimeStamp">[docs]</a><span class="k">def</span> <span class="nf">nowDateTimeStamp</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;returns a mysql style timestamp</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - current time and date in mysql datetime format</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="kn">import</span> <span class="nn">logging</span>
+  <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span>
+
+  <span class="c">## &gt;SETTINGS ##</span>
+
+  <span class="c">###########################################################</span>
+  <span class="c"># &gt;ACTION(S)                                              #</span>
+  <span class="c">###########################################################</span>
+  <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+  <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%S&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">now</span>
+
+
+<span class="c">######################################################################################################################</span>
+<span class="c">## LAST MODIFIED : 20121108</span>
+<span class="c">## CREATED : 20121108</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="make_lowercase_nospace"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.make_lowercase_nospace">[docs]</a><span class="k">def</span> <span class="nf">make_lowercase_nospace</span><span class="p">(</span><span class="n">theString</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;convert a string to a neatly formated filename type - no space, commas, lowercase etc</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - string -- the string to be made pretty</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">logging</span>
+
+  <span class="c">################ &gt;SETTINGS ################</span>
+
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">theString</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="s">&quot;_&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="s">&quot;_&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+  <span class="c">#try</span>
+  <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="c">###########################################################################</span>
+<span class="c">#  GIVEN A URL, EXTRACTS THE FILENAME AFTER THE LAST &#39;/&#39; (WRTITEN BY DRYX)#</span>
+<span class="c">###########################################################################</span>
+<span class="c">## LAST MODIFIED : 20121031</span>
+<span class="c">## CREATED : 20121031</span></div>
+<div class="viewcode-block" id="extractFilenameFromURL"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.extractFilenameFromURL">[docs]</a><span class="k">def</span> <span class="nf">extractFilenameFromURL</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;given a url, returns the filename after the last &#39;/&#39;</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - url</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - filename (&#39;untitled.html&#39;, if no filename found)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="kn">import</span> <span class="nn">logging</span>
+  <span class="kn">import</span> <span class="nn">re</span>
+
+  <span class="c">## &gt;SETTINGS ##</span>
+
+  <span class="c">###########################################################</span>
+  <span class="c"># &gt;ACTION(S)                                              #</span>
+  <span class="c">###########################################################</span>
+  <span class="c"># EXTRACT THE FILENAME FROM THE URL</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="c">#logging.debug(&quot;extracting filename from url &quot;+url)</span>
+    <span class="n">reEoURL</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;([\w\.]*)$&#39;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">reEoURL</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c">#logging.debug(filename)</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+      <span class="n">filename</span> <span class="o">=</span> <span class="s">&#39;untitled.html&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;\.&#39;</span><span class="p">,</span><span class="n">filename</span><span class="p">)):</span>
+      <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">+</span><span class="s">&#39;.html&#39;</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not extracting filename from url : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">filename</span>
+
+
+<span class="c">########################################################################################################</span>
+<span class="c">#  GIVEN A FILENAME AND A DATE, WILL APPEND A DATE STAMP TO AND RETURN THE FILENAME (WRTITEN BY DRYX)  #</span>
+<span class="c">########################################################################################################</span>
+<span class="c">## LAST MODIFIED : 20121031</span>
+<span class="c">## CREATED : 20121031</span></div>
+<div class="viewcode-block" id="appendNowDateStampToFilename"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.appendNowDateStampToFilename">[docs]</a><span class="k">def</span> <span class="nf">appendNowDateStampToFilename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;given a filename will append the current date stamp to and return the filename</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - filename</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - dsFilename -- datestamped filename</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="kn">import</span> <span class="nn">logging</span>
+
+  <span class="c">## &gt;SETTINGS ##</span>
+
+  <span class="c">###########################################################</span>
+  <span class="c"># &gt;ACTION(S)                                              #</span>
+  <span class="c">###########################################################</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="c">#logging.debug(&quot;appending date stamp to the filename : &quot;+filename)</span>
+    <span class="n">sliced</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+    <span class="n">dsFilename</span> <span class="o">=</span> <span class="n">sliced</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;_&#39;</span><span class="o">+</span><span class="n">nowDateTimeFileStamp</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sliced</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+      <span class="n">dsFilename</span> <span class="o">+=</span> <span class="s">&#39;.&#39;</span><span class="o">+</span><span class="n">sliced</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">dsFilename</span> <span class="o">+=</span> <span class="s">&quot;.xhtml&quot;</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not append date stamp to the filename : &quot;</span><span class="o">+</span><span class="n">filename</span><span class="o">+</span><span class="s">&quot; : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">dsFilename</span>
+
+<span class="c">## LAST MODIFIED : December 12, 2012</span>
+<span class="c">## CREATED : December 12, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="pretty_date"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.pretty_date">[docs]</a><span class="k">def</span> <span class="nf">pretty_date</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">date</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Given an absolute date, return a relative datetime (e.g. +15m, +2hr, +1w)</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - date -- absolute date</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - a relative date</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">diff</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">date</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">seconds</span>
+  <span class="c">###############################</span>
+  <span class="k">if</span> <span class="n">diff</span><span class="o">.</span><span class="n">days</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&#39; + 1d&#39;</span>
+  <span class="k">elif</span> <span class="n">diff</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&#39; +{0}d&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">days</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&#39; just now&#39;</span>
+  <span class="k">elif</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&#39; +{0}sec&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mi">120</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&#39; +1min&#39;</span>
+  <span class="k">elif</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mi">3600</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&#39; +{0}min&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="mi">60</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mi">7200</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&#39; +1hr&#39;</span>
+  <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&#39; +{0}hr&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span>
+
+
+<span class="c">########################################################################</span>
+<span class="c">#  CREATE A DIRECTORY IF IT DOES NOT YET EXIST  (WRTITEN BY DRYX)      #</span>
+<span class="c">########################################################################</span>
+<span class="c">## LAST MODIFIED : 20121101</span>
+<span class="c">## CREATED : 20121101</span></div>
+<div class="viewcode-block" id="dryx_mkdir"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.dryx_mkdir">[docs]</a><span class="k">def</span> <span class="nf">dryx_mkdir</span><span class="p">(</span><span class="n">directoryPath</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;create a directory if it does not yet exist</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - directoryPath -- absolute/relative path to required directory</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="kn">import</span> <span class="nn">logging</span>
+  <span class="kn">import</span> <span class="nn">os</span>
+
+  <span class="c">## &gt;SETTINGS ##</span>
+
+  <span class="c">###########################################################</span>
+  <span class="c"># &gt;ACTION(S)                                              #</span>
+  <span class="c">###########################################################</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">directoryPath</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;creating the &#39;</span><span class="o">+</span><span class="n">directoryPath</span><span class="o">+</span><span class="s">&#39; directory&#39;</span><span class="p">)</span>
+      <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">directoryPath</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not create the &quot;</span><span class="o">+</span><span class="n">directoryPath</span><span class="o">+</span><span class="s">&quot; directory&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">directoryPath</span><span class="o">+</span><span class="s">&#39; directory already exists&#39;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">## LAST MODIFIED : December 10, 2012</span>
+<span class="c">## CREATED : December 10, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="strip_whitespace_from_dictionary_values"><a class="viewcode-back" href="../dryxCommonUtils.html#dryxCommonUtils.strip_whitespace_from_dictionary_values">[docs]</a><span class="k">def</span> <span class="nf">strip_whitespace_from_dictionary_values</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">dictionary</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Strips the leading and trailing whitespace from dictionary values and returns the cleaned up dictionary</span>
+
+<span class="sd">  Key Arguments:</span>
+<span class="sd">    - dbConn -- mysql database connection</span>
+<span class="sd">    - log -- logger</span>
+<span class="sd">    - dictionary -- dictionary to be cleaned</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">    - dictionary -- cleaned dictionary</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="c"># STRIP LEADING AND TRAILING WHITESPACE</span>
+  <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+          <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to strip whitespace from dictionary values&quot;</span><span class="p">)</span>
+          <span class="n">dictionary</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+          <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not strip whitespace from dictionary values - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+          <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">dictionary</span>
+
+
+
+
+
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

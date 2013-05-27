@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dryxWebCrawlers &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dryxWebCrawlers</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">modx_web_crawler_dryx.py</span>
+
+<span class="sd">Created by David Young on October 25, 2012</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">p&lt;Var&gt; = variable formated in the way I want it output to file or screen</span>
+<span class="sd">xxx = come back here and do some more work</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c">############################################</span>
+<span class="c"># MAIN LOOP - USED FOR DEBUGGING           #</span>
+<span class="c">############################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../dryxWebCrawlers.html#dryxWebCrawlers.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="kn">import</span> <span class="nn">mtdx_logging_dryx</span> <span class="kn">as</span> <span class="nn">l</span>
+  <span class="n">log</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">setup_dryx_logging</span><span class="p">(</span><span class="s">&#39;/pessto_marshall/settings/logging.yaml&#39;</span><span class="p">)</span>
+  <span class="c">#atelDownloader(4000,4567,&#39;/Users/Dave/Dropbox/projects/WORK/html_to_mysql_db_parsers/atel_pages&#39;)</span>
+  <span class="c">#singleWebDocumentDownloader(&#39;http://docs.python.org/_static/py.png&#39;,&#39;/Users/Dave/Desktop&#39;,1)</span>
+  <span class="c">#_fetch(&#39;http://docs.python.org/_static/py.png&#39;)</span>
+
+  <span class="c">#urlList = [&#39;http://www.pessto.org/index.html&#39;,&#39;http://docs.python.org/_static/py.png&#39;,&#39;http://static.bbci.co.uk/frameworks/barlesque/2.14.4/desktop/3.5/img/blq-blocks_grey_alpha.png&#39;,&#39;http://www.pessto.org/pessto/images/home_button_body.png&#39;,&#39;http://www.pessto.org/pessto/images/news_button_selected.png&#39;]</span>
+  <span class="c">#multiWebDocumentDownloader(urlList,&#39;/Users/Dave/Desktop&#39;,1)</span>
+
+<span class="c">########################################################################</span>
+<span class="c">#  HELPER FUNCTION FOR DOC DOWNLOADERS                                 #</span>
+<span class="c">########################################################################</span>
+<span class="c">## LAST MODIFIED : 20121025</span>
+<span class="c">## CREATED : 20121025</span></div>
+<div class="viewcode-block" id="_fetch"><a class="viewcode-back" href="../dryxWebCrawlers.html#dryxWebCrawlers._fetch">[docs]</a><span class="k">def</span> <span class="nf">_fetch</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+    <span class="kn">from</span> <span class="nn">eventlet.green</span> <span class="kn">import</span> <span class="n">urllib2</span>
+
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;downloading &#39;</span><span class="o">+</span><span class="n">url</span><span class="p">)</span>
+      <span class="n">body</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not download &quot;</span><span class="o">+</span><span class="n">url</span><span class="o">+</span><span class="s">&quot; : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+      <span class="n">url</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="n">body</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">body</span>
+
+<span class="c">## LAST MODIFIED : December 7, 2012</span>
+<span class="c">## CREATED : December 7, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="_dump_files_to_local_drive"><a class="viewcode-back" href="../dryxWebCrawlers.html#dryxWebCrawlers._dump_files_to_local_drive">[docs]</a><span class="k">def</span> <span class="nf">_dump_files_to_local_drive</span><span class="p">(</span><span class="n">bodies</span><span class="p">,</span><span class="n">theseUrls</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;takes the files stored in memory and dumps them to the local drive</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - bodies -- array of file data (currently stored in memory)</span>
+<span class="sd">        - theseUrls -- array of local files paths to dump the file data into</span>
+<span class="sd">        - dbConn -- mysql database connection</span>
+<span class="sd">        - log -- logger</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;attempting to write file data to local drive&quot;</span><span class="p">)</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;10 URLS = </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">theseUrls</span><span class="p">),))</span>
+  <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="n">bodies</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">theseUrls</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+      <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+      <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not write downloaded file to local drive - failed with this error </span><span class="si">%s</span><span class="s">: &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),))</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="k">return</span>
+
+<span class="c">########################################################################</span>
+<span class="c">#  MUTLI-DOC WEB DOWNLOAD                                              #</span>
+<span class="c">########################################################################</span>
+<span class="c">## LAST MODIFIED : 20121025</span>
+<span class="c">## CREATED : 20121025</span></div>
+<div class="viewcode-block" id="multiWebDocumentDownloader"><a class="viewcode-back" href="../dryxWebCrawlers.html#dryxWebCrawlers.multiWebDocumentDownloader">[docs]</a><span class="k">def</span> <span class="nf">multiWebDocumentDownloader</span><span class="p">(</span><span class="n">urlList</span><span class="p">,</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">timeStamp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">timeout</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span><span class="n">concurrentDownloads</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Given a list of document URLs this function will download the documents to a specified download directory</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - urlList -- list of document urls</span>
+<span class="sd">        - downloadDirectory -- directory to download the documents to</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - list of timestamped documents (same order as the input urlList)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="kn">import</span> <span class="nn">sys</span>
+  <span class="kn">import</span> <span class="nn">os</span>
+  <span class="kn">import</span> <span class="nn">eventlet</span>
+  <span class="kn">from</span> <span class="nn">eventlet.green</span> <span class="kn">import</span> <span class="n">urllib2</span>
+  <span class="kn">import</span> <span class="nn">dryxCommonUtils</span>
+  <span class="kn">import</span> <span class="nn">socket</span>
+  <span class="kn">import</span> <span class="nn">re</span>
+
+  <span class="c">## &gt;SETTINGS ##</span>
+  <span class="c"># timeout in seconds</span>
+  <span class="n">socket</span><span class="o">.</span><span class="n">setdefaulttimeout</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
+
+  <span class="c">###########################################################</span>
+  <span class="c"># &gt;ACTION(S)                                              #</span>
+  <span class="c">###########################################################</span>
+  <span class="c">## BUILD THE 2D ARRAY FOR MULTI_THREADED DOWNLOADS</span>
+  <span class="n">thisArray</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">bodies</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">localUrls</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">theseUrls</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urlList</span><span class="p">:</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">dryxCommonUtils</span><span class="o">.</span><span class="n">extractFilenameFromURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>    <span class="c"># EXTRACT THE FILENAME FROM THE URL</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">timeStamp</span><span class="p">):</span>
+      <span class="n">filename</span> <span class="o">=</span> <span class="n">dryxCommonUtils</span><span class="o">.</span><span class="n">appendNowDateStampToFilename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>    <span class="c"># APPEND TIMESTAMP TO THE FILENAME</span>
+    <span class="n">localFilepath</span> <span class="o">=</span> <span class="n">downloadDirectory</span><span class="o">+</span><span class="s">&quot;/&quot;</span><span class="o">+</span><span class="n">filename</span>    <span class="c"># GENERATE THE LOCAL FILE URL</span>
+    <span class="n">thisArray</span><span class="o">.</span><span class="n">extend</span><span class="p">([[</span><span class="n">url</span><span class="p">,</span><span class="n">localFilepath</span><span class="p">]])</span>
+
+  <span class="n">pool</span> <span class="o">=</span> <span class="n">eventlet</span><span class="o">.</span><span class="n">GreenPool</span><span class="p">(</span><span class="n">concurrentDownloads</span><span class="p">)</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;starting mutli-threaded download batch (</span><span class="si">%s</span><span class="s">) concurrent downloads&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">url</span><span class="p">,</span> <span class="n">body</span> <span class="ow">in</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">_fetch</span><span class="p">,</span> <span class="n">urlList</span><span class="p">):</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
+        <span class="n">bodies</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">body</span><span class="p">])</span>
+        <span class="n">theseUrls</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">thisArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">theseUrls</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">None</span><span class="p">])</span>
+        <span class="n">bodies</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">None</span><span class="p">])</span>
+
+      <span class="c">## DUMP THE FILES FROM MEMORY EVERY CONCURRENT DOWNLOAD CYCLE</span>
+      <span class="k">if</span> <span class="n">i</span><span class="o">%</span><span class="n">concurrentDownloads</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">_dump_files_to_local_drive</span><span class="p">(</span><span class="n">bodies</span><span class="p">,</span><span class="n">theseUrls</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+        <span class="n">localUrls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">theseUrls</span><span class="p">)</span>
+        <span class="c">## RESET THE TMP ARRAYS</span>
+        <span class="n">bodies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">theseUrls</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="k">except</span> <span class="n">eventlet</span><span class="o">.</span><span class="n">Timeout</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;something went wrong with the mutli-threaded download : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+
+  <span class="c">## DUMP REMAINING FILES TO THE LOCAL DRIVE</span>
+  <span class="n">_dump_files_to_local_drive</span><span class="p">(</span><span class="n">bodies</span><span class="p">,</span><span class="n">theseUrls</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">localUrls</span>
+
+
+<span class="c">########################################################################</span>
+<span class="c">#  SINGLE DOC WEB DOWNLOADER                                           #</span>
+<span class="c">########################################################################</span>
+<span class="c">## LAST MODIFIED : 20121025</span>
+<span class="c">## CREATED : 20121025</span></div>
+<div class="viewcode-block" id="singleWebDocumentDownloader"><a class="viewcode-back" href="../dryxWebCrawlers.html#dryxWebCrawlers.singleWebDocumentDownloader">[docs]</a><span class="k">def</span> <span class="nf">singleWebDocumentDownloader</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">timeStamp</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Given a single URL, this function will download the document to the specified directory</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - url -- document url</span>
+<span class="sd">        - downloadDirectory -- download directory path</span>
+<span class="sd">        - timeStamp -- boolean, add a timestamp the end of the document name</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - path to the local document</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span class="nn">log</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;converting single url to list and downloading&quot;</span><span class="p">)</span>
+    <span class="n">urlList</span> <span class="o">=</span> <span class="p">[</span><span class="n">url</span><span class="p">]</span>
+    <span class="n">localUrlList</span> <span class="o">=</span> <span class="n">multiWebDocumentDownloader</span><span class="p">(</span><span class="n">urlList</span><span class="p">,</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">timeStamp</span><span class="p">)</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">localUrlList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">myError</span> <span class="o">=</span> <span class="s">&quot;could not convert single url to list and downloading : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">myError</span><span class="p">)</span>
+
+  <span class="c">#log.debug(&#39;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; the local url is &#39;+ filepath)</span>
+  <span class="k">return</span> <span class="n">filepath</span>
+
+
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

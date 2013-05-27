@@ -1,0 +1,28 @@
+// IMPORTS
+
+// INCLUDES
+
+// DEFAULT VARIABLES
+
+// MAIN MIXIN
+@mixin bigWrapper() {
+    div#bigWrapper{
+        @include box_settings($orientation: horizontal, $align: start, $pack: start, $flex: 0);
+        @include single-transition($property: all, $duration: 1.0s, $function: ease, $delay: 0s);
+        font-size: 0.65em;
+        width: $bigWrapperWidth;
+        padding: 1%;
+        @include opacity(0.0);
+        div {
+            @include display-box;
+        }
+
+        &.isReady {
+            @include opacity(1.0);
+        }
+    }
+}
+
+// SETUP-MIXINS
+
+// EXTRA MIXINS

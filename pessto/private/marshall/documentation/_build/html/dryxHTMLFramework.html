@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>HTML5 Framework: dryxHTMLFramework.py &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="index.html" />
+    <link rel="up" title="Dave’s General Classes and Functions" href="dryx_modules.html" />
+    <link rel="next" title="Logging: dryxLogging.py" href="dryxLogging.html" />
+    <link rel="prev" title="Utilities: dryxCommonUtils.py" href="dryxCommonUtils.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxLogging.html" title="Logging: dryxLogging.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dryxCommonUtils.html" title="Utilities: dryxCommonUtils.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" accesskey="U">Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dryxCommonUtils.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">Utilities</span></tt>: dryxCommonUtils.py</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dryxLogging.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">Logging</span></tt>: dryxLogging.py</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dryxHTMLFramework.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dryxHTMLFramework">
+<span id="html5-framework-dryxhtmlframework-py"></span><span id="dryxhtmlframework"></span><h1><tt class="docutils literal"><span class="pre">HTML5</span> <span class="pre">Framework</span></tt>: dryxHTMLFramework.py<a class="headerlink" href="#module-dryxHTMLFramework" title="Permalink to this headline">¶</a></h1>
+<p><strong>dryxHTMLFramework</strong></p>
+<p>An HTML Framework to build webpages from the ground up starting with
+small objects (div,li,span ...), building into large objects
+(tables,large divs,header groups ...) until finally building the webpage object.</p>
+<div class="line-block">
+<div class="line">Created by David Young on 23rd July 2012</div>
+<div class="line">If you have any questions requiring this script please email me: <a class="reference external" href="mailto:d&#46;r&#46;young&#37;&#52;&#48;qub&#46;ac&#46;uk">d<span>&#46;</span>r<span>&#46;</span>young<span>&#64;</span>qub<span>&#46;</span>ac<span>&#46;</span>uk</a></div>
+</div>
+<dl class="docutils">
+<dt><strong>dryx syntax:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">xxx</span></tt> = come back here and do some more work</li>
+<li><tt class="docutils literal"><span class="pre">_someObject</span></tt> = a &#8216;private&#8217; object that should only be changed for debugging</li>
+</ul>
+</dd>
+<dt><strong>notes:</strong></dt>
+<dd><ul class="first last simple">
+<li>Dave started work on this file on 23rd July 2012</li>
+<li>A work in progress</li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="dryxHTMLFramework.HTMLBody">
+<em class="property">class </em><tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">HTMLBody</tt><a class="reference internal" href="_modules/dryxHTMLFramework.html#HTMLBody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.HTMLBody" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the <tt class="docutils literal"><span class="pre">&lt;body&gt;</span></tt> of an HTML webpage &#8211; built from smaller HTML code blocks</p>
+<dl class="docutils">
+<dt><strong>Variable Attributes:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">htmlClass</span></tt> &#8211; <em>class</em> attribute of the body</li>
+<li><tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; <em>id</em> attribute of the body</li>
+<li><tt class="docutils literal"><span class="pre">blockContent</span></tt> &#8211; body content built from smaller HTML code blocks</li>
+<li><tt class="docutils literal"><span class="pre">jsEvents</span></tt> &#8211; inline javascript events</li>
+<li><tt class="docutils literal"><span class="pre">extraAttr</span></tt> &#8211; an extra attributes to be added to the body definition</li>
+<li><tt class="docutils literal"><span class="pre">relativeUrlBase</span></tt> &#8211; how to get back to the document root</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">block</span></tt> &#8211; the HTML body code</li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLBody.blockContent">
+<tt class="descname">blockContent</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLBody.blockContent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLBody.extraAttr">
+<tt class="descname">extraAttr</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLBody.extraAttr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dryxHTMLFramework.HTMLBody.get_object">
+<tt class="descname">get_object</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#HTMLBody.get_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.HTMLBody.get_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <tt class="docutils literal"><span class="pre">block</span></tt> containing the HTML <em>&lt;body&gt;</em> - HTML5 bolilplate goodness added</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLBody.googleAnalyticsCode">
+<tt class="descname">googleAnalyticsCode</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLBody.googleAnalyticsCode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLBody.htmlClass">
+<tt class="descname">htmlClass</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLBody.htmlClass" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLBody.htmlId">
+<tt class="descname">htmlId</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLBody.htmlId" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLBody.jsEvents">
+<tt class="descname">jsEvents</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLBody.jsEvents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLBody.relativeUrlBase">
+<tt class="descname">relativeUrlBase</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLBody.relativeUrlBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dryxHTMLFramework.HTMLDivForm">
+<em class="property">class </em><tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">HTMLDivForm</tt><a class="reference internal" href="_modules/dryxHTMLFramework.html#HTMLDivForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.HTMLDivForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the building blocks of an HTML form &#8211; a bunch of <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt>.</p>
+<dl class="docutils">
+<dt><strong>Variable Attributes:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">labelList</span></tt> &#8211; list of labels to appear on the form</li>
+<li><tt class="docutils literal"><span class="pre">textboxList</span></tt> &#8211; list of input textboxs to appear on the form</li>
+<li><tt class="docutils literal"><span class="pre">selectList</span></tt> &#8211; list of dropdown select lists to appear on the form</li>
+<li><tt class="docutils literal"><span class="pre">checkboxList</span></tt> &#8211; list of the radio buttons needed</li>
+<li><tt class="docutils literal"><span class="pre">buttonList</span></tt> &#8211; list of the buttons needed (strings)</li>
+<li><tt class="docutils literal"><span class="pre">numberOfRows</span></tt> &#8211; number of rows for the form</li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLDivForm.buttonList">
+<tt class="descname">buttonList</tt><em class="property"> = []</em><a class="headerlink" href="#dryxHTMLFramework.HTMLDivForm.buttonList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLDivForm.checkboxList">
+<tt class="descname">checkboxList</tt><em class="property"> = []</em><a class="headerlink" href="#dryxHTMLFramework.HTMLDivForm.checkboxList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dryxHTMLFramework.HTMLDivForm.get_objects">
+<tt class="descname">get_objects</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#HTMLDivForm.get_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.HTMLDivForm.get_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the components to make an HTML form:
+- <tt class="docutils literal"><span class="pre">labelDict</span></tt> &#8211; a dictionary of dictionaries .. <strong>key</strong>:<em>label name</em>, <strong>value</strong>:<em>dictionary of HTML attributes</em>.
+- <tt class="docutils literal"><span class="pre">textDict</span></tt> &#8211; a dictionary of dictionaries .. <strong>key</strong>:<em>textbox name</em>, <strong>value</strong>:<em>dictionary of HTML attributes</em>.
+- <tt class="docutils literal"><span class="pre">selectDict</span></tt> &#8211; a dictionary of dictionaries .. <strong>key</strong>:<em>dropdown menu name</em>, <strong>value</strong>:<em>dictionary of HTML attributes</em>.
+- <tt class="docutils literal"><span class="pre">checkboxDict</span></tt> &#8211; a dictionary of dictionaries .. <strong>key</strong>:<em>checkbox name</em>, <strong>value</strong>:<em>dictionary of HTML attributes</em>.
+- <tt class="docutils literal"><span class="pre">buttonDict</span></tt> &#8211; a dictionary of dictionaries .. <strong>key</strong>:<em>button name</em>, <strong>value</strong>:<em>dictionary of HTML attributes</em>.
+- <tt class="docutils literal"><span class="pre">rowList</span></tt> &#8211; a list of dictionaries containing HTML attributes for the row.
+- <tt class="docutils literal"><span class="pre">formContent</span></tt> &#8211; a dictionary containing of HTML attributes for the form content.
+- <tt class="docutils literal"><span class="pre">form</span></tt> &#8211; a dictionary containing of HTML attributes for the form.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLDivForm.labelList">
+<tt class="descname">labelList</tt><em class="property"> = []</em><a class="headerlink" href="#dryxHTMLFramework.HTMLDivForm.labelList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLDivForm.numberOfRows">
+<tt class="descname">numberOfRows</tt><em class="property"> = 1</em><a class="headerlink" href="#dryxHTMLFramework.HTMLDivForm.numberOfRows" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLDivForm.selectList">
+<tt class="descname">selectList</tt><em class="property"> = []</em><a class="headerlink" href="#dryxHTMLFramework.HTMLDivForm.selectList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLDivForm.textboxList">
+<tt class="descname">textboxList</tt><em class="property"> = []</em><a class="headerlink" href="#dryxHTMLFramework.HTMLDivForm.textboxList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dryxHTMLFramework.HTMLHead">
+<em class="property">class </em><tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">HTMLHead</tt><a class="reference internal" href="_modules/dryxHTMLFramework.html#HTMLHead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.HTMLHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a custom HTML <tt class="docutils literal"><span class="pre">Head</span></tt> element for a webpage, with <em>Doctype</em>, <em>javascript</em> &amp; <em>css</em> referencing</p>
+<dl class="docutils">
+<dt><strong>Variable Attributes:</strong></dt>
+<dd><tt class="docutils literal"><span class="pre">relativeUrlBase</span></tt> &#8211; relative base url for js, css, image folders
+<tt class="docutils literal"><span class="pre">pageTitle</span></tt> &#8211; well, the page title!
+<tt class="docutils literal"><span class="pre">cssFileName</span></tt> &#8211; css file name
+<tt class="docutils literal"><span class="pre">extraHeadInfo</span></tt> &#8211; any extra info to be included in the <tt class="docutils literal"><span class="pre">head</span></tt> element</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">block</span></tt> &#8211; the HTML Head code block</li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLHead.cssFileName">
+<tt class="descname">cssFileName</tt><em class="property"> = 'main.css'</em><a class="headerlink" href="#dryxHTMLFramework.HTMLHead.cssFileName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLHead.extraHeadInfo">
+<tt class="descname">extraHeadInfo</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLHead.extraHeadInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dryxHTMLFramework.HTMLHead.get_object">
+<tt class="descname">get_object</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#HTMLHead.get_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.HTMLHead.get_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="docutils literal"><span class="pre">block</span></tt> of HTML code that comprises of the HTML <em>&lt;head&gt;</em> - HTML5 bolilplate goodness added</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLHead.pageTitle">
+<tt class="descname">pageTitle</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLHead.pageTitle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dryxHTMLFramework.HTMLHead.relativeUrlBase">
+<tt class="descname">relativeUrlBase</tt><em class="property"> = ''</em><a class="headerlink" href="#dryxHTMLFramework.HTMLHead.relativeUrlBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_button">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_button</tt><big>(</big><em>size='large'</em>, <em>block=False</em>, <em>color='blue'</em>, <em>text='button'</em>, <em>htmlId=False</em>, <em>htmlClass=False</em>, <em>extraAttr=False</em>, <em>disabled=False</em><big>)</big><a class="headerlink" href="#dryxHTMLFramework.get_button" title="Permalink to this definition">¶</a></dt>
+<dd><p>The button method (bases on the twitter bootstrap buttons)</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">size</span></tt> - button size - mini, small, default, large</li>
+<li><tt class="docutils literal"><span class="pre">block</span></tt> - block button?</li>
+<li><tt class="docutils literal"><span class="pre">color</span></tt> - color</li>
+<li><tt class="docutils literal"><span class="pre">text</span></tt> - button text</li>
+<li><tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; the name of the button</li>
+<li><tt class="docutils literal"><span class="pre">htmlClass</span></tt> &#8211; the class of the button</li>
+<li><tt class="docutils literal"><span class="pre">disabled</span></tt> &#8211; disable the button if true (flatten &amp; unclickable)</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">button</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_dropdown_menu_for">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_dropdown_menu_for</tt><big>(</big><em>dbConn</em>, <em>log</em>, <em>menuName</em>, <em>title</em>, <em>linkList</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_dropdown_menu_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_dropdown_menu_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a dropdown menu with the provided list of links.</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; mysql database connection</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+<li><tt class="docutils literal"><span class="pre">menuName</span></tt> &#8211; the name of the menu</li>
+<li><tt class="docutils literal"><span class="pre">title</span></tt> &#8211; the title of the menu</li>
+<li><tt class="docutils literal"><span class="pre">linkList</span></tt> &#8211; a list of links that the menu should display</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">menu</span></tt> &#8211; the dropdown menu</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_fieldset">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_fieldset</tt><big>(</big><em>attributeDict</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_fieldset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_fieldset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <tt class="docutils literal"><span class="pre">fieldset</span></tt> HTML code block with legend</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">attributeDict</span></tt> &#8211; dictionary of the following keywords:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">htmlClass</span></tt> &#8211; the html element class</li>
+<li><tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; the html element id</li>
+<li><tt class="docutils literal"><span class="pre">blockContent</span></tt> &#8211; actual content to be placed in html code block</li>
+<li><tt class="docutils literal"><span class="pre">jsEvents</span></tt> &#8211; inline javascript event(s)</li>
+<li><tt class="docutils literal"><span class="pre">extraAttr</span></tt> &#8211; extra incline css attributes and/or handles</li>
+<li><tt class="docutils literal"><span class="pre">legend</span></tt> &#8211; fieldset legend</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">block</span></tt></li>
+</ul>
+</dd>
+<dt>attributeDict template &#8211; dict(htmlClass=___,</dt>
+<dd><blockquote class="first">
+<div>htmlId=___,
+jsEvents=___,
+extraAttr=___,
+blockContent=___,
+legend=___</div></blockquote>
+<p class="last">)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_html_block">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_html_block</tt><big>(</big><em>attributeDict</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_html_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_html_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Template to build an HTML code block (tag) which in turn can be meshed together to build webpages.</p>
+<dl class="docutils">
+<dt><strong>Variable Attributes:</strong></dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">attributeDict</span></tt> &#8211; dictionary with the following keywords:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">tag</span></tt> &#8211; the html tag (a, div, span ...)</li>
+<li><tt class="docutils literal"><span class="pre">htmlClass</span></tt> &#8211; the html element class</li>
+<li><tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; the html element id</li>
+<li><tt class="docutils literal"><span class="pre">href</span></tt> &#8211; linked url</li>
+<li><tt class="docutils literal"><span class="pre">blockContent</span></tt> &#8211; actual content to be placed in html code block</li>
+<li><tt class="docutils literal"><span class="pre">jsEvents</span></tt> &#8211; inline javascript event(s)</li>
+<li><tt class="docutils literal"><span class="pre">extraAttr</span></tt> &#8211; extra incline css attributes and/or handles</li>
+<li><tt class="docutils literal"><span class="pre">src</span></tt> &#8211; source for images</li>
+<li><tt class="docutils literal"><span class="pre">alt</span></tt> &#8211; alternative text for images</li>
+<li><tt class="docutils literal"><span class="pre">action</span></tt> &#8211; action used in forms</li>
+<li><tt class="docutils literal"><span class="pre">method</span></tt> &#8211; method used in forms</li>
+<li><tt class="docutils literal"><span class="pre">type</span></tt> &#8211; type of object</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt><strong>Returns:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">block</span></tt> &#8211; the html block</li>
+</ul>
+</dd>
+<dt>attributeDict template &#8211; dict(tag=___,</dt>
+<dd><blockquote class="first">
+<div>htmlClass:divVerticalKids/divHorizontalKids,
+htmlId=___,
+jsEvents=___,
+extraAttr=___,
+blockContent=___,
+href=___,
+src=___,
+alt=___,
+action=___,
+method=___,
+type=___</div></blockquote>
+<p class="last">)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_input_block">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_input_block</tt><big>(</big><em>attributeDict</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_input_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_input_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>The HTML5 input tag used mainly in forms</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">attributeDict</span></tt> &#8211; dictionary of the following keywords:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">tag</span></tt> &#8211; input, textarea</li>
+<li><tt class="docutils literal"><span class="pre">htmlClass</span></tt> &#8211; the html element class</li>
+<li><tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; the html element id</li>
+<li><tt class="docutils literal"><span class="pre">blockContent</span></tt> &#8211; actual content to be placed in html code block</li>
+<li><tt class="docutils literal"><span class="pre">jsEvents</span></tt> &#8211; inline javascript event(s)</li>
+<li><tt class="docutils literal"><span class="pre">extraAttr</span></tt> &#8211; extra incline css attributes and/or handles</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt> &#8211; an extra hook (much like &#8220;id&#8221;)</li>
+<li><tt class="docutils literal"><span class="pre">type</span></tt> &#8211; HTML input types = color, date, datetime, datetime-local, email, month, number, range, search, tel, time, url, week</li>
+<li><tt class="docutils literal"><span class="pre">placeholder</span></tt> &#8211; text to be displayed by default in the input box</li>
+<li><tt class="docutils literal"><span class="pre">required</span></tt> &#8211; make input required (boolean)</li>
+<li><tt class="docutils literal"><span class="pre">autofocus</span></tt> &#8211; make this the auofocus element of the form (i.e. place cursor here)</li>
+<li><tt class="docutils literal"><span class="pre">maxlength</span></tt> &#8211; maximum character length for the form</li>
+<li><tt class="docutils literal"><span class="pre">row</span></tt> &#8211; number of rows for a <em>textarea</em> (i.e. height of the textbox)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt><strong>Returns</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">block</span></tt> &#8211; the input HTML code block</li>
+</ul>
+</dd>
+<dt>attributeDict template &#8211;</dt>
+<dd><dl class="first last docutils">
+<dt>dict(</dt>
+<dd><blockquote class="first">
+<div>tag=___,
+htmlClass=___,
+htmlId=___,
+jsEvents=___,
+extraAttr=___,
+blockContent=___,
+name=___,
+type=___,
+placeholder=___,
+required=___,
+autofocus=___,
+maxlength=___,
+row=___,
+value=___</div></blockquote>
+<p class="last">)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_javascript_block">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_javascript_block</tt><big>(</big><em>jsPath</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_javascript_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_javascript_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a javascript <em>&lt;script&gt;</em> html code block</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">jsPath</span></tt> &#8211; path the js file</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">block</span></tt> &#8211; HTML code block</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_linked_button">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_linked_button</tt><big>(</big><em>size='large'</em>, <em>block=False</em>, <em>color='blue'</em>, <em>text='button'</em>, <em>href='#'</em>, <em>htmlId=False</em>, <em>htmlClass=False</em>, <em>extraAttr=False</em>, <em>disabled=False</em><big>)</big><a class="headerlink" href="#dryxHTMLFramework.get_linked_button" title="Permalink to this definition">¶</a></dt>
+<dd><p>The button method (bases on the twitter bootstrap buttons)</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">size</span></tt> - button size - mini, small, default, large</li>
+<li><tt class="docutils literal"><span class="pre">block</span></tt> - block button?</li>
+<li><tt class="docutils literal"><span class="pre">color</span></tt> - color</li>
+<li><tt class="docutils literal"><span class="pre">text</span></tt> - button text</li>
+<li><tt class="docutils literal"><span class="pre">href</span></tt> - the link</li>
+<li><tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; the name of the button</li>
+<li><tt class="docutils literal"><span class="pre">htmlClass</span></tt> &#8211; the class of the button</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">link_button</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_nav_block">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_nav_block</tt><big>(</big><em>attributeDict</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_nav_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_nav_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Template to build a basic <tt class="docutils literal"><span class="pre">&lt;nav&gt;</span></tt> code block</p>
+<dl class="docutils">
+<dt><strong>Variable Attributes:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">attributeDict</span></tt> &#8211; dictionary of the following keywords:
+- <tt class="docutils literal"><span class="pre">htmlClass</span></tt> &#8211; the html element class
+- <tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; the html element id
+- <tt class="docutils literal"><span class="pre">blockContent</span></tt> &#8211; actual content to be placed in html code block
+- <tt class="docutils literal"><span class="pre">jsEvents</span></tt> &#8211; inline javascript event(s)
+- <tt class="docutils literal"><span class="pre">extraAttr</span></tt> &#8211; extra incline css attributes and/or handles</li>
+</ul>
+</dd>
+<dt><strong>Returns:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">block</span></tt> &#8211; the html block</li>
+</ul>
+</dd>
+<dt>attributeDict template:</dt>
+<dd><dl class="first last docutils">
+<dt>attributeDict = dict(</dt>
+<dd><blockquote class="first">
+<div>htmlClass=___,
+htmlId=___,
+jsEvents=___,
+extraAttr=___,
+blockContent=___</div></blockquote>
+<p class="last">)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_option_list">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_option_list</tt><big>(</big><em>optionList</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_option_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_option_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creare a dropdown option list</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last">
+<li><p class="first"><tt class="docutils literal"><span class="pre">optionList</span></tt> &#8211; list of items to appear in option list</p>
+</li>
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">attributeDict</span></tt> &#8211; dictionary of the following keywords:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">htmlClass</span></tt> &#8211; the html element class</li>
+<li><tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; the html element id</li>
+<li><tt class="docutils literal"><span class="pre">blockContent</span></tt> &#8211; actual content to be placed in html code block</li>
+<li><tt class="docutils literal"><span class="pre">jsEvents</span></tt> &#8211; inline javascript event(s)</li>
+<li><tt class="docutils literal"><span class="pre">extraAttr</span></tt> &#8211; extra incline css attributes and/or handles</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt> &#8211; an extra hook (much like &#8220;id&#8221;)</li>
+<li><tt class="docutils literal"><span class="pre">type</span></tt> &#8211; HTML input types = color, date, datetime, datetime-local, email, month, number, range, search, tel, time, url, week</li>
+<li><tt class="docutils literal"><span class="pre">placeholder</span></tt> &#8211; text to be displayed by default in the input box</li>
+<li><tt class="docutils literal"><span class="pre">required</span></tt> &#8211; make input required (boolean)</li>
+<li><tt class="docutils literal"><span class="pre">autofocus</span></tt> &#8211; make this the auofocus element of the form (i.e. place cursor here)</li>
+<li><tt class="docutils literal"><span class="pre">maxlength</span></tt> &#8211; maximum character length for the form</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt><strong>Returns:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">block</span></tt> &#8211; the HTML code block</li>
+</ul>
+</dd>
+<dt>attributeDict template &#8211; dict(htmlClass=___,</dt>
+<dd><blockquote class="first">
+<div>htmlId=___,
+jsEvents=___,
+extraAttr=___,
+blockContent=___,
+name=___,
+type=___,
+placeholder=___,
+required=___,
+autofocus=___,
+maxlength=___</div></blockquote>
+<p class="last">)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_simple_div">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_simple_div</tt><big>(</big><em>htmlId=None</em>, <em>blockContent=None</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_simple_div"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_simple_div" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a basic &lt;div&gt; with block-content</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">htmlId</span></tt> &#8211; the html id attribute</li>
+<li><tt class="docutils literal"><span class="pre">blockContent</span></tt> &#8211; content to be surrounded by html div tag</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">div</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.get_webpage">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">get_webpage</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#get_webpage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.get_webpage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a full webpage from build up smaller HTML code blocks</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">content</span></tt> &#8211; the content of the webpage</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">page</span></tt> &#8211; the complete HTML webpage</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.main">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dryxHTMLFramework.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxHTMLFramework.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dryxHTMLFramework.unescape_html">
+<tt class="descclassname">dryxHTMLFramework.</tt><tt class="descname">unescape_html</tt><big>(</big><em>dbConn</em>, <em>log</em>, <em>html</em><big>)</big><a class="headerlink" href="#dryxHTMLFramework.unescape_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unescapes a string previously escaped with cgi.escape()</p>
+<dl class="docutils">
+<dt><strong>Key Arguments:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; mysql database connection</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+<li><tt class="docutils literal"><span class="pre">html</span></tt> &#8211; the string to be unescaped</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">html</span></tt> &#8211; the unescaped string</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxLogging.html" title="Logging: dryxLogging.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dryxCommonUtils.html" title="Utilities: dryxCommonUtils.py"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" >Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

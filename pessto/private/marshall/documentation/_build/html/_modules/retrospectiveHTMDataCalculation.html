@@ -1,0 +1,222 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>retrospectiveHTMDataCalculation &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for retrospectiveHTMDataCalculation</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">csv</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">MySQLdb</span><span class="o">,</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">StringIO</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="dbConnect"><a class="viewcode-back" href="../retrospectiveHTMDataCalculation.html#retrospectiveHTMDataCalculation.dbConnect">[docs]</a><span class="k">def</span> <span class="nf">dbConnect</span><span class="p">(</span><span class="n">lhost</span><span class="p">,</span> <span class="n">luser</span><span class="p">,</span> <span class="n">lpasswd</span><span class="p">,</span> <span class="n">ldb</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   Connect to the database.</span>
+<span class="sd">   &quot;&quot;&quot;</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span> <span class="p">(</span><span class="n">host</span> <span class="o">=</span> <span class="n">lhost</span><span class="p">,</span>
+                              <span class="n">user</span> <span class="o">=</span> <span class="n">luser</span><span class="p">,</span>
+                            <span class="n">passwd</span> <span class="o">=</span> <span class="n">lpasswd</span><span class="p">,</span>
+                                <span class="n">db</span> <span class="o">=</span> <span class="n">ldb</span><span class="p">)</span>
+
+   <span class="k">except</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&quot;Error </span><span class="si">%d</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+   <span class="k">return</span> <span class="n">conn</span>
+
+</div>
+<div class="viewcode-block" id="getTransientBucketRowsWithNoHTMData"><a class="viewcode-back" href="../retrospectiveHTMDataCalculation.html#retrospectiveHTMDataCalculation.getTransientBucketRowsWithNoHTMData">[docs]</a><span class="k">def</span> <span class="nf">getTransientBucketRowsWithNoHTMData</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">MySQLdb</span><span class="o">.</span><span class="n">cursors</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+
+      <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">              select *</span>
+<span class="s">                from transientBucket</span>
+<span class="s">               where htm16ID is null</span>
+<span class="s">                  or htm20ID is null</span>
+<span class="s">                  or cx is null</span>
+<span class="s">                  or cy is null</span>
+<span class="s">                  or cz is null</span>
+<span class="s">          &quot;&quot;&quot;</span><span class="p">)</span>
+
+      <span class="n">resultSet</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span> <span class="p">()</span>
+      <span class="n">cursor</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+
+   <span class="k">except</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">resultSet</span> <span class="o">=</span> <span class="p">()</span>
+      <span class="k">pass</span>
+
+   <span class="k">return</span> <span class="n">resultSet</span>
+
+</div>
+<div class="viewcode-block" id="updateTransientBucketHTMData"><a class="viewcode-back" href="../retrospectiveHTMDataCalculation.html#retrospectiveHTMDataCalculation.updateTransientBucketHTMData">[docs]</a><span class="k">def</span> <span class="nf">updateTransientBucketHTMData</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">htm16ID</span><span class="p">,</span> <span class="n">htm20ID</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">):</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">MySQLdb</span><span class="o">.</span><span class="n">cursors</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+
+      <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">              update transientBucket</span>
+<span class="s">                 set htm16ID = </span><span class="si">%s</span><span class="s">,</span>
+<span class="s">                     htm20ID = </span><span class="si">%s</span><span class="s">,</span>
+<span class="s">                     cx = </span><span class="si">%s</span><span class="s">,</span>
+<span class="s">                     cy = </span><span class="si">%s</span><span class="s">,</span>
+<span class="s">                     cz = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">               where primaryKeyId = </span><span class="si">%s</span><span class="s"></span>
+<span class="s">          &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">htm16ID</span><span class="p">,</span> <span class="n">htm20ID</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">,</span> <span class="nb">id</span><span class="p">))</span>
+
+
+   <span class="k">except</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">pass</span>
+
+   <span class="n">rowsUpdated</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">rowcount</span>
+   <span class="n">cursor</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+
+   <span class="k">return</span> <span class="n">rowsUpdated</span>
+
+
+
+</div>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../retrospectiveHTMDataCalculation.html#retrospectiveHTMDataCalculation.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">argv</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">argv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+      <span class="n">argv</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
+
+   <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">5</span><span class="p">:</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s">&quot;Usage: retrospectiveHTMDataCalculation.py &lt;username&gt; &lt;password&gt; &lt;database&gt; &lt;hostname&gt;&quot;</span><span class="p">)</span>
+
+   <span class="n">username</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+   <span class="n">password</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+   <span class="n">database</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+   <span class="n">hostname</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+   <span class="n">conn</span> <span class="o">=</span> <span class="n">dbConnect</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">database</span><span class="p">)</span>
+
+   <span class="n">dataRows</span> <span class="o">=</span> <span class="n">getTransientBucketRowsWithNoHTMData</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+
+   <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dataRows</span><span class="p">:</span>
+      <span class="n">ra</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&quot;raDeg&quot;</span><span class="p">]</span>
+      <span class="n">dec</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&quot;decDeg&quot;</span><span class="p">]</span>
+      <span class="nb">id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&quot;primaryKeyId&quot;</span><span class="p">]</span>
+
+      <span class="c"># Extra columns for fast searching</span>
+      <span class="n">htm16ID</span> <span class="o">=</span> <span class="n">htmID</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+      <span class="n">htm20ID</span> <span class="o">=</span> <span class="n">htmID</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+      <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span> <span class="o">=</span> <span class="n">calculate_cartesians</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+
+      <span class="k">print</span> <span class="nb">id</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">htm16ID</span><span class="p">,</span> <span class="n">htm20ID</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span>
+      <span class="n">updateTransientBucketHTMData</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">htm16ID</span><span class="p">,</span> <span class="n">htm20ID</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">)</span>
+
+
+
+   <span class="n">conn</span><span class="o">.</span><span class="n">commit</span> <span class="p">()</span>
+   <span class="n">conn</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+
+   <span class="k">return</span> <span class="mi">0</span>
+
+
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

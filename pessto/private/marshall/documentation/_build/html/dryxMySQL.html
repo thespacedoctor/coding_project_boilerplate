@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MySQL: dryxMySQL.py &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="index.html" />
+    <link rel="up" title="Dave’s General Classes and Functions" href="dryx_modules.html" />
+    <link rel="next" title="Random Data Generator: dryxRandomDataGenerator.py" href="dryxRandomDataGenerator.html" />
+    <link rel="prev" title="Logging: dryxLogging.py" href="dryxLogging.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxRandomDataGenerator.html" title="Random Data Generator: dryxRandomDataGenerator.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dryxLogging.html" title="Logging: dryxLogging.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" accesskey="U">Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dryxLogging.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">Logging</span></tt>: dryxLogging.py</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dryxRandomDataGenerator.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">Random</span> <span class="pre">Data</span> <span class="pre">Generator</span></tt>: dryxRandomDataGenerator.py</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dryxMySQL.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dryxMySQL">
+<span id="mysql-dryxmysql-py"></span><span id="dryxmysql"></span><h1><tt class="docutils literal"><span class="pre">MySQL</span></tt>: dryxMySQL.py<a class="headerlink" href="#module-dryxMySQL" title="Permalink to this headline">¶</a></h1>
+<p><strong>dryxMySQL</strong></p>
+<p><strong>A handful of useful mysql python methods</strong></p>
+<div class="line-block">
+<div class="line">Created by David Young on October 8, 2012</div>
+<div class="line">If you have any questions requiring this script please email me: <a class="reference external" href="mailto:d&#46;r&#46;young&#37;&#52;&#48;qub&#46;ac&#46;uk">d<span>&#46;</span>r<span>&#46;</span>young<span>&#64;</span>qub<span>&#46;</span>ac<span>&#46;</span>uk</a></div>
+</div>
+<dl class="docutils">
+<dt><strong>dryx syntax</strong></dt>
+<dd><div class="first last line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">xxx</span></tt> = come back here and do some more work</div>
+<div class="line"><tt class="docutils literal"><span class="pre">_someObject</span></tt> = a &#8216;private&#8217; object that should only be changed for debugging</div>
+</div>
+</dd>
+<dt><strong>notes</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Dave started work on this file on October 8, 2012</li>
+<li>This is a growing repository for Dave&#8217;s custom MySQL classes and functions</li>
+</ul>
+</dd>
+</dl>
+<dl class="function">
+<dt id="dryxMySQL.add_HTMIds_to_mysql_tables">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">add_HTMIds_to_mysql_tables</tt><big>(</big><em>raColName</em>, <em>declColName</em>, <em>tableName</em>, <em>dbConn</em>, <em>log</em><big>)</big><a class="headerlink" href="#dryxMySQL.add_HTMIds_to_mysql_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate and append HTMId info to a mysql db table containing ra and dec columns</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">ra</span></tt> &#8211; ra in sexegesimal</li>
+<li><tt class="docutils literal"><span class="pre">decl</span></tt> &#8211; dec in sexegesimal</li>
+<li><tt class="docutils literal"><span class="pre">tableName</span></tt> &#8211; name of table to add htmid info to</li>
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; database hosting the above table</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxMySQL.add_column_to_db_table">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">add_column_to_db_table</tt><big>(</big><em>tableName</em>, <em>colName</em>, <em>colType</em>, <em>dbConn</em><big>)</big><a class="reference internal" href="_modules/dryxMySQL.html#add_column_to_db_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxMySQL.add_column_to_db_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a column of agiven name to a database table</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">tableName</span></tt> &#8211; name of table to add column to</li>
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; database hosting the above table</li>
+<li><tt class="docutils literal"><span class="pre">colName</span></tt> &#8211; name of the column to add</li>
+<li><tt class="docutils literal"><span class="pre">colType</span></tt> &#8211; type of the column to be added</li>
+<li><tt class="docutils literal"><span class="pre">default</span></tt> &#8211; the default value of the column to be added</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxMySQL.convert_dictionary_to_mysql_table">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">convert_dictionary_to_mysql_table</tt><big>(</big><em>dbConn</em>, <em>log</em>, <em>dictionary</em>, <em>dbTableName</em>, <em>uniqueKeyList</em><big>)</big><a class="headerlink" href="#dryxMySQL.convert_dictionary_to_mysql_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a python dictionary into a mysql table</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dictionary</span></tt> &#8211; python dictionary</li>
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; the db connection</li>
+<li><tt class="docutils literal"><span class="pre">dbTableName</span></tt> &#8211; name of the table you wish to add the data to (or create if it does not exist)</li>
+<li><tt class="docutils literal"><span class="pre">uniqueKeyList</span></tt> - a tuple of lowcase, no space mysql column names that need to be the primary key</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxMySQL.execute_mysql_read_query">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">execute_mysql_read_query</tt><big>(</big><em>sqlQuery</em>, <em>dbConn</em>, <em>log</em><big>)</big><a class="headerlink" href="#dryxMySQL.execute_mysql_read_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a MySQL select command given a query</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">sqlQuery</span></tt> &#8211; the MySQL command to execute</li>
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; the db connection</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">rows</span></tt> &#8211; the rows returned by the sql query</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxMySQL.execute_mysql_write_query">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">execute_mysql_write_query</tt><big>(</big><em>sqlQuery</em>, <em>dbConn</em>, <em>log</em><big>)</big><a class="headerlink" href="#dryxMySQL.execute_mysql_write_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a MySQL write command given a sql query</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">sqlQuery</span></tt> &#8211; the MySQL command to execute</li>
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; the db connection</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxMySQL.get_db_table_column_names">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">get_db_table_column_names</tt><big>(</big><em>dbConn</em>, <em>log</em>, <em>dbTable</em><big>)</big><a class="headerlink" href="#dryxMySQL.get_db_table_column_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query a DB for column names of a table</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; mysql database connection</li>
+<li><tt class="docutils literal"><span class="pre">log</span></tt> &#8211; logger</li>
+<li><tt class="docutils literal"><span class="pre">dbTable</span></tt> &#8211; database tablename</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">columnNames</span></tt> &#8211; table column names</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxMySQL.main">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dryxMySQL.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxMySQL.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dryxMySQL.set_db_connection">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">set_db_connection</tt><big>(</big><em>pathToYamlFile</em><big>)</big><a class="headerlink" href="#dryxMySQL.set_db_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the location of a YAML dictionary containing database credientials,
+this function will setup and return the connection</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">pathToYamlFile</span></tt> &#8211; path to the YAML dictionary.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; connection to the MySQL database</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dryxMySQL.set_flag">
+<tt class="descclassname">dryxMySQL.</tt><tt class="descname">set_flag</tt><big>(</big><em>dbConn</em>, <em>log</em>, <em>tableName</em>, <em>flagColumn</em>, <em>flagValue</em>, <em>primaryKeyColumn</em>, <em>primaryKeyId</em><big>)</big><a class="reference internal" href="_modules/dryxMySQL.html#set_flag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dryxMySQL.set_flag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a flag in a db table to a given value</p>
+<dl class="docutils">
+<dt><strong>**Key Arguments:**</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">dbConn</span></tt> &#8211; db connection</li>
+<li><tt class="docutils literal"><span class="pre">tableName</span></tt> &#8211; db table name</li>
+<li><tt class="docutils literal"><span class="pre">flagColumn</span></tt> &#8211; flag column name</li>
+<li><tt class="docutils literal"><span class="pre">flagValue</span></tt> &#8211; value flag is to be set to</li>
+<li><tt class="docutils literal"><span class="pre">primaryKeyColumn</span></tt> &#8211; primaryKey column name</li>
+<li><tt class="docutils literal"><span class="pre">primaryKeyId</span></tt> &#8211; single id of the row you wish to set the flag for</li>
+</ul>
+</dd>
+<dt><strong>Return:</strong></dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dryxRandomDataGenerator.html" title="Random Data Generator: dryxRandomDataGenerator.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dryxLogging.html" title="Logging: dryxLogging.py"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+
+          <li><a href="dryx_modules.html" >Dave&#8217;s General Classes and Functions</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Feb 22, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

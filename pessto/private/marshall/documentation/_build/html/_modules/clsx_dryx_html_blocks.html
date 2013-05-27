@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>clsx_dryx_html_blocks &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for clsx_dryx_html_blocks</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">clsx_dryx_html_blocks.py</span>
+<span class="sd">A bunch of basic html building blocks that can be combined to build a template webpage.</span>
+
+<span class="sd">Created by David Young on 2012-07-23.</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">p&lt;Var&gt; = variable formated in the way I want it output to file or screen</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cgi</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c">#                                   HTML WEBPAGE CLASSES</span>
+<span class="c">#############################################################################################</span>
+<span class="c"># THE TOP LEVEL CLASS IS: html_full_webpage_class()</span>
+<span class="c"># THE 2ND LEVEL CLASSES INCLUDE: html_head_class() &amp; html_body_class()</span>
+<span class="c"># THE 3RD LEVEL CLASSES INCLUDE: html_section_class(), html_div_class(), html_unordered_list_class(), html_table_class(), html_header_class(), html_footer_class()</span>
+<span class="c"># THE 4TH LEVEL CLASSES INCLUDE : html_h1_class(), html_h2_class(), html_h3_class(), html_link_class(), html_list_item_class, html_table_row_class()</span>
+<span class="c"># THE BOTTOM LEVEL CLASSES INCLUDE : html_table_data_class()</span>
+
+<span class="c">###############################</span>
+<span class="c"># BASIC ELEMENTS              #</span>
+<span class="c">###############################</span>
+<span class="c"># DIVISIONS</span>
+<div class="viewcode-block" id="html_div_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_class">[docs]</a><span class="k">class</span> <span class="nc">html_div_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_div_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;div class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/div&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c"># SPAN</span></div></div>
+<div class="viewcode-block" id="html_span_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_span_class">[docs]</a><span class="k">class</span> <span class="nc">html_span_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_span_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_span_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;span class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/span&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">### SECTIONS</span></div></div>
+<div class="viewcode-block" id="html_section_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_section_class">[docs]</a><span class="k">class</span> <span class="nc">html_section_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_section_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_section_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;section class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/section&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c"># LINKS</span></div></div>
+<div class="viewcode-block" id="html_a_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_a_class">[docs]</a><span class="k">class</span> <span class="nc">html_a_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">href</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_a_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_a_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;a href=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">href</span><span class="o">+</span><span class="s">&#39;&quot; class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/a&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c"># IMAGES</span></div></div>
+<div class="viewcode-block" id="html_img_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_img_class">[docs]</a><span class="k">class</span> <span class="nc">html_img_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">src</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">alt</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_img_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_img_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;img id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; src=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="o">+</span><span class="s">&#39;&quot; alt=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">alt</span><span class="o">+</span><span class="s">&#39;&quot;/&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+
+<span class="c">###############################</span>
+<span class="c"># NAVIGATION                  #</span>
+<span class="c">###############################</span>
+<span class="c"># NAV</span></div></div>
+<div class="viewcode-block" id="html_nav_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_nav_class">[docs]</a><span class="k">class</span> <span class="nc">html_nav_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_nav_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_nav_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;div class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="s">&#39;&lt;nav&gt;&lt;ul&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/ul&gt;&lt;/nav&gt;&lt;/div&gt;&lt;!-- /&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39; --&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+<span class="c">### NAVBAR LINKS ###</span></div></div>
+<div class="viewcode-block" id="html_div_nav_bar_item_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_nav_bar_item_class">[docs]</a><span class="k">class</span> <span class="nc">html_div_nav_bar_item_class</span><span class="p">(</span><span class="n">html_div_class</span><span class="p">):</span>
+	<span class="c">#FLEXIBLE VARIABLES</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;divNavBarItem&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+
+<span class="c">###############################</span>
+<span class="c"># LISTS                       #</span>
+<span class="c">###############################</span>
+<span class="c"># UNORDERED LIST</span></div>
+<div class="viewcode-block" id="html_ul_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_ul_class">[docs]</a><span class="k">class</span> <span class="nc">html_ul_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_ul_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_ul_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;ul class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/ul&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+<span class="c"># LIST ITEMS</span></div></div>
+<div class="viewcode-block" id="html_li_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_li_class">[docs]</a><span class="k">class</span> <span class="nc">html_li_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_li_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_li_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;li class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/li&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+<span class="c">###############################</span>
+<span class="c"># HEADER / FOOTERS            #</span>
+<span class="c">###############################</span>
+<span class="c"># hgroup CLASS</span></div></div>
+<div class="viewcode-block" id="html_hgroup_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_hgroup_class">[docs]</a><span class="k">class</span> <span class="nc">html_hgroup_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_hgroup_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_hgroup_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span>  <span class="s">&#39;&lt;hgroup class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/hgroup&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+<span class="c"># h1 CLASS</span></div></div>
+<div class="viewcode-block" id="html_h1_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_h1_class">[docs]</a><span class="k">class</span> <span class="nc">html_h1_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_h1_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_h1_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span>  <span class="s">&#39;&lt;h1 class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/h1&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c"># h2 CLASS</span></div></div>
+<div class="viewcode-block" id="html_h2_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_h2_class">[docs]</a><span class="k">class</span> <span class="nc">html_h2_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_h2_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_h2_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span>  <span class="s">&#39;&lt;h2 class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/h2&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c"># h3 CLASS #</span></div></div>
+<div class="viewcode-block" id="html_h3_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_h3_class">[docs]</a><span class="k">class</span> <span class="nc">html_h3_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_h3_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_h3_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span>  <span class="s">&#39;&lt;h3 class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/h3&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c"># header class #</span></div></div>
+<div class="viewcode-block" id="html_header_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_header_class">[docs]</a><span class="k">class</span> <span class="nc">html_header_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_header_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_header_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span>  <span class="s">&#39;&lt;header class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/header&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+</div></div>
+<div class="viewcode-block" id="html_footer_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_footer_class">[docs]</a><span class="k">class</span> <span class="nc">html_footer_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_footer_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_footer_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span>  <span class="s">&#39;&lt;footer class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/footer&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c">#                                 HTML TABLE CLASSES</span>
+<span class="c">#############################################################################################</span>
+<span class="c">## THE TABLE CELL CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_td_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_td_class">[docs]</a><span class="k">class</span> <span class="nc">html_td_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_td_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_td_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;td class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/td&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">## THE TABLE HEADER CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_th_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_th_class">[docs]</a><span class="k">class</span> <span class="nc">html_th_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_th_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_th_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;th class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/th&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+<span class="c">## THE TABLE ROW CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_tr_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_tr_class">[docs]</a><span class="k">class</span> <span class="nc">html_tr_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_tr_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_tr_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;tr class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/tr&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+<span class="c">## THE FULL TABLE CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_table_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_table_class">[docs]</a><span class="k">class</span> <span class="nc">html_table_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_table_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_table_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;table class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/table&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">###############################</span>
+<span class="c"># HTML5 FORMS                 #</span>
+<span class="c">###############################</span>
+<span class="c">## FORM CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_form_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_form_class">[docs]</a><span class="k">class</span> <span class="nc">html_form_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">action</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">method</span> <span class="o">=</span> <span class="s">&quot;post&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_form_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_form_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;form class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39; action=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="o">+</span><span class="s">&#39;&quot; method=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="o">+</span><span class="s">&#39;&quot;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/form&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">## INPUT CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_input_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_input_class">[docs]</a><span class="k">class</span> <span class="nc">html_input_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">label</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">ttype</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">placeholder</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">required</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">autofocus</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">maxlength</span> <span class="o">=</span> <span class="mi">0</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_input_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_input_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;label&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="s">&#39;&lt;/label&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="s">&#39;&lt;input class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; name=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39;&quot; type=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ttype</span><span class="o">+</span><span class="s">&#39;&quot; placeholder=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">placeholder</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span>
+
+		<span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">):</span> <span class="n">content</span> <span class="o">+=</span> <span class="s">&#39; required &#39;</span>
+		<span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">autofocus</span><span class="p">):</span> <span class="n">content</span> <span class="o">+=</span> <span class="s">&#39; autofocus &#39;</span>
+		<span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxlength</span><span class="p">):</span> <span class="n">content</span> <span class="o">+=</span> <span class="s">&#39; maxlength=&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">maxlength</span><span class="o">+</span><span class="s">&#39; &#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="s">&#39;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/input&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+</div></div>
+<div class="viewcode-block" id="html_select_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_select_class">[docs]</a><span class="k">class</span> <span class="nc">html_select_class</span><span class="p">():</span>
+<span class="c">#### VARIABLES ####</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c">#### METHODS ####</span>
+<div class="viewcode-block" id="html_select_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_select_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;select class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; name=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39;&quot;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/select&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+</div></div>
+<div class="viewcode-block" id="html_option_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_option_class">[docs]</a><span class="k">class</span> <span class="nc">html_option_class</span><span class="p">():</span>
+<span class="c">#### VARIABLES ####</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">value</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c">#### METHODS ####</span>
+<div class="viewcode-block" id="html_option_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_option_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;option class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; value=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">+</span><span class="s">&#39;&quot;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/option&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+</div></div>
+<div class="viewcode-block" id="html_option_list_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_option_list_class">[docs]</a><span class="k">class</span> <span class="nc">html_option_list_class</span><span class="p">():</span>
+<span class="c">#### VARIABLES ####</span>
+	<span class="n">optionList</span> <span class="o">=</span> <span class="p">[]</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c">#### METHODS ####</span>
+<div class="viewcode-block" id="html_option_list_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_option_list_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+		<span class="n">optionDict</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">optionList</span><span class="p">:</span>
+			<span class="n">optionDict</span><span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_option_class</span><span class="p">()</span>
+			<span class="n">optionDict</span><span class="p">[</span><span class="n">option</span><span class="p">]</span><span class="o">.</span><span class="n">htmlId</span> <span class="o">=</span> <span class="n">option</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+			<span class="n">optionDict</span><span class="p">[</span><span class="n">option</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">option</span>
+			<span class="n">optionDict</span><span class="p">[</span><span class="n">option</span><span class="p">]</span><span class="o">.</span><span class="n">blockContent</span> <span class="o">=</span> <span class="n">option</span>
+			<span class="n">content</span> <span class="o">+=</span> <span class="n">optionDict</span><span class="p">[</span><span class="n">option</span><span class="p">]</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+
+<span class="c">## INPUT CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_textarea_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_textarea_class">[docs]</a><span class="k">class</span> <span class="nc">html_textarea_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">label</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">rows</span> <span class="o">=</span> <span class="s">&quot;1&quot;</span>
+	<span class="n">placeholder</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">required</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">autofocus</span> <span class="o">=</span> <span class="mi">0</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_textarea_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_textarea_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;label&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">+</span><span class="s">&#39;&lt;/label&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="s">&#39;&lt;textarea class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; name =&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s">&#39;&quot; row=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">+</span><span class="s">&#39;&quot; placeholder=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">placeholder</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span>
+
+		<span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">):</span> <span class="n">content</span> <span class="o">+=</span> <span class="s">&#39; required &#39;</span>
+		<span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">autofocus</span><span class="p">):</span> <span class="n">content</span> <span class="o">+=</span> <span class="s">&#39; autofocus &#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="s">&#39;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/textarea&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">## THE FIELDSET CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_fieldset_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_fieldset_class">[docs]</a><span class="k">class</span> <span class="nc">html_fieldset_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">legend</span><span class="o">=</span><span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_fieldset_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_fieldset_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;fieldset class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;&lt;legend&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">+</span><span class="s">&#39;&lt;/legend&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/fieldset&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">## THE BUTTON CLASS ##</span></div></div>
+<div class="viewcode-block" id="html_button_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_button_class">[docs]</a><span class="k">class</span> <span class="nc">html_button_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">ttype</span><span class="o">=</span><span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_button_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_button_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;button class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; type=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ttype</span><span class="o">+</span><span class="s">&#39;&quot;  &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;&lt;/button&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c">#                                 DRYX DIV FORM CLASS</span>
+<span class="c">#############################################################################################</span></div></div>
+<div class="viewcode-block" id="html_div_form_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_form_class">[docs]</a><span class="k">class</span> <span class="nc">html_div_form_class</span><span class="p">():</span>
+	<span class="c">#### VARIABLES TO CHANGE ####</span>
+	<span class="n">labelList</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">textboxList</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">selectList</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">checkboxList</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">buttonList</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">numberOfRows</span> <span class="o">=</span> <span class="mi">1</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c">#### METHODS ####</span>
+<div class="viewcode-block" id="html_div_form_class.get_objects"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_form_class.get_objects">[docs]</a>	<span class="k">def</span> <span class="nf">get_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+		<span class="c">#### GENERATE FORM LABELS (DIVS) ####</span>
+		<span class="c">#--------------------------------------------------------------------------------#</span>
+		<span class="n">labelDict</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelList</span><span class="p">:</span>
+			<span class="n">labelDict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_div_class</span><span class="p">()</span>
+			<span class="n">labelDict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">htmlId</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+			<span class="n">labelDict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;labels&quot;</span>
+			<span class="n">labelDict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">blockContent</span> <span class="o">=</span> <span class="n">label</span>
+
+		<span class="c">#### GENERATE TEXTBOXES (INPUTS) ####</span>
+		<span class="c">#--------------------------------------------------------------------------------#</span>
+		<span class="n">textDict</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">textboxList</span><span class="p">:</span>
+			<span class="n">textDict</span><span class="p">[</span><span class="n">text</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_input_class</span><span class="p">()</span>
+			<span class="n">textDict</span><span class="p">[</span><span class="n">text</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+			<span class="n">textDict</span><span class="p">[</span><span class="n">text</span><span class="p">]</span><span class="o">.</span><span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+			<span class="n">textDict</span><span class="p">[</span><span class="n">text</span><span class="p">]</span><span class="o">.</span><span class="n">ttype</span> <span class="o">=</span> <span class="s">&#39;text&#39;</span>
+			<span class="n">textDict</span><span class="p">[</span><span class="n">text</span><span class="p">]</span><span class="o">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="n">text</span>
+			<span class="n">textDict</span><span class="p">[</span><span class="n">text</span><span class="p">]</span><span class="o">.</span><span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+		<span class="c">#### GERERATE SELECTS ####</span>
+		<span class="c">#--------------------------------------------------------------------------------#</span>
+		<span class="n">selectDict</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">select</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectList</span><span class="p">:</span>
+			<span class="n">selectDict</span><span class="p">[</span><span class="n">select</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_select_class</span><span class="p">()</span>
+			<span class="n">selectDict</span><span class="p">[</span><span class="n">select</span><span class="p">]</span><span class="o">.</span><span class="n">htmlId</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+			<span class="n">selectDict</span><span class="p">[</span><span class="n">select</span><span class="p">]</span><span class="o">.</span><span class="n">htmlClass</span> <span class="o">=</span> <span class="n">select</span><span class="o">+</span><span class="s">&quot;Select&quot;</span>
+			<span class="n">selectDict</span><span class="p">[</span><span class="n">select</span><span class="p">]</span><span class="o">.</span><span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+		<span class="c">#### GERERATE CHECKBOXES ####</span>
+		<span class="c">#--------------------------------------------------------------------------------#</span>
+		<span class="n">checkboxDict</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">checkbox</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkboxList</span><span class="p">:</span>
+			<span class="n">checkboxDict</span><span class="p">[</span><span class="n">checkbox</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_input_class</span><span class="p">()</span>
+			<span class="n">checkboxDict</span><span class="p">[</span><span class="n">checkbox</span><span class="p">]</span><span class="o">.</span><span class="n">ttype</span> <span class="o">=</span> <span class="s">&#39;checkbox&#39;</span>
+			<span class="n">checkboxDict</span><span class="p">[</span><span class="n">checkbox</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">checkbox</span>
+			<span class="n">checkboxDict</span><span class="p">[</span><span class="n">checkbox</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">checkbox</span>
+			<span class="n">checkboxDict</span><span class="p">[</span><span class="n">checkbox</span><span class="p">]</span><span class="o">.</span><span class="n">htmlId</span> <span class="o">=</span> <span class="n">checkbox</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+			<span class="n">checkboxDict</span><span class="p">[</span><span class="n">checkbox</span><span class="p">]</span><span class="o">.</span><span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+		<span class="c">#### GENERATE BUTTONS ####</span>
+		<span class="c">#--------------------------------------------------------------------------------#</span>
+		<span class="n">buttonDict</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">button</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonList</span><span class="p">:</span>
+			<span class="n">buttonDict</span><span class="p">[</span><span class="n">button</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_button_class</span><span class="p">()</span>
+			<span class="n">buttonDict</span><span class="p">[</span><span class="n">button</span><span class="p">]</span><span class="o">.</span><span class="n">htmlId</span> <span class="o">=</span> <span class="n">button</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+			<span class="n">buttonDict</span><span class="p">[</span><span class="n">button</span><span class="p">]</span><span class="o">.</span><span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;greyButton&quot;</span>
+			<span class="n">buttonDict</span><span class="p">[</span><span class="n">button</span><span class="p">]</span><span class="o">.</span><span class="n">blockContent</span> <span class="o">=</span> <span class="n">button</span>
+
+		<span class="c">#### GENERATE THE ROWS ####</span>
+		<span class="c">#--------------------------------------------------------------------------------#</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="n">rowList</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">rowList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;NULL&quot;</span><span class="p">)</span>
+		<span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numberOfRows</span><span class="p">):</span>
+			<span class="n">rowName</span> <span class="o">=</span> <span class="s">&quot;row&quot;</span><span class="o">+</span><span class="s">&quot;{0:02.0f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+			<span class="n">rowList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html_div_table_hk_cell_class</span><span class="p">())</span>
+			<span class="n">rowList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">htmlId</span> <span class="o">=</span> <span class="n">rowName</span>
+			<span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+		<span class="n">form</span> <span class="o">=</span> <span class="n">html_form_class</span><span class="p">()</span>
+		<span class="n">form</span><span class="o">.</span><span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;form&quot;</span>
+		<span class="n">formContent</span> <span class="o">=</span> <span class="n">html_div_table_vk_cell_class</span><span class="p">()</span>
+		<span class="n">formContent</span><span class="o">.</span><span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;formContent&quot;</span>
+
+		<span class="k">return</span> <span class="n">labelDict</span><span class="p">,</span><span class="n">textDict</span><span class="p">,</span><span class="n">selectDict</span><span class="p">,</span><span class="n">checkboxDict</span><span class="p">,</span><span class="n">buttonDict</span><span class="p">,</span><span class="n">rowList</span><span class="p">,</span><span class="n">formContent</span><span class="p">,</span><span class="n">form</span>
+
+
+
+<span class="c">#############################################################################################</span>
+<span class="c">#                                 DRYX DIV TABLE CLASSES</span>
+<span class="c">#############################################################################################</span></div></div>
+<div class="viewcode-block" id="html_div_table_vk_cell_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_table_vk_cell_class">[docs]</a><span class="k">class</span> <span class="nc">html_div_table_vk_cell_class</span><span class="p">(</span><span class="n">html_div_class</span><span class="p">):</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;divVerticalKids&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="html_div_table_hk_cell_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_table_hk_cell_class">[docs]</a><span class="k">class</span> <span class="nc">html_div_table_hk_cell_class</span><span class="p">(</span><span class="n">html_div_class</span><span class="p">):</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;divHorizontalKids&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="html_div_table_header_row_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_table_header_row_class">[docs]</a><span class="k">class</span> <span class="nc">html_div_table_header_row_class</span><span class="p">(</span><span class="n">html_div_class</span><span class="p">):</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;tableHeaderRow&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="html_div_table_row_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_table_row_class">[docs]</a><span class="k">class</span> <span class="nc">html_div_table_row_class</span><span class="p">(</span><span class="n">html_div_class</span><span class="p">):</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;divTableRow&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="html_div_table_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_div_table_class">[docs]</a><span class="k">class</span> <span class="nc">html_div_table_class</span><span class="p">(</span><span class="n">html_div_class</span><span class="p">):</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;divTable&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+
+<span class="c">###############################</span>
+<span class="c"># HEAD                        #</span>
+<span class="c">###############################</span></div>
+<div class="viewcode-block" id="html_head_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_head_class">[docs]</a><span class="k">class</span> <span class="nc">html_head_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+<span class="c">## VARIABLES MOST LIKELY TO BE CHANGED IN OBJECTS ##</span>
+	<span class="n">relativeUrlBase</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">pageTitle</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">cssFileName</span> <span class="o">=</span> <span class="s">&quot;main.css&quot;</span>
+	<span class="n">extraHeadInfo</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_head_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_head_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">relativeCssUrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="o">+</span><span class="s">&quot;/css/&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">cssFileName</span>
+		<span class="n">styleSheetLink</span> <span class="o">=</span> <span class="s">&#39;&lt;link rel=&quot;stylesheet&quot; href=&quot;&#39;</span><span class="o">+</span><span class="n">relativeCssUrl</span><span class="o">+</span><span class="s">&#39;&quot; type=&quot;text/css&quot; /&gt; &lt;!-- Here is the main style sheet for the website --&gt;&#39;</span>
+		<span class="n">webFontsLink</span> <span class="o">=</span> <span class="s">&quot;&lt;link href=&#39;http://fonts.googleapis.com/css?family=Signika+Negative|Inder|Acme|Loved+by+the+King&#39; rel=&#39;stylesheet&#39; type=&#39;text/css&#39;&gt;  &lt;!-- Google Web Font Integration --&gt;&quot;</span>
+		<span class="c"># &lt;script src=&quot;&#39;+self.relativeUrlBase+&#39;/js/jquery.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+
+		<span class="c"># BROWSER COMPATABILITY CLAUSES #</span>
+		<span class="n">ieClause</span> <span class="o">=</span> <span class="s">&#39;&lt;!--[if IE]&gt;&lt;script src=&quot;http://html5shiv.googlecode.com/svn/trunk/html5.js&quot;&gt;&lt;/script&gt;&lt;![endif]--&gt; &lt;!-- run html5 shiv code directly from Google Code for all versions of IE --&gt;&#39;</span>
+		<span class="n">ieSevenClause</span> <span class="o">=</span> <span class="s">&#39;&lt;!--[if lte IE 7]&gt;</span><span class="se">\n\</span>
+<span class="s">	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;all&quot; href=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="o">+</span><span class="s">&#39;/css/ie.css&quot;/&gt;</span><span class="se">\n\</span>
+<span class="s">	&lt;script src=&quot;js/IE8.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;![endif]--&gt; &lt;!-- IE8.js for better backwards compatibility for IE7 and below as well as an ie.css file which will slove IE7 and below CSS bugs --&gt;&#39;</span>
+		<span class="n">ieLtSevenClause</span> <span class="o">=</span> <span class="s">&#39;&lt;!--[if lt IE 7]&gt;</span><span class="se">\n\</span>
+<span class="s">	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;all&quot; href=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="o">+</span><span class="s">&#39;/css/ie6.css&quot;/&gt;&lt;![endif]--&gt; &lt;!-- A CSS file to fix IE6 bugs --&gt;&#39;</span>
+
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&lt;head&gt;</span><span class="se">\n</span><span class="s">&lt;title&gt;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">pageTitle</span><span class="o">+</span><span class="s">&#39;&lt;/title&gt;</span><span class="se">\n</span><span class="s">&lt;meta charset=&quot;utf-8&quot; /&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="n">styleSheetLink</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="n">webFontsLink</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraHeadInfo</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="n">ieClause</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="n">ieSevenClause</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="n">ieLtSevenClause</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="s">&#39;&lt;/head&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+</div></div>
+<div class="viewcode-block" id="html_include_js_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_include_js_class">[docs]</a><span class="k">class</span> <span class="nc">html_include_js_class</span><span class="p">():</span>
+	<span class="n">jsPath</span><span class="o">=</span><span class="s">&#39;&#39;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_include_js_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_include_js_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">content</span> <span class="o">=</span>  <span class="s">&#39;&lt;script src=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsPath</span><span class="o">+</span><span class="s">&#39;&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+
+<span class="c">###############################</span>
+<span class="c"># BODY                        #</span>
+<span class="c">###############################</span></div></div>
+<div class="viewcode-block" id="html_body_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_body_class">[docs]</a><span class="k">class</span> <span class="nc">html_body_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">relativeUrlBase</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_body_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_body_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">javascriptLink</span> <span class="o">=</span> <span class="s">&#39;&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;!-- jquery --&gt;</span><span class="se">\n\</span>
+<span class="s">	&lt;link rel=&quot;stylesheet&quot; href=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="o">+</span><span class="s">&#39;/css/prettyPhoto.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot; charset=&quot;utf-8&quot; /&gt;</span><span class="se">\n\</span>
+<span class="s">	&lt;!-- prettyPhoto --&gt;</span><span class="se">\n</span><span class="s">&lt;script src=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">relativeUrlBase</span><span class="o">+</span><span class="s">&#39;/js/jquery.prettyPhoto.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&#39;</span>
+		<span class="n">prettyPhotoScript</span> <span class="o">=</span> <span class="s">&#39;&lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;$(document).ready(function(){$(&quot;a[rel^=</span><span class="se">\&#39;</span><span class="s">prettyPhoto</span><span class="se">\&#39;</span><span class="s">]&quot;).prettyPhoto();});&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">=</span>  <span class="s">&#39;&lt;body class=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlClass</span><span class="o">+</span><span class="s">&#39;&quot; id=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;&quot; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jsEvents</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">extraAttr</span><span class="o">+</span><span class="s">&#39;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="n">javascriptLink</span><span class="o">+</span><span class="n">prettyPhotoScript</span><span class="o">+</span><span class="s">&#39;&lt;/body&gt;&lt;!-- /#&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">htmlId</span><span class="o">+</span><span class="s">&#39;--&gt;</span><span class="se">\n\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+
+<span class="c">###############################</span>
+<span class="c"># WRAPPER                     #</span>
+<span class="c">###############################</span></div></div>
+<div class="viewcode-block" id="html_wrapper_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_wrapper_class">[docs]</a><span class="k">class</span> <span class="nc">html_wrapper_class</span><span class="p">(</span><span class="n">html_div_class</span><span class="p">):</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">htmlClass</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">htmlId</span> <span class="o">=</span> <span class="s">&quot;bigWrapper&quot;</span>
+	<span class="n">jsEvents</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+	<span class="n">extraAttr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+<span class="c">###############################</span>
+<span class="c"># FULL WEBPAGE                #</span>
+<span class="c">###############################</span></div>
+<div class="viewcode-block" id="html_webpage_class"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_webpage_class">[docs]</a><span class="k">class</span> <span class="nc">html_webpage_class</span><span class="p">():</span>
+	<span class="c"># VARIABLES #</span>
+	<span class="n">blockContent</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	  <span class="k">pass</span>
+
+	<span class="c"># METHODS #</span>
+<div class="viewcode-block" id="html_webpage_class.get_object"><a class="viewcode-back" href="../clsx_dryx_html_blocks.html#clsx_dryx_html_blocks.html_webpage_class.get_object">[docs]</a>	<span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="c"># PRINT REQUIRED CONTENT-TYPE FOR CGI PROGRAMMING</span>
+		<span class="n">content</span> <span class="o">=</span> <span class="s">&#39;Content-Type: text/html</span><span class="se">\n\n</span><span class="s">&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s">&lt;html lang=&quot;en&quot;&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blockContent</span>
+		<span class="n">content</span> <span class="o">+=</span> <span class="s">&#39;&lt;/html&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+		<span class="k">return</span> <span class="n">content</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

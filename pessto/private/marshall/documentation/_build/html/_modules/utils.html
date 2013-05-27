@@ -1,0 +1,862 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>utils &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for utils</h1><div class="highlight"><pre>
+<span class="c"># Utilities file.  The following import are used so often I&#39;ve placed them at</span>
+<span class="c"># the top of the file.  Other imports are executed only when needed.</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s">&#39;ignore&#39;</span><span class="p">,</span> <span class="s">&#39;.*the sets module is deprecated.*&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="s">&#39;MySQLdb&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="dbConnect"><a class="viewcode-back" href="../utils.html#utils.dbConnect">[docs]</a><span class="k">def</span> <span class="nf">dbConnect</span><span class="p">(</span><span class="n">lhost</span><span class="p">,</span> <span class="n">luser</span><span class="p">,</span> <span class="n">lpasswd</span><span class="p">,</span> <span class="n">ldb</span><span class="p">,</span> <span class="n">quitOnError</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+   <span class="kn">import</span> <span class="nn">MySQLdb</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span> <span class="p">(</span><span class="n">host</span> <span class="o">=</span> <span class="n">lhost</span><span class="p">,</span>
+                              <span class="n">user</span> <span class="o">=</span> <span class="n">luser</span><span class="p">,</span>
+                            <span class="n">passwd</span> <span class="o">=</span> <span class="n">lpasswd</span><span class="p">,</span>
+                                <span class="n">db</span> <span class="o">=</span> <span class="n">ldb</span><span class="p">)</span>
+   <span class="k">except</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&quot;Error </span><span class="si">%d</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+      <span class="k">if</span> <span class="n">quitOnError</span><span class="p">:</span>
+         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="n">conn</span><span class="o">=</span><span class="bp">None</span>
+
+   <span class="k">return</span> <span class="n">conn</span>
+
+</div>
+<div class="viewcode-block" id="getDSS2Image"><a class="viewcode-back" href="../utils.html#utils.getDSS2Image">[docs]</a><span class="k">def</span> <span class="nf">getDSS2Image</span> <span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+    <span class="kn">import</span> <span class="nn">urllib2</span>
+    <span class="kn">import</span> <span class="nn">urllib</span>
+    <span class="kn">import</span> <span class="nn">urlparse</span>
+
+    <span class="n">baseurl</span> <span class="o">=</span> <span class="s">&#39;http://archive.eso.org&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">baseurl</span> <span class="o">+</span> <span class="s">&#39;/dss/dss/image&#39;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;ra&#39;</span> <span class="p">:</span> <span class="n">ra</span><span class="p">,</span>
+              <span class="s">&#39;dec&#39;</span> <span class="p">:</span> <span class="n">dec</span><span class="p">,</span>
+              <span class="s">&#39;name&#39;</span> <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+              <span class="s">&#39;x&#39;</span> <span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+              <span class="s">&#39;y&#39;</span> <span class="p">:</span> <span class="n">y</span><span class="p">,</span>
+              <span class="s">&#39;Sky-Survey&#39;</span> <span class="p">:</span> <span class="s">&#39;DSS-2-red&#39;</span><span class="p">,</span>
+              <span class="s">&#39;equinox&#39;</span> <span class="p">:</span> <span class="s">&#39;J2000&#39;</span> <span class="p">}</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+    <span class="n">the_page</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">the_page</span><span class="p">)</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span><span class="p">[</span><span class="s">&#39;href&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;http&quot;</span><span class="p">):</span>
+           <span class="n">a</span><span class="p">[</span><span class="s">&#39;href&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">urlparse</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">baseurl</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="s">&#39;href&#39;</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">&#39;img&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">img</span><span class="p">[</span><span class="s">&#39;src&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;http&quot;</span><span class="p">):</span>
+           <span class="n">img</span><span class="p">[</span><span class="s">&#39;src&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">urlparse</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">baseurl</span><span class="p">,</span> <span class="n">img</span><span class="p">[</span><span class="s">&#39;src&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">soup</span>
+
+</div>
+<div class="viewcode-block" id="bin"><a class="viewcode-back" href="../utils.html#utils.bin">[docs]</a><span class="k">def</span> <span class="nf">bin</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">oct2bin</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;000&#39;</span><span class="p">,</span><span class="s">&#39;001&#39;</span><span class="p">,</span><span class="s">&#39;010&#39;</span><span class="p">,</span><span class="s">&#39;011&#39;</span><span class="p">,</span><span class="s">&#39;100&#39;</span><span class="p">,</span><span class="s">&#39;101&#39;</span><span class="p">,</span><span class="s">&#39;110&#39;</span><span class="p">,</span><span class="s">&#39;111&#39;</span><span class="p">]</span>
+    <span class="n">binstring</span> <span class="o">=</span> <span class="p">[</span><span class="n">oct2bin</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">oct</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">binstring</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&#39;0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="ra_to_sex"><a class="viewcode-back" href="../utils.html#utils.ra_to_sex">[docs]</a><span class="k">def</span> <span class="nf">ra_to_sex</span> <span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;:&#39;</span><span class="p">):</span>
+
+   <span class="c"># Calculation from Decimal Degrees:</span>
+
+   <span class="n">ra_hh</span>   <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ra</span><span class="o">/</span><span class="mi">15</span><span class="p">)</span>
+   <span class="n">ra_mm</span>   <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">ra</span><span class="o">/</span><span class="mi">15</span> <span class="o">-</span> <span class="n">ra_hh</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+   <span class="n">ra_ss</span>   <span class="o">=</span> <span class="nb">int</span><span class="p">(((</span><span class="n">ra</span><span class="o">/</span><span class="mi">15</span> <span class="o">-</span> <span class="n">ra_hh</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span> <span class="o">-</span> <span class="n">ra_mm</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+   <span class="n">ra_ff</span>  <span class="o">=</span> <span class="nb">int</span><span class="p">((((</span><span class="n">ra</span><span class="o">/</span><span class="mi">15</span> <span class="o">-</span> <span class="n">ra_hh</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span> <span class="o">-</span> <span class="n">ra_mm</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span> <span class="o">-</span> <span class="n">ra_ss</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+
+   <span class="k">return</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">ra_hh</span> <span class="o">+</span> <span class="n">delimiter</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">ra_mm</span> <span class="o">+</span> <span class="n">delimiter</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">ra_ss</span> <span class="o">+</span> <span class="s">&#39;.&#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">ra_ff</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="dec_to_sex"><a class="viewcode-back" href="../utils.html#utils.dec_to_sex">[docs]</a><span class="k">def</span> <span class="nf">dec_to_sex</span> <span class="p">(</span><span class="n">dec</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;:&#39;</span><span class="p">):</span>
+
+   <span class="k">if</span> <span class="p">(</span><span class="n">dec</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
+      <span class="n">hemisphere</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span>
+   <span class="k">else</span><span class="p">:</span>
+      <span class="c"># Unicode minus sign - should be treated as non-breaking by browsers</span>
+      <span class="n">hemisphere</span> <span class="o">=</span> <span class="s">&#39;-&#39;</span> 
+      <span class="n">dec</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+   <span class="n">dec_deg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+   <span class="n">dec_mm</span>  <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">dec</span> <span class="o">-</span> <span class="n">dec_deg</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+   <span class="n">dec_ss</span>  <span class="o">=</span> <span class="nb">int</span><span class="p">(((</span><span class="n">dec</span> <span class="o">-</span> <span class="n">dec_deg</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span> <span class="o">-</span> <span class="n">dec_mm</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+   <span class="n">dec_f</span>  <span class="o">=</span> <span class="nb">int</span><span class="p">(((((</span><span class="n">dec</span> <span class="o">-</span> <span class="n">dec_deg</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span> <span class="o">-</span> <span class="n">dec_mm</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span> <span class="o">-</span> <span class="n">dec_ss</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span>
+
+   <span class="k">return</span> <span class="p">(</span><span class="n">hemisphere</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">dec_deg</span> <span class="o">+</span> <span class="n">delimiter</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">dec_mm</span> <span class="o">+</span> <span class="n">delimiter</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">dec_ss</span> <span class="o">+</span> <span class="s">&#39;.&#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%01d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">dec_f</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="coords_dec_to_sex"><a class="viewcode-back" href="../utils.html#utils.coords_dec_to_sex">[docs]</a><span class="k">def</span> <span class="nf">coords_dec_to_sex</span> <span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;:&#39;</span><span class="p">):</span>
+
+   <span class="k">return</span><span class="p">(</span><span class="n">ra_to_sex</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span><span class="n">delimiter</span><span class="p">),</span> <span class="n">dec_to_sex</span><span class="p">(</span><span class="n">dec</span><span class="p">,</span><span class="n">delimiter</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="ra_in_decimal_hours"><a class="viewcode-back" href="../utils.html#utils.ra_in_decimal_hours">[docs]</a><span class="k">def</span> <span class="nf">ra_in_decimal_hours</span><span class="p">(</span><span class="n">ra</span><span class="p">):</span>
+
+   <span class="k">return</span><span class="p">(</span><span class="n">ra</span><span class="o">/</span><span class="mf">15.0</span><span class="p">)</span>
+
+<span class="c"># Base-26 converter - for local QUB PS1 IDs</span></div>
+<div class="viewcode-block" id="baseN"><a class="viewcode-back" href="../utils.html#utils.baseN">[docs]</a><span class="k">def</span> <span class="nf">baseN</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span> <span class="n">numerals</span><span class="o">=</span><span class="s">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="k">return</span> <span class="n">numerals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+   <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="k">return</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">baseN</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">numerals</span><span class="p">)</span>
+
+   <span class="k">if</span> <span class="ow">not</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">base</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numerals</span><span class="p">):</span>
+       <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Base must be between 2-</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">numerals</span><span class="p">))</span>
+
+   <span class="n">left_digits</span> <span class="o">=</span> <span class="n">num</span> <span class="o">//</span> <span class="n">base</span>
+   <span class="k">if</span> <span class="n">left_digits</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="k">return</span> <span class="n">numerals</span><span class="p">[</span><span class="n">num</span> <span class="o">%</span> <span class="n">base</span><span class="p">]</span>
+   <span class="k">else</span><span class="p">:</span>
+       <span class="k">return</span> <span class="n">baseN</span><span class="p">(</span><span class="n">left_digits</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">numerals</span><span class="p">)</span> <span class="o">+</span> <span class="n">numerals</span><span class="p">[</span><span class="n">num</span> <span class="o">%</span> <span class="n">base</span><span class="p">]</span>
+
+<span class="c"># Base 26 number padded with base 26 zeroes (a)</span></div>
+<div class="viewcode-block" id="base26"><a class="viewcode-back" href="../utils.html#utils.base26">[docs]</a><span class="k">def</span> <span class="nf">base26</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Number must be positive or zero&#39;</span><span class="p">)</span>
+
+   <span class="k">return</span> <span class="n">baseN</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="DictLookup"><a class="viewcode-back" href="../utils.html#utils.DictLookup">[docs]</a><span class="k">class</span> <span class="nc">DictLookup</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   a dictionary which can lookup value by key, or keys by value</span>
+<span class="sd">   &quot;&quot;&quot;</span>
+   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">[]):</span>
+      <span class="sd">&quot;&quot;&quot;items can be a list of pair_lists or a dictionary&quot;&quot;&quot;</span>
+      <span class="nb">dict</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DictLookup.get_key"><a class="viewcode-back" href="../utils.html#utils.DictLookup.get_key">[docs]</a>   <span class="k">def</span> <span class="nf">get_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+      <span class="sd">&quot;&quot;&quot;find the key(s) as a list given a value&quot;&quot;&quot;</span>
+      <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="DictLookup.get_value"><a class="viewcode-back" href="../utils.html#utils.DictLookup.get_value">[docs]</a>   <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+      <span class="sd">&quot;&quot;&quot;find the value given a key&quot;&quot;&quot;</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+</div></div>
+<div class="viewcode-block" id="getFlagDefs"><a class="viewcode-back" href="../utils.html#utils.getFlagDefs">[docs]</a><span class="k">def</span> <span class="nf">getFlagDefs</span><span class="p">(</span><span class="n">flags</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39; + &#39;</span><span class="p">):</span>
+   <span class="n">flagDefs</span> <span class="o">=</span> <span class="p">[]</span>
+
+   <span class="n">lookup</span> <span class="o">=</span> <span class="n">DictLookup</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+
+   <span class="c"># It&#39;s an 8 bit flag at the moment, and we only</span>
+   <span class="c"># use 6 bits.  Cycle through the flags and concatenate</span>
+   <span class="c"># the keys.</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+      <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">7</span><span class="p">)</span> <span class="o">&gt;&gt;</span><span class="n">i</span>
+      <span class="k">if</span> <span class="n">flags</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">:</span>
+         <span class="n">flagDefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lookup</span><span class="o">.</span><span class="n">get_key</span><span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)))</span>
+
+   <span class="k">return</span> <span class="n">delimiter</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">flagDefs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="getCurrentMJD"><a class="viewcode-back" href="../utils.html#utils.getCurrentMJD">[docs]</a><span class="k">def</span> <span class="nf">getCurrentMJD</span><span class="p">():</span>
+   <span class="n">jd</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">/</span><span class="mf">86400.0</span><span class="o">+</span><span class="mf">2440587.5</span>
+   <span class="n">mjd</span> <span class="o">=</span> <span class="n">jd</span><span class="o">-</span><span class="mf">2400000.5</span>
+   <span class="k">return</span> <span class="n">mjd</span>
+
+</div>
+<div class="viewcode-block" id="getDateFromMJD"><a class="viewcode-back" href="../utils.html#utils.getDateFromMJD">[docs]</a><span class="k">def</span> <span class="nf">getDateFromMJD</span><span class="p">(</span><span class="n">mjd</span><span class="p">):</span>
+   <span class="n">unixtime</span> <span class="o">=</span> <span class="p">(</span><span class="n">mjd</span> <span class="o">+</span> <span class="mf">2400000.5</span> <span class="o">-</span> <span class="mf">2440587.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">86400.0</span><span class="p">;</span>
+   <span class="n">theDate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="n">unixtime</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">theDate</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&quot;</span><span class="p">)</span>
+
+
+<span class="c"># 2012-03-26 KWS Added function to convert from date to MJD</span></div>
+<div class="viewcode-block" id="getMJDFromSqlDate"><a class="viewcode-back" href="../utils.html#utils.getMJDFromSqlDate">[docs]</a><span class="k">def</span> <span class="nf">getMJDFromSqlDate</span><span class="p">(</span><span class="n">sqlDate</span><span class="p">):</span>
+   <span class="n">mjd</span> <span class="o">=</span> <span class="bp">None</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="n">sqlDate</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)</span>
+      <span class="n">hours</span><span class="p">,</span> <span class="n">minutes</span><span class="p">,</span> <span class="n">seconds</span> <span class="o">=</span> <span class="n">sqlDate</span><span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">19</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+      <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hours</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minutes</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">seconds</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="n">unixtime</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+      <span class="n">mjd</span> <span class="o">=</span> <span class="n">unixtime</span><span class="o">/</span><span class="mf">86400.0</span> <span class="o">-</span> <span class="mf">2400000.5</span> <span class="o">+</span> <span class="mf">2440587.5</span>
+   <span class="k">except</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="n">mjd</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="k">print</span> <span class="s">&quot;String is not in SQL Date format.&quot;</span>
+
+   <span class="k">return</span> <span class="n">mjd</span>
+
+</div>
+<div class="viewcode-block" id="getDateFractionMJD"><a class="viewcode-back" href="../utils.html#utils.getDateFractionMJD">[docs]</a><span class="k">def</span> <span class="nf">getDateFractionMJD</span><span class="p">(</span><span class="n">mjd</span><span class="p">):</span>
+   <span class="n">unixtime</span> <span class="o">=</span> <span class="p">(</span><span class="n">mjd</span> <span class="o">+</span> <span class="mf">2400000.5</span> <span class="o">-</span> <span class="mf">2440587.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">86400.0</span><span class="p">;</span>
+   <span class="n">theDate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="n">unixtime</span><span class="p">)</span>
+   <span class="n">dateString</span> <span class="o">=</span> <span class="n">theDate</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y:%m:</span><span class="si">%d</span><span class="s">:%H:%M:%S&quot;</span><span class="p">)</span>
+   <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="n">sec</span><span class="p">)</span> <span class="o">=</span> <span class="n">dateString</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+   <span class="n">dayFraction</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">/</span><span class="mf">24.0</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">24.0</span> <span class="o">*</span> <span class="mf">60.0</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">24.0</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">*</span> <span class="mf">60.0</span><span class="p">)</span>
+   <span class="n">dateFraction</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> </span><span class="si">%05.2f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">dayFraction</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">dateFraction</span>
+
+</div>
+<div class="viewcode-block" id="sexToDec"><a class="viewcode-back" href="../utils.html#utils.sexToDec">[docs]</a><span class="k">def</span> <span class="nf">sexToDec</span> <span class="p">(</span><span class="n">sexv</span><span class="p">,</span> <span class="n">ra</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;:&#39;</span><span class="p">):</span>
+   <span class="c"># Note that the approach below only works because there are only two colons</span>
+   <span class="c"># in a sexagesimal representation.</span>
+   <span class="n">degrees</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">minutes</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">seconds</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">decimalDegrees</span> <span class="o">=</span> <span class="bp">None</span>
+   <span class="n">sgn</span> <span class="o">=</span> <span class="mi">1</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="c"># Look for a minus sign.  Note that -00 is the same as 00.</span>
+
+      <span class="p">(</span><span class="n">degreesString</span><span class="p">,</span> <span class="n">minutesString</span><span class="p">,</span> <span class="n">secondsString</span><span class="p">)</span> <span class="o">=</span> <span class="n">sexv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">degreesString</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;-&#39;</span><span class="p">:</span>
+         <span class="n">sgn</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="n">sgn</span> <span class="o">=</span> <span class="mi">1</span>
+
+      <span class="n">degrees</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">degreesString</span><span class="p">))</span>
+      <span class="n">minutes</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">minutesString</span><span class="p">)</span>
+      <span class="n">seconds</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">secondsString</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">ra</span><span class="p">:</span>
+         <span class="n">degrees</span> <span class="o">*=</span> <span class="mf">15.0</span>
+         <span class="n">minutes</span> <span class="o">*=</span> <span class="mf">15.0</span>
+         <span class="n">seconds</span> <span class="o">*=</span> <span class="mf">15.0</span>
+
+      <span class="n">decimalDegrees</span> <span class="o">=</span> <span class="p">(</span><span class="n">degrees</span> <span class="o">+</span> <span class="p">(</span><span class="n">minutes</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">seconds</span> <span class="o">/</span> <span class="mf">3600.0</span><span class="p">))</span> <span class="o">*</span> <span class="n">sgn</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">ra</span> <span class="ow">and</span> <span class="p">(</span><span class="n">decimalDegrees</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">90.0</span> <span class="ow">or</span> <span class="n">decimalDegrees</span> <span class="o">&gt;</span> <span class="mf">90.0</span><span class="p">):</span>
+         <span class="n">decimalDegrees</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="k">elif</span> <span class="n">ra</span> <span class="ow">and</span> <span class="p">(</span><span class="n">decimalDegrees</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">decimalDegrees</span> <span class="o">&gt;</span> <span class="mf">360.0</span><span class="p">):</span>
+         <span class="n">decimalDegrees</span> <span class="o">=</span> <span class="bp">None</span>
+   <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+      <span class="c"># Just in case we&#39;re passed a dodgy string</span>
+      <span class="n">decimalDegrees</span> <span class="o">=</span> <span class="bp">None</span>
+
+   <span class="k">return</span> <span class="n">decimalDegrees</span>
+
+</div>
+<div class="viewcode-block" id="coords_sex_to_dec"><a class="viewcode-back" href="../utils.html#utils.coords_sex_to_dec">[docs]</a><span class="k">def</span> <span class="nf">coords_sex_to_dec</span> <span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;:&#39;</span><span class="p">):</span>
+
+   <span class="k">return</span><span class="p">(</span><span class="n">sexToDec</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="bp">True</span> <span class="p">,</span><span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">),</span> <span class="n">sexToDec</span><span class="p">(</span><span class="n">dec</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">))</span>
+
+
+<span class="c"># A wrapper for the C++ ConeSearch utility.  In lieu of creating a pure Python facility.</span>
+<span class="c"># Note that this is desiged to lookup IDs that are INTEGERS.</span></div>
+<div class="viewcode-block" id="wrapConeSearch"><a class="viewcode-back" href="../utils.html#utils.wrapConeSearch">[docs]</a><span class="k">def</span> <span class="nf">wrapConeSearch</span><span class="p">(</span><span class="n">dbuser</span><span class="p">,</span> <span class="n">dbpass</span><span class="p">,</span> <span class="n">dbname</span><span class="p">,</span> <span class="n">dbhost</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">dbpass</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+      <span class="n">dbpass</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot; &quot;&quot; &quot;&quot;&quot;</span>
+
+   <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;ConeSearch &quot;</span> <span class="o">+</span> <span class="n">dbuser</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">dbpass</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">dbname</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">dbhost</span> <span class="o">+</span> <span class="s">&quot; quick &quot;</span> <span class="o">+</span> <span class="n">tablename</span> <span class="o">+</span> <span class="s">&quot; &quot;</span>  <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+   <span class="c">#print cmd</span>
+   <span class="n">cmdout</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+   <span class="n">result</span><span class="o">=</span> <span class="n">cmdout</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+   <span class="k">if</span> <span class="n">cmdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&quot;Problem with command&quot;</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+   <span class="n">numberOfMatches</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">matchedRowNumberLinePrefix</span> <span class="o">=</span> <span class="s">&quot;Number of matched rows = &quot;</span>
+
+   <span class="n">resultSetSortedBySep</span> <span class="o">=</span> <span class="p">[]</span>
+
+   <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="c"># We probably got no matches</span>
+      <span class="c">#if result[0].startswith(&quot;No matches from &quot;):</span>
+      <span class="c">#   print &quot;No results&quot;</span>
+      <span class="c">#else:</span>
+      <span class="c">#   print &quot;Something went wrong...&quot;</span>
+      <span class="k">pass</span>
+   <span class="k">else</span><span class="p">:</span>
+      <span class="n">resultSet</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+         <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">matchedRowNumberLinePrefix</span><span class="p">):</span>
+            <span class="c">#print line.replace(matchedRowNumberLinePrefix,&quot;&quot;).rstrip()</span>
+            <span class="n">numberOfMatches</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">matchedRowNumberLinePrefix</span><span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+         <span class="k">else</span><span class="p">:</span>
+            <span class="c">#print line.rstrip().lstrip().rstrip(&#39;&quot;&#39;).lstrip(&quot;ID: &quot;).replace(&quot; Separation = &quot;, &quot;&quot;)</span>
+            <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">separation</span><span class="p">)</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&quot;ID: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; Separation = &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">keyvaluepair</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span> <span class="s">&quot;separation&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">separation</span><span class="p">)}</span>
+            <span class="n">resultSet</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">keyvaluepair</span><span class="p">)</span>
+
+      <span class="n">resultSetSortedBySep</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">resultSet</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="p">[</span><span class="s">&#39;separation&#39;</span><span class="p">])</span>
+
+   <span class="k">return</span> <span class="n">numberOfMatches</span><span class="p">,</span> <span class="n">resultSetSortedBySep</span>
+
+
+</div>
+<div class="viewcode-block" id="calculate_cartesians"><a class="viewcode-back" href="../utils.html#utils.calculate_cartesians">[docs]</a><span class="k">def</span> <span class="nf">calculate_cartesians</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">):</span>
+   <span class="n">ra</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span>
+   <span class="n">dec</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+   <span class="n">cos_dec</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+   <span class="n">cx</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos_dec</span>
+   <span class="n">cy</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos_dec</span>
+   <span class="n">cz</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+
+   <span class="n">cartesians</span> <span class="o">=</span> <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">cartesians</span>
+
+</div>
+<span class="n">pi</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">atan</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+<span class="n">DEG_TO_RAD_FACTOR</span> <span class="o">=</span> <span class="n">pi</span><span class="o">/</span><span class="mf">180.0</span>
+<span class="n">RAD_TO_DEG_FACTOR</span> <span class="o">=</span> <span class="mf">180.0</span><span class="o">/</span><span class="n">pi</span>
+
+<div class="viewcode-block" id="getAngularSeparation"><a class="viewcode-back" href="../utils.html#utils.getAngularSeparation">[docs]</a><span class="k">def</span> <span class="nf">getAngularSeparation</span><span class="p">(</span><span class="n">ra1</span><span class="p">,</span> <span class="n">dec1</span><span class="p">,</span> <span class="n">ra2</span><span class="p">,</span> <span class="n">dec2</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   Calculate the angular separation between two objects.  If either set of</span>
+<span class="sd">   coordinates contains a colon, assume it&#39;s in sexagesimal and automatically</span>
+<span class="sd">   convert into decimal before doing the calculation.</span>
+<span class="sd">   &quot;&quot;&quot;</span>
+
+   <span class="k">if</span> <span class="s">&#39;:&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">ra1</span><span class="p">):</span>
+      <span class="n">ra1</span> <span class="o">=</span> <span class="n">sexToDec</span><span class="p">(</span><span class="n">ra1</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+   <span class="k">if</span> <span class="s">&#39;:&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">dec1</span><span class="p">):</span>
+      <span class="n">dec1</span> <span class="o">=</span> <span class="n">sexToDec</span><span class="p">(</span><span class="n">dec1</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+   <span class="k">if</span> <span class="s">&#39;:&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">ra2</span><span class="p">):</span>
+      <span class="n">ra2</span> <span class="o">=</span> <span class="n">sexToDec</span><span class="p">(</span><span class="n">ra2</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+   <span class="k">if</span> <span class="s">&#39;:&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">dec2</span><span class="p">):</span>
+      <span class="n">dec2</span> <span class="o">=</span> <span class="n">sexToDec</span><span class="p">(</span><span class="n">dec2</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+   <span class="n">angularSeparation</span> <span class="o">=</span> <span class="bp">None</span>
+
+   <span class="k">if</span> <span class="n">ra1</span> <span class="ow">and</span> <span class="n">ra2</span> <span class="ow">and</span> <span class="n">dec1</span> <span class="ow">and</span> <span class="n">dec2</span><span class="p">:</span>
+
+      <span class="n">aa</span>  <span class="o">=</span> <span class="p">(</span><span class="mf">90.0</span><span class="o">-</span><span class="n">dec1</span><span class="p">)</span><span class="o">*</span><span class="n">DEG_TO_RAD_FACTOR</span>
+      <span class="n">bb</span>  <span class="o">=</span> <span class="p">(</span><span class="mf">90.0</span><span class="o">-</span><span class="n">dec2</span><span class="p">)</span><span class="o">*</span><span class="n">DEG_TO_RAD_FACTOR</span>
+      <span class="n">cc</span>  <span class="o">=</span> <span class="p">(</span><span class="n">ra1</span><span class="o">-</span><span class="n">ra2</span><span class="p">)</span><span class="o">*</span><span class="n">DEG_TO_RAD_FACTOR</span>
+      <span class="n">one</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">bb</span><span class="p">)</span>
+      <span class="n">two</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">bb</span><span class="p">)</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span>
+
+      <span class="c"># Because acos() returns NaN outside the ranges of -1 to +1</span>
+      <span class="c"># we need to check this.  Double precision decimal places</span>
+      <span class="c"># can give values like 1.0000000000002 which will throw an</span>
+      <span class="c"># exception.</span>
+
+      <span class="n">three</span> <span class="o">=</span> <span class="n">one</span><span class="o">+</span><span class="n">two</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">three</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">):</span>
+         <span class="n">three</span> <span class="o">=</span> <span class="mf">1.0</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">three</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">):</span>
+         <span class="n">three</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+
+      <span class="n">angularSeparation</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">three</span><span class="p">)</span><span class="o">*</span><span class="n">RAD_TO_DEG_FACTOR</span><span class="o">*</span><span class="mf">3600.0</span>
+
+   <span class="k">return</span> <span class="n">angularSeparation</span>
+
+
+<span class="c"># 2012-02-29 KWS Python Cone Search code - depends on new htmCircle Python/C++ module.</span></div>
+<span class="n">QUICK</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">FULL</span>  <span class="o">=</span> <span class="mi">2</span>
+<span class="n">COUNT</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c"># Hash of table names.  Produces list containing list of columns and table id.</span>
+<span class="c"># 2012-08-01 KWS Added tables for PESSTO lookups</span>
+<span class="n">CAT_ID_RA_DEC_COLS</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s">&#39;tcs_transient_objects&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="s">&#39;ra_psf&#39;</span><span class="p">,</span> <span class="s">&#39;dec_psf&#39;</span><span class="p">],</span><span class="mi">0</span><span class="p">],</span>
+   <span class="s">&#39;tcs_2mass_psc_cat&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;designation&#39;</span><span class="p">,</span> <span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;decl&#39;</span><span class="p">],</span><span class="mi">1</span><span class="p">],</span>
+   <span class="s">&#39;tcs_2mass_xsc_cat&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;designation&#39;</span><span class="p">,</span> <span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;decl&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">],</span>
+   <span class="s">&#39;tcs_guide_star_cat&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;hstID&#39;</span><span class="p">,</span> <span class="s">&#39;RightAsc&#39;</span><span class="p">,</span> <span class="s">&#39;Declination&#39;</span><span class="p">],</span><span class="mi">3</span><span class="p">],</span> <span class="c"># Remember that RA and DEC are in RADIANS here</span>
+   <span class="s">&#39;tcs_ned_cat&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">4</span><span class="p">],</span>
+   <span class="s">&#39;tcs_sdss_galaxies_cat&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Objid&#39;</span><span class="p">,</span> <span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec_&#39;</span><span class="p">],</span><span class="mi">5</span><span class="p">],</span>
+   <span class="s">&#39;tcs_sdss_spect_galaxies_cat&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Objid&#39;</span><span class="p">,</span> <span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec_&#39;</span><span class="p">],</span><span class="mi">6</span><span class="p">],</span>
+   <span class="s">&#39;tcs_sdss_stars_cat&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Objid&#39;</span><span class="p">,</span> <span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec_&#39;</span><span class="p">],</span><span class="mi">7</span><span class="p">],</span>
+   <span class="s">&#39;tcs_veron_cat&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">8</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_deep2dr3&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;OBJNAME&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">9</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md01_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">10</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md02_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">11</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md03_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">12</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md04_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">13</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md05_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">14</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md06_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">15</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md07_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">16</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md08_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">17</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md09_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">18</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md10_ned&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Object_Name&#39;</span><span class="p">,</span> <span class="s">&#39;RA_deg&#39;</span><span class="p">,</span> <span class="s">&#39;DEC_deg&#39;</span><span class="p">],</span><span class="mi">19</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md01_chiappetti2005&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">20</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md01_pierre2007&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">21</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md02_giacconi2002&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">22</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md02_lefevre2004&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">23</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md02_lehmer2005&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">24</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md02_virani2006&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">25</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md04_hasinger2007&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">26</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md04_trump2007&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">27</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md05_brunner2008&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">28</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md07_laird2009&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">29</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md07_nandra2005&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">30</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_md08_manners2003&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;recno&#39;</span><span class="p">,</span> <span class="s">&#39;viz_RAJ2000&#39;</span><span class="p">,</span> <span class="s">&#39;viz_DEJ2000&#39;</span><span class="p">],</span><span class="mi">31</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_sdss_stars_galaxies&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Objid&#39;</span><span class="p">,</span> <span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec_&#39;</span><span class="p">],</span><span class="mi">32</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_milliquas&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="s">&#39;ra_deg&#39;</span><span class="p">,</span> <span class="s">&#39;dec_deg&#39;</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">],</span><span class="mi">35</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_v_sdss_starsgalaxies_stars&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Objid&#39;</span><span class="p">,</span> <span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec_&#39;</span><span class="p">],</span><span class="mi">36</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cat_v_sdss_starsgalaxies_galaxies&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;Objid&#39;</span><span class="p">,</span> <span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec_&#39;</span><span class="p">],</span><span class="mi">37</span><span class="p">],</span>
+   <span class="s">&#39;tcs_cfa_detections&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;cfa_designation&#39;</span><span class="p">,</span> <span class="s">&#39;raDeg&#39;</span><span class="p">,</span> <span class="s">&#39;decDeg&#39;</span><span class="p">],</span><span class="mi">38</span><span class="p">],</span>
+
+   <span class="c"># PESSTO database catalogues</span>
+
+   <span class="s">&#39;transientBucket&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;primaryKeyId&#39;</span><span class="p">,</span> <span class="s">&#39;raDeg&#39;</span><span class="p">,</span> <span class="s">&#39;decDeg&#39;</span><span class="p">],</span><span class="mi">1000</span><span class="p">],</span>
+   <span class="s">&#39;view_transientBucketMaster&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s">&#39;primaryKeyId&#39;</span><span class="p">,</span> <span class="s">&#39;raDeg&#39;</span><span class="p">,</span> <span class="s">&#39;decDeg&#39;</span><span class="p">],</span><span class="mi">1001</span><span class="p">],</span>
+
+<span class="p">}</span>
+
+<span class="c"># 2012-02-02 KWS Cone Searcher based on the new SWIG C++ code.  Need speed.</span>
+<span class="c"># 2012-03-25 KWS Added django so that we can call the Django dict cursor if necessary.</span>
+<div class="viewcode-block" id="coneSearch"><a class="viewcode-back" href="../utils.html#utils.coneSearch">[docs]</a><span class="k">def</span> <span class="nf">coneSearch</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">tableName</span><span class="p">,</span> <span class="n">htmLevel</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">queryType</span> <span class="o">=</span> <span class="n">QUICK</span><span class="p">,</span> <span class="n">conn</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">django</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+
+   <span class="c"># 2012-02-02 KWS Require database connections for cone searching</span>
+   <span class="kn">import</span> <span class="nn">MySQLdb</span>
+
+   <span class="c"># 2012-02-02 KWS Introduced a new SWIG htmCircle library for cone searching</span>
+   <span class="kn">import</span> <span class="nn">htmCircle</span>
+
+   <span class="c"># Attempt a cone search of the given tableName.  Use internal models if conn</span>
+   <span class="c"># is None, otherwise use a given database connection (allows it to be called</span>
+   <span class="c"># externally as part of a script).</span>
+
+   <span class="c"># Code returns a list of lists.  First value in sublist is separation.  Second</span>
+   <span class="c"># is the row of data requested from the database.</span>
+
+   <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+   <span class="k">if</span> <span class="n">htmLevel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
+      <span class="c"># We don&#39;t support anything other than Level 16 or Level 20 queries</span>
+      <span class="k">return</span> <span class="s">&quot;Must be HTM level 16 or 20&quot;</span><span class="p">,</span> <span class="p">[]</span>
+
+   <span class="c"># Check that RA and DEC are in decimal degrees.  If not, assume sexagesimal and attempt to convert</span>
+
+   <span class="k">if</span> <span class="s">&#39;:&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">ra</span><span class="p">):</span>
+      <span class="n">ra</span> <span class="o">=</span> <span class="n">sexToDec</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+
+   <span class="k">if</span> <span class="s">&#39;:&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">dec</span><span class="p">):</span>
+      <span class="n">dec</span> <span class="o">=</span> <span class="n">sexToDec</span><span class="p">(</span><span class="n">dec</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">quickColumns</span> <span class="o">=</span> <span class="n">CAT_ID_RA_DEC_COLS</span><span class="p">[</span><span class="n">tableName</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+   <span class="k">except</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&quot;Table </span><span class="si">%s</span><span class="s"> not recognised.&quot;</span> <span class="o">%</span> <span class="n">tableName</span><span class="p">,</span> <span class="p">[]</span>
+
+   <span class="n">htmWhereClause</span> <span class="o">=</span> <span class="n">htmCircle</span><span class="o">.</span><span class="n">htmCircleRegion</span><span class="p">(</span><span class="n">htmLevel</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
+
+   <span class="n">cartesians</span> <span class="o">=</span> <span class="n">calculate_cartesians</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+   <span class="n">cartesianClause</span> <span class="o">=</span> <span class="s">&#39;and (cx * </span><span class="si">%.17f</span><span class="s"> + cy * </span><span class="si">%.17f</span><span class="s"> + cz * </span><span class="si">%.17f</span><span class="s"> &gt;= cos(</span><span class="si">%.17f</span><span class="s">))&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cartesians</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cartesians</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cartesians</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">radius</span><span class="o">/</span><span class="mf">3600.0</span><span class="p">))</span>
+
+   <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;*&#39;</span><span class="p">]</span>
+
+   <span class="k">if</span> <span class="n">queryType</span> <span class="o">==</span> <span class="n">QUICK</span><span class="p">:</span>
+      <span class="n">columns</span> <span class="o">=</span> <span class="n">quickColumns</span>
+   <span class="k">elif</span> <span class="n">queryType</span> <span class="o">==</span> <span class="n">COUNT</span><span class="p">:</span>
+      <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;count(*) number&#39;</span><span class="p">]</span>
+
+   <span class="n">query</span> <span class="o">=</span> <span class="s">&#39;select &#39;</span> <span class="o">+</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; from </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">tableName</span> <span class="o">+</span> <span class="n">htmWhereClause</span> <span class="o">+</span> <span class="n">cartesianClause</span> 
+   <span class="c">#print query</span>
+
+   <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+   <span class="k">if</span> <span class="n">conn</span><span class="p">:</span>
+      <span class="c"># We have a database connection, so use it to make a call to the database</span>
+
+      <span class="c"># DO THE QUERY</span>
+
+      <span class="k">try</span><span class="p">:</span>
+         <span class="k">if</span> <span class="n">django</span><span class="p">:</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span> <span class="p">()</span>
+         <span class="k">else</span><span class="p">:</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span> <span class="p">(</span><span class="n">MySQLdb</span><span class="o">.</span><span class="n">cursors</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
+
+         <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+         <span class="k">if</span> <span class="n">django</span><span class="p">:</span>
+            <span class="n">resultSet</span> <span class="o">=</span> <span class="p">[</span> <span class="nb">dict</span><span class="p">(</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cursor</span> <span class="p">]</span>
+         <span class="k">else</span><span class="p">:</span>
+            <span class="n">resultSet</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span> <span class="p">()</span>
+
+
+      <span class="k">except</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+         <span class="k">return</span> <span class="s">&quot;Error </span><span class="si">%d</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">[]</span>
+
+
+      <span class="k">if</span> <span class="n">resultSet</span><span class="p">:</span>
+         <span class="k">if</span> <span class="n">queryType</span> <span class="o">==</span> <span class="n">COUNT</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">resultSet</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;number&#39;</span><span class="p">]]]</span>
+            <span class="k">return</span> <span class="s">&quot;Count&quot;</span><span class="p">,</span> <span class="n">results</span>
+
+         <span class="c"># Calculate the angular separation for each row</span>
+         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">resultSet</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tableName</span> <span class="o">==</span> <span class="s">&#39;tcs_guide_star_cat&#39;</span><span class="p">:</span>
+               <span class="c"># Guide star cat RA and DEC are in RADIANS</span>
+               <span class="n">separation</span> <span class="o">=</span> <span class="n">getAngularSeparation</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">CAT_ID_RA_DEC_COLS</span><span class="p">[</span><span class="n">tableName</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">CAT_ID_RA_DEC_COLS</span><span class="p">[</span><span class="n">tableName</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]]))</span>
+            <span class="k">else</span><span class="p">:</span>
+               <span class="n">separation</span> <span class="o">=</span> <span class="n">getAngularSeparation</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">CAT_ID_RA_DEC_COLS</span><span class="p">[</span><span class="n">tableName</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span> <span class="n">row</span><span class="p">[</span><span class="n">CAT_ID_RA_DEC_COLS</span><span class="p">[</span><span class="n">tableName</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]])</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">separation</span><span class="p">,</span> <span class="n">row</span><span class="p">])</span>
+
+         <span class="c"># Sort by separation</span>
+         <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;No matches from </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">tableName</span>
+   <span class="k">else</span><span class="p">:</span>
+      <span class="n">message</span> <span class="o">=</span> <span class="n">query</span>
+
+   <span class="k">return</span> <span class="n">message</span><span class="p">,</span> <span class="n">results</span>
+
+
+<span class="c"># 2012-07-31 KWS Added new htmID code to the SWIG library.  This is a simple wrapper for returning</span>
+<span class="c">#                the HTM ID for a given (decimal) RA and DEC pair.</span>
+</div>
+<div class="viewcode-block" id="htmID"><a class="viewcode-back" href="../utils.html#utils.htmID">[docs]</a><span class="k">def</span> <span class="nf">htmID</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">htmLevel</span> <span class="o">=</span> <span class="mi">16</span><span class="p">):</span>
+   <span class="nb">id</span> <span class="o">=</span> <span class="bp">None</span>
+   <span class="k">if</span> <span class="n">htmLevel</span> <span class="o">==</span> <span class="mi">16</span> <span class="ow">or</span> <span class="n">htmLevel</span> <span class="o">==</span> <span class="mi">20</span><span class="p">:</span>
+      <span class="kn">import</span> <span class="nn">htmCircle</span>
+
+      <span class="k">try</span><span class="p">:</span>
+         <span class="nb">id</span> <span class="o">=</span> <span class="n">htmCircle</span><span class="o">.</span><span class="n">htmID</span><span class="p">(</span><span class="n">htmLevel</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+         <span class="c"># Catch all exceptions. Result will be a None HTM ID.</span>
+         <span class="k">pass</span>
+
+   <span class="k">return</span> <span class="nb">id</span>
+
+
+
+<span class="c"># 2012-05-31 KWS Added new code.</span>
+<span class="c"># Brute force cone search.  Go through all objects in a CMF file and find out distance from given RA and DEC pairs.</span>
+<span class="c"># Code will produce a list of objects near to our stated RA and DEC pairs, but does not currently eliminate duplicates.</span>
+
+<span class="c"># 2012-06-01 KWS Picked out MJD-OBS, Filename and Filter</span>
+</div>
+<div class="viewcode-block" id="bruteForceCMFConeSearch"><a class="viewcode-back" href="../utils.html#utils.bruteForceCMFConeSearch">[docs]</a><span class="k">def</span> <span class="nf">bruteForceCMFConeSearch</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">coordinatePairs</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
+   <span class="kn">import</span> <span class="nn">pyfits</span> <span class="kn">as</span> <span class="nn">p</span>
+
+   <span class="n">h</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+   <span class="n">t</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+   <span class="n">cols</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span>
+
+   <span class="c"># Find filename, mjd and filter.  Looking for a single object in a single file will of course yield a single value</span>
+   <span class="c"># for all these.  But if this is scripted to look over multiple files, it&#39;s useful to know this data.</span>
+
+   <span class="n">mjd</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;MJD-OBS&#39;</span><span class="p">]</span>
+   <span class="nb">filter</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;FPA.FILTERID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;.00000&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+
+   <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+   <span class="c"># Pick out the columns that relate to RA and DEC.</span>
+
+   <span class="n">raIndex</span> <span class="o">=</span> <span class="n">cols</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;RA_PSF&#39;</span><span class="p">)</span>
+   <span class="n">decIndex</span> <span class="o">=</span> <span class="n">cols</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;DEC_PSF&#39;</span><span class="p">)</span>
+
+   <span class="n">resultsTable</span> <span class="o">=</span> <span class="p">[]</span>
+
+   <span class="c"># Check for matches, build a results table</span>
+   <span class="c"># 2012-06-01 KWS The coordinate pairs are presented in the order we entered them.</span>
+   <span class="c">#                We&#39;ll therefore add a column to the end of the list of columns</span>
+   <span class="c">#                so that we can identify our object again.</span>
+   <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coordinatePairs</span><span class="p">:</span>
+      <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
+         <span class="n">raCat</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">raIndex</span><span class="p">]</span>
+         <span class="n">decCat</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">decIndex</span><span class="p">]</span>
+
+         <span class="n">separation</span> <span class="o">=</span> <span class="n">getAngularSeparation</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">raCat</span><span class="p">,</span> <span class="n">decCat</span><span class="p">)</span>
+         <span class="k">if</span> <span class="n">separation</span> <span class="o">&lt;</span> <span class="n">radius</span><span class="p">:</span>
+            <span class="c"># Add the returned row (there may be more than one) and the object counter</span>
+            <span class="n">resultsTable</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+      <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+   <span class="k">if</span> <span class="n">resultsTable</span><span class="p">:</span>
+      <span class="c"># Column headers</span>
+      <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+         <span class="c"># Change names of the RA/DEC columns so the DS9 catalogue reader can read them</span>
+         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;RA_PSF&#39;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;RA_J2000&#39;</span>
+         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;DEC_PSF&#39;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;DEC_J2000&#39;</span>
+
+         <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="se">\t</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">,</span>
+      <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;filter&#39;</span><span class="p">,</span> <span class="s">&#39;mjd&#39;</span><span class="p">,</span> <span class="s">&#39;filename&#39;</span><span class="p">,</span> <span class="s">&#39;object_id&#39;</span><span class="p">)</span>
+
+      <span class="c"># Data</span>
+
+      <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">resultsTable</span><span class="p">:</span>
+         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="se">\t</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">col</span><span class="p">,</span>
+
+         <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">mjd</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+   <span class="k">return</span>
+
+
+
+<span class="c"># 2011-06-21 KWS New code added</span>
+
+<span class="c"># J2000 to Galactic coordinates calculation</span>
+<span class="c"># This code extracted from a JavaScript utility</span>
+<span class="c"># and converted into Python</span>
+</div>
+<span class="n">J2000toGalactic</span> <span class="o">=</span> <span class="p">[</span>
+                   <span class="o">-</span><span class="mf">0.054875529</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.873437105</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.483834992</span><span class="p">,</span>
+                    <span class="mf">0.494109454</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.444829594</span><span class="p">,</span>  <span class="mf">0.746982249</span><span class="p">,</span>
+                   <span class="o">-</span><span class="mf">0.867666136</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.198076390</span><span class="p">,</span>  <span class="mf">0.455983795</span>
+                  <span class="p">]</span>
+
+
+<span class="c"># returns a radec array of two elements</span>
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../utils.html#utils.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span> <span class="p">(</span> <span class="n">coords</span><span class="p">,</span> <span class="n">matrix</span> <span class="p">):</span>
+   <span class="n">pi</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+
+   <span class="n">r0</span> <span class="o">=</span> <span class="n">calculate_cartesians</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+
+   <span class="n">s0</span> <span class="o">=</span> <span class="p">[</span>
+         <span class="n">r0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">r0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">r0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> 
+         <span class="n">r0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">r0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">r0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> 
+         <span class="n">r0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">r0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="n">r0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">matrix</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+        <span class="p">]</span> 
+ 
+   <span class="n">r</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span> <span class="p">(</span> <span class="n">s0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">s0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">s0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">s0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">s0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">)</span>
+
+   <span class="n">result</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">]</span>
+   <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">asin</span> <span class="p">(</span> <span class="n">s0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">r</span> <span class="p">)</span>
+
+   <span class="n">cosaa</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="n">s0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span> <span class="p">)</span>
+   <span class="n">sinaa</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="n">s0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span> <span class="p">)</span>
+   <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span> <span class="p">(</span><span class="n">sinaa</span><span class="p">,</span><span class="n">cosaa</span><span class="p">)</span>
+   <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+      <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">pi</span> <span class="o">+</span> <span class="n">pi</span>
+
+   <span class="c"># Convert to degrees</span>
+
+   <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+   <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+   <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="c"># 2012-03-07 KWS Created redshiftToDistance calculator based on our C++ code,</span>
+<span class="c">#                which is itself based on Ned Wright&#39;s Cosmology Calculator code.</span>
+</div>
+<div class="viewcode-block" id="redshiftToDistance"><a class="viewcode-back" href="../utils.html#utils.redshiftToDistance">[docs]</a><span class="k">def</span> <span class="nf">redshiftToDistance</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+
+   <span class="c"># Cosmological Parameters (to be changed if required)</span>
+   <span class="n">WM</span> <span class="o">=</span> <span class="mf">0.3</span>           <span class="c"># Omega_matter</span>
+   <span class="n">WV</span> <span class="o">=</span> <span class="mf">0.7</span>           <span class="c"># Omega_vacuum</span>
+   <span class="n">H0</span> <span class="o">=</span> <span class="mf">70.0</span>           <span class="c"># Hubble constant (km s-1 Mpc-1)</span>
+
+   <span class="c"># Other variables</span>
+   <span class="n">h</span> <span class="o">=</span> <span class="n">H0</span><span class="o">/</span><span class="mf">100.0</span>
+   <span class="n">WR</span> <span class="o">=</span> <span class="mf">4.165E-5</span><span class="o">/</span><span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>     <span class="c"># Omega_radiation</span>
+   <span class="n">WK</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">-</span><span class="n">WM</span><span class="o">-</span><span class="n">WV</span><span class="o">-</span><span class="n">WR</span>       <span class="c"># Omega_curvature = 1 - Omega(Total)</span>
+   <span class="n">c</span> <span class="o">=</span> <span class="mf">299792.458</span>          <span class="c"># speed of light (km/s)</span>
+
+   <span class="c"># Arbitrarily set the values of these variables to zero just so we can define them.</span>
+
+   <span class="n">DCMR</span>  <span class="o">=</span> <span class="mf">0.0</span>             <span class="c"># comoving radial distance in units of c/H0</span>
+   <span class="n">DCMR_Mpc</span> <span class="o">=</span> <span class="mf">0.0</span>          <span class="c"># comoving radial distance in units of Mpc</span>
+   <span class="n">DA</span> <span class="o">=</span> <span class="mf">0.0</span>                <span class="c"># angular size distance in units of c/H0</span>
+   <span class="n">DA_Mpc</span> <span class="o">=</span> <span class="mf">0.0</span>            <span class="c"># angular size distance in units of Mpc</span>
+   <span class="n">DA_scale</span> <span class="o">=</span> <span class="mf">0.0</span>          <span class="c"># scale at angular size distance in units of Kpc / arcsec</span>
+   <span class="n">DL</span> <span class="o">=</span> <span class="mf">0.0</span>                <span class="c"># luminosity distance in units of c/H0</span>
+   <span class="n">DL_Mpc</span> <span class="o">=</span> <span class="mf">0.0</span>            <span class="c"># luminosity distance in units of Mpc</span>
+   <span class="n">DMOD</span> <span class="o">=</span> <span class="mf">0.0</span>              <span class="c"># Distance modulus determined from luminosity distance</span>
+   <span class="n">a</span> <span class="o">=</span> <span class="mf">0.0</span>                 <span class="c"># 1/(1+z), the scale factor of the Universe</span>
+
+   <span class="n">az</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">z</span><span class="p">)</span>        <span class="c"># 1/(1+z), for the given redshift</span>
+
+   <span class="c"># Compute the integral over a=1/(1+z) from az to 1 in n steps</span>
+   <span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+      <span class="n">a</span> <span class="o">=</span> <span class="n">az</span><span class="o">+</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">az</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">/</span><span class="n">n</span>
+      <span class="n">adot</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">WK</span><span class="o">+</span> <span class="p">(</span><span class="n">WM</span><span class="o">/</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">WR</span><span class="o">/</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span> <span class="o">+</span><span class="p">(</span><span class="n">WV</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+      <span class="n">DCMR</span> <span class="o">=</span> <span class="n">DCMR</span> <span class="o">+</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">adot</span><span class="p">)</span>
+
+   <span class="n">DCMR</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">az</span><span class="p">)</span><span class="o">*</span><span class="n">DCMR</span><span class="o">/</span><span class="n">n</span>           <span class="c"># comoving radial distance in units of c/H0</span>
+   <span class="n">DCMR_Mpc</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span><span class="o">/</span><span class="n">H0</span><span class="p">)</span><span class="o">*</span><span class="n">DCMR</span>           <span class="c"># comoving radial distance in units of Mpc</span>
+
+   <span class="c"># Tangental comoving radial distance</span>
+   <span class="n">x</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">WK</span><span class="p">))</span><span class="o">*</span><span class="n">DCMR</span>
+   <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">WK</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+         <span class="n">ratio</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="n">x</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="n">ratio</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">x</span>
+   <span class="k">else</span><span class="p">:</span>
+      <span class="n">y</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">WK</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+         <span class="n">y</span><span class="o">=-</span><span class="n">y</span>
+      <span class="n">ratio</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">y</span><span class="o">/</span><span class="mf">6.0</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">120.0</span>
+
+   <span class="n">DA</span> <span class="o">=</span> <span class="n">az</span><span class="o">*</span><span class="n">ratio</span><span class="o">*</span><span class="n">DCMR</span>               <span class="c">#angular size distance in units of c/H0</span>
+   <span class="n">DA_Mpc</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span><span class="o">/</span><span class="n">H0</span><span class="p">)</span><span class="o">*</span><span class="n">DA</span>               <span class="c">#angular size distance in units of Mpc</span>
+   <span class="n">DA_scale</span> <span class="o">=</span> <span class="n">DA_Mpc</span><span class="o">/</span><span class="mf">206.264806</span>     <span class="c">#scale at angular size distance in units of Kpc / arcsec</span>
+   <span class="n">DL</span> <span class="o">=</span> <span class="n">DA</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">az</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>                <span class="c">#luminosity distance in units of c/H0</span>
+   <span class="n">DL_Mpc</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span><span class="o">/</span><span class="n">H0</span><span class="p">)</span><span class="o">*</span><span class="n">DL</span>               <span class="c">#luminosity distance in units of Mpc</span>
+   <span class="n">DMOD</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">DL_Mpc</span><span class="o">*</span><span class="mf">1e6</span><span class="p">)</span><span class="o">-</span><span class="mi">5</span>     <span class="c">#Distance modulus determined from luminosity distance</span>
+
+
+   <span class="n">results</span> <span class="o">=</span> \
+   <span class="p">{</span>
+      <span class="s">&quot;dcmr_mpc&quot;</span><span class="p">:</span> <span class="n">DCMR_Mpc</span><span class="p">,</span>
+      <span class="s">&quot;da_mpc&quot;</span><span class="p">:</span> <span class="n">DA_Mpc</span><span class="p">,</span>
+      <span class="s">&quot;da_scale&quot;</span><span class="p">:</span> <span class="n">DA_scale</span><span class="p">,</span>
+      <span class="s">&quot;dl_mpc&quot;</span><span class="p">:</span> <span class="n">DL_Mpc</span><span class="p">,</span>
+      <span class="s">&quot;dmod&quot;</span><span class="p">:</span> <span class="n">DMOD</span><span class="p">,</span>
+      <span class="s">&quot;z&quot;</span> <span class="p">:</span> <span class="n">z</span>
+   <span class="p">}</span>
+
+   <span class="k">return</span> <span class="n">results</span>
+
+
+<span class="c"># Some common error codes for bad HTTP access</span>
+</div>
+<span class="n">OK</span>                 <span class="o">=</span> <span class="mi">0</span>
+<span class="n">PAGE_NOT_FOUND</span>     <span class="o">=</span> <span class="mi">1</span>
+<span class="n">BAD_SERVER_ADDRESS</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">HTTP_ERROR</span>         <span class="o">=</span> <span class="mi">3</span>
+
+<div class="viewcode-block" id="getRemoteWebPage"><a class="viewcode-back" href="../utils.html#utils.getRemoteWebPage">[docs]</a><span class="k">def</span> <span class="nf">getRemoteWebPage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">realm</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+   <span class="kn">import</span> <span class="nn">urllib2</span>
+
+   <span class="n">responseErrorCode</span> <span class="o">=</span> <span class="n">OK</span>
+   <span class="n">responsePage</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+   <span class="k">if</span> <span class="n">username</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
+      <span class="c"># Use authentiction credentials</span>
+
+      <span class="c"># We want to do some basic authentication.</span>
+      <span class="c"># NOTE - if we don&#39;t know the Realm, just enter None for the first</span>
+      <span class="c">#        parameter of add_password</span>
+      <span class="c">#realm = &#39;Restricted Section&#39;</span>
+
+      <span class="n">passman</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPPasswordMgrWithDefaultRealm</span><span class="p">()</span>
+      <span class="n">passman</span><span class="o">.</span><span class="n">add_password</span><span class="p">(</span><span class="n">realm</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+      <span class="n">authhandler</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPBasicAuthHandler</span><span class="p">(</span><span class="n">passman</span><span class="p">)</span>
+      <span class="c"># create the AuthHandler</span>
+
+      <span class="n">opener</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">build_opener</span><span class="p">(</span><span class="n">authhandler</span><span class="p">)</span>
+      <span class="n">urllib2</span><span class="o">.</span><span class="n">install_opener</span><span class="p">(</span><span class="n">opener</span><span class="p">)</span>
+
+   <span class="k">try</span><span class="p">:</span>
+      <span class="n">req</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+      <span class="n">responsePage</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+   <span class="k">except</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+         <span class="k">print</span> <span class="s">&quot;Page not found. Perhaps the server has not processed the request yet&quot;</span>
+         <span class="n">responseErrorCode</span> <span class="o">=</span> <span class="n">PAGE_NOT_FOUND</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="k">print</span> <span class="n">e</span>
+         <span class="n">responseErrorCode</span> <span class="o">=</span> <span class="n">HTTP_ERROR</span>
+
+   <span class="k">except</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&quot;Bad URL&quot;</span>
+      <span class="n">responseErrorCode</span> <span class="o">=</span> <span class="n">BAD_SERVER_ADDRESS</span>
+
+   <span class="k">return</span> <span class="p">(</span><span class="n">responsePage</span><span class="p">,</span> <span class="n">responseErrorCode</span><span class="p">)</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

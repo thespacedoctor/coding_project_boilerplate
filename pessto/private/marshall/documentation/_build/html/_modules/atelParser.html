@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>atelParser &mdash; PESSTO Marshall 0.6.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PESSTO Marshall 0.6.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html">Dave Young's Python Documentation</a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/pessto_icon.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for atelParser</h1><div class="highlight"><pre>
+<span class="c">#!/usr/local/bin/python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">atelParser</span>
+
+<span class="sd">Created by David Young on ddate</span>
+<span class="sd">If you have any questions requiring this script please email me: d.r.young@qub.ac.uk</span>
+
+<span class="sd">dryx syntax:</span>
+<span class="sd">xxx = come back here and do some more work</span>
+<span class="sd">_someObject = a &#39;private&#39; object that should only be changed for debugging</span>
+
+<span class="sd">notes:</span>
+<span class="sd">  - Dave started work on this file on ddate</span>
+<span class="sd">  - Dave &#39;completed&#39; this code on ... not complete yet!</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c">############################################</span>
+<span class="c"># MAIN LOOP - USED FOR DEBUGGING           #</span>
+<span class="c">############################################</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../atelParser.html#atelParser.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+  <span class="kn">import</span> <span class="nn">pesstoMarshallCommonUtils</span> <span class="kn">as</span> <span class="nn">p</span>
+
+  <span class="n">dbConn</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
+
+  <span class="c">## START LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- STARTING TO RUN THE ATEL PARSER -----&#39;</span><span class="p">)</span>
+
+  <span class="n">localUrls</span><span class="p">,</span> <span class="n">atelNumbers</span> <span class="o">=</span> <span class="n">download_atels</span><span class="p">(</span><span class="mi">4600</span><span class="p">,</span><span class="mi">4630</span><span class="p">,</span><span class="s">&quot;/Users/Dave/Desktop/atels&quot;</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+  <span class="n">ingest_atels_into_db</span><span class="p">(</span><span class="n">localUrls</span><span class="p">,</span><span class="n">atelNumbers</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">)</span>
+
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">commit</span> <span class="p">()</span>
+  <span class="n">dbConn</span><span class="o">.</span><span class="n">close</span> <span class="p">()</span>
+
+  <span class="c">## FINISH LOGGING ##</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;----- FINISHED ATTEMPT TO RUN THE ATEL PARSER -----&#39;</span><span class="p">)</span>
+  <span class="k">return</span>
+
+<span class="c">#############################################################################################</span>
+<span class="c"># CLASSES                                                                                   #</span>
+<span class="c">#############################################################################################</span>
+
+<span class="c">############################################</span>
+<span class="c"># PUBLIC FUNCTIONS                         #</span>
+<span class="c">############################################</span>
+
+<span class="c">## LAST MODIFIED : 20121026</span>
+<span class="c">## CREATED : 20121026</span></div>
+<div class="viewcode-block" id="download_atels"><a class="viewcode-back" href="../atelParser.html#atelParser.download_atels">[docs]</a><span class="k">def</span> <span class="nf">download_atels</span><span class="p">(</span><span class="n">lowerAtelIndex</span><span class="p">,</span><span class="n">upperAtelIndex</span><span class="p">,</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;download all atels within given range of atel #s</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - lowerAtelIndex -- lowest atel number to download</span>
+<span class="sd">        - upperAtelIndex -- lowest atel number to download</span>
+<span class="sd">        - downloadDirectory -- directory to download ATels to</span>
+<span class="sd">        - dbConn -- mysql database connection</span>
+<span class="sd">        - log -- logger</span>
+
+<span class="sd">      Returns:</span>
+<span class="sd">        - localUrls -- an array of local paths to the atel files</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">## &gt; IMPORTS ##</span>
+  <span class="c">#import urllib</span>
+  <span class="kn">import</span> <span class="nn">dryxWebCrawlers</span> <span class="kn">as</span> <span class="nn">wc</span>
+
+  <span class="c">###########################################################</span>
+  <span class="c"># &gt;ACTION(S)                                              #</span>
+  <span class="c">###########################################################</span>
+  <span class="c"># CREATE THE LIST OF ATEL URLS</span>
+  <span class="n">urlList</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">atelNumbers</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">baseUrl</span> <span class="o">=</span> <span class="s">&#39;http://www.astronomerstelegram.org/?read=&#39;</span>
+  <span class="n">thisRange</span> <span class="o">=</span> <span class="n">upperAtelIndex</span><span class="o">-</span><span class="n">lowerAtelIndex</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lowerAtelIndex</span><span class="p">,</span><span class="n">upperAtelIndex</span><span class="p">):</span>
+      <span class="n">urlList</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">baseUrl</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;downloading all ATels from </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lowerAtelIndex</span><span class="p">,</span><span class="n">upperAtelIndex</span><span class="p">))</span>
+    <span class="n">localUrls</span> <span class="o">=</span> <span class="n">wc</span><span class="o">.</span><span class="n">multiWebDocumentDownloader</span><span class="p">(</span><span class="n">urlList</span><span class="p">,</span><span class="n">downloadDirectory</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not download atels : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+
+  <span class="c">## ASSOCIATE ATEL URLS WITH ATEL #&#39;s</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">localUrls</span><span class="p">)):</span>
+    <span class="n">atelNumbers</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">lowerAtelIndex</span><span class="o">+</span><span class="n">i</span><span class="p">])</span>
+
+  <span class="k">return</span> <span class="n">localUrls</span><span class="p">,</span> <span class="n">atelNumbers</span>
+
+<span class="c">## LAST MODIFIED : December 7, 2012</span>
+<span class="c">## CREATED : December 7, 2012</span>
+<span class="c">## AUTHOR : DRYX</span></div>
+<div class="viewcode-block" id="ingest_atels_into_db"><a class="viewcode-back" href="../atelParser.html#atelParser.ingest_atels_into_db">[docs]</a><span class="k">def</span> <span class="nf">ingest_atels_into_db</span><span class="p">(</span><span class="n">localUrls</span><span class="p">,</span><span class="n">atelNumbers</span><span class="p">,</span><span class="n">dbConn</span><span class="p">,</span><span class="n">log</span><span class="p">,</span><span class="n">tableName</span><span class="o">=</span><span class="s">&quot;atels&quot;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;take an array of local paths to a bunch of ATel files and add them into a mysql db table</span>
+
+<span class="sd">      Key Arguments:</span>
+<span class="sd">        - localUrls -- an array of local paths to the atel files (already downloaded using ``download_atels()``)</span>
+<span class="sd">        - atelNumbers -- an array of atel numbers</span>
+<span class="sd">        - dbConn -- mysql database connection</span>
+<span class="sd">        - log -- logger</span>
+<span class="sd">        - tableName -- name of database table</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">        - None</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">################ &gt; IMPORTS ################</span>
+  <span class="kn">import</span> <span class="nn">dryxMySQL</span> <span class="kn">as</span> <span class="nn">m</span>
+  <span class="c">################ &gt; VARIABLE SETTINGS ######</span>
+
+  <span class="c">################ &gt;ACTION(S) ################</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">localUrls</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">rf</span><span class="p">:</span>
+      <span class="n">thisData</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+      <span class="n">thisDict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;atelId&quot;</span><span class="p">:</span><span class="n">atelNumbers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="s">&quot;htmlSourceCode&quot;</span><span class="p">:</span><span class="n">thisData</span><span class="p">}</span>
+      <span class="n">m</span><span class="o">.</span><span class="n">convert_dictionary_to_mysql_table</span><span class="p">(</span><span class="n">dbConn</span><span class="p">,</span><span class="n">thisDict</span><span class="p">,</span><span class="n">tableName</span><span class="p">,[</span><span class="s">&#39;atelId&#39;</span><span class="p">])</span>
+    <span class="n">rf</span><span class="o">.</span><span class="n">closed</span>
+
+
+  <span class="c">#try</span>
+  <span class="k">pass</span>
+  <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">############################################</span>
+<span class="c"># PRIVATE (HELPER) FUNCTIONS               #</span>
+<span class="c">############################################</span>
+
+
+
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Last updated on Mar 28, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
