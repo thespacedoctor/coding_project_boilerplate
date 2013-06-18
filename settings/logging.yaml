@@ -30,14 +30,20 @@ handlers:
         formatter: file_style
         filename: ../../../logs/ascii/project_debugger.log
         mode: w
+    # html_log_file:
+    #     class: logging.handlers.GroupWriteRotatingFileHandler
+    #     level: WARNING
+    #     formatter: html_style
+    #     filename: ../../../logs/html/project_log.html
+    #     mode: w+
+    #     maxBytes: 1024000
+    #     backupCount: 3
     html_log_file:
-        class: logging.handlers.GroupWriteRotatingFileHandler
-        level: WARNING
+        class: logging.FileHandler
+        level: INFO
         formatter: html_style
         filename: ../../../logs/html/project_log.html
-        mode: w+
-        maxBytes: 1024000
-        backupCount: 3
+        mode: w
 root:
     level: DEBUG
     handlers: [console,release_logs,development_logs,html_log_file]
