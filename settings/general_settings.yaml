@@ -1,0 +1,24 @@
+version: 1
+## SETTINGS FILE TO OVERRIDE / APPEND TO THESE DEFAULT SETTINGS
+specific_settings: jquery_settings.yaml
+# SOME USFUL SETTINGS VARIABLES
+contentPaths:
+    archiveFolder: "/.archive"
+    codeFolder: "/code"
+    dependenciesFolder: "/dependencies"
+    documentationFolder: "/documentation"
+    inputFolder: "/input"
+    staticInputFolder: "/input/static"
+    dynamicInputFolder: "/input/dynamic"
+    logsFolder: "/logs"
+    asciiLogsFolder: "/logs/ascii"
+    htmlLogsFolder: "/logs/html"
+    outputFolder: "/output"
+    outputDataFolder: "/output/data"
+    outputPlotsFolder: "/output/plots"
+    outputResultsFolder: "/output/results"
+    mdLogPath: "/output/results/generated_result_log.md"
+    settingsFolder: "/settings"
+    yamlFile: "/settings/python_path.yaml"
+    dbSettings: "/settings/database_credentials.yaml"
+    loggingSettings: "/settings/logging.yaml"
