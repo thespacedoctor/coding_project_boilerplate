@@ -1,6 +1,8 @@
 version: 1
+## PATH TO THE PROJECT ROOT
+projectPath: /Users/Dave/Dropbox/bitbucket_projects/pessto_marshall
 ## SETTINGS FILE TO OVERRIDE / APPEND TO THESE DEFAULT SETTINGS
-specific_settings: jquery_settings.yaml
+specific_settings: user_settings.yaml
 # SOME USFUL SETTINGS VARIABLES
 contentPaths:
     archiveFolder: "/.archive"
